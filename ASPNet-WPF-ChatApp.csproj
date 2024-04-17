@@ -7,6 +7,22 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>Images\Logo\icon.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Images\Logo\logo-small.png" />
+    <None Remove="Images\Logo\logo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Images\Logo\icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\Logo\icon.ico" />
+    <Resource Include="Images\Logo\logo-small.png" />
+    <Resource Include="Images\Logo\logo.png" />
+  </ItemGroup>
 
 </Project>

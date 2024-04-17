@@ -5,8 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ASPNet_WPF_ChatApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        WindowStyle="None"
+        ResizeMode="CanResize"
+        AllowsTransparency="True"
+        WindowStartupLocation="CenterScreen"
+        x:Name="AppWindow"
+        Icon="Images/Logo/logo-small.png"
+        Title="Welcome, Friend!" Height="600" Width="900">
 
+    <WindowChrome.WindowChrome>
+        <WindowChrome
+        ResizeBorderThickness="{Binding ResizeBorderThickness}"
+        />
+    </WindowChrome.WindowChrome>
+    <Grid>
     </Grid>
 </Window>
