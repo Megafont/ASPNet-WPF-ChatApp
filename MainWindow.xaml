@@ -22,21 +22,23 @@
                     <ControlTemplate TargetType="{x:Type Window}">
 
                         <!-- Outer border with drop shadow margin -->
-                        <Border Padding="{Binding OuterMarginSize, FallbackValue=0}" BorderThickness="{Binding FlatBorderThickness}">
+                        <Border Padding="{Binding OuterMarginSize, FallbackValue=10}">
                             <!-- Main window outline -->
                             <Grid >
 
                                 <!-- Opacity mask for corners on grid -->
                                 <Border x:Name="Container"
                                         Background="{StaticResource BackgroundLightBrush}"
-                                        CornerRadius="{Binding WindowCornerRadius, FallbackValue=0}" />
+                                        CornerRadius="{Binding WindowCornerRadius, FallbackValue=10}" />
 
                                 <!-- Window border and dropshadow -->
-                                <Border CornerRadius="{Binding WindowCornerRadius, FallbackValue=0}"
-                                        Background="{StaticResource ForegroundLightBrush}">
+                                <Border Background="{Binding ForegroundLightBrush, FallbackValue=White}"
+                                        CornerRadius="{Binding WindowCornerRadius, FallbackValue=10}">
+                                    
                                     <Border.Effect>
                                         <DropShadowEffect ShadowDepth="0.5" Opacity="0.2" />
                                     </Border.Effect>
+                                    
                                 </Border>
 
                                 <!-- The main window content -->
@@ -121,8 +123,17 @@
             />
     </WindowChrome.WindowChrome>
 
-    <Grid Background="{StaticResource ForegroundLightBrush}">
-        <Frame x:Name="MainFrame" Content="{Binding CurrentPage, Converter={local1:ApplicationPageValueConverter}}" />
-    </Grid>
+    <Border Background="{StaticResource WordBlueBrush}">
+        <Grid>
+            <!-- Blue background image -->
+            <Grid.Background>
+                <ImageBrush TileMode="Tile" ViewportUnits="Absolute" Viewport="0 0 500 500" ImageSource="/Images/Backgrounds/emoji-background.png" />
+            </Grid.Background>
+
+            <Frame x:Name="MainFrame" Content="{Binding CurrentPage, Converter={local1:ApplicationPageValueConverter}}" Background="Transparent"/>
+
+        </Grid>
+    </Border>
+    
 
 </Window>
