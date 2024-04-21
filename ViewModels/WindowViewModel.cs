@@ -49,12 +49,12 @@ namespace ASPNet_WPF_ChatApp.ViewModels
         /// <summary>
         /// The smallest width the window can go to
         /// </summary>
-        public double WindowMinimumWidth { get; set; } = 400;
+        public double WindowMinimumWidth { get; set; } = 800;
         
         /// <summary>
         /// The smallest height the window can go to
         /// </summary>
-        public double WindowMinimumHeight { get; set; } = 400;
+        public double WindowMinimumHeight { get; set; } = 500;
 
         public bool Borderless { get { return (_Window.WindowState == WindowState.Maximized || _DockPosition != WindowDockPosition.Undocked); } }
 
@@ -138,7 +138,7 @@ namespace ASPNet_WPF_ChatApp.ViewModels
         /// <summary>
         /// The current page of the application
         /// </summary>
-        public ApplicationPages CurrentPage { get; set; } = ApplicationPages.Login;
+        public ApplicationPages CurrentPage { get; set; } = ApplicationPages.Chat;
 
         #endregion
 

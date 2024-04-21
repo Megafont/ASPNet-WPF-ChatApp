@@ -1,0 +1,53 @@
+﻿<UserControl x:Class="ASPNet_WPF_ChatApp.Controls.SideMenuControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ASPNet_WPF_ChatApp.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Template>
+        <ControlTemplate TargetType="UserControl">
+
+            <!-- Main background -->
+            <Border Background="{StaticResource ForegroundLightBrush}">
+
+                <!-- Content -->
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <!-- Top Menu -->
+                    <Grid Height="50" Background="{StaticResource WordBlueBrush}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Main Buttons -->
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="{StaticResource FontAwesomeChatIcon}" Style="{StaticResource IconButton}" />
+                            <Button Content="{StaticResource FontAwesomeUserIcon}" Style="{StaticResource IconButton}" />
+                            <Button Content="{StaticResource FontAwesomePictureIcon}" Style="{StaticResource IconButton}" />
+                        </StackPanel>
+
+                        <!-- Settings Button -->
+                        <Button Grid.Column="2" Foreground="{StaticResource WordDarkBlueBrush}" Content="{StaticResource FontAwesomeCogIcon}" Style="{StaticResource IconButton}" />
+
+                    </Grid>
+
+                    <!-- The user content -->
+                    <ContentPresenter Grid.Row="1" />
+
+                </Grid>
+
+            </Border>
+
+        </ControlTemplate>
+    </UserControl.Template>
+            
+</UserControl>

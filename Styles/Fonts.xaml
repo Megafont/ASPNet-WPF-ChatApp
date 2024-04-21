@@ -24,4 +24,12 @@
     <system:Double x:Key="FontSizeRegular">20</system:Double>
     <system:Double x:Key="FontSizeLarge">30</system:Double>
 
+    <!-- The weird values being passed into these string definitions are just setting the string to contain a specific character from the FontAwesome font. -->
+    <!-- The FontAwesome character codes can be found at https://fontawesome.com/search -->
+    <system:String x:Key="FontAwesomeSpinnerIcon">&#xf110;</system:String>
+    <system:String x:Key="FontAwesomeChatIcon">&#xf086;</system:String>
+    <system:String x:Key="FontAwesomeUserIcon">&#xf007;</system:String>
+    <system:String x:Key="FontAwesomePictureIcon">&#xf1c5;</system:String>
+    <system:String x:Key="FontAwesomeCogIcon">&#xf013;</system:String>
+
 </ResourceDictionary>

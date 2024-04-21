@@ -48,4 +48,10 @@
     <Resource Include="Images\Logo\logo.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Pages\ChatPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
 </Project>

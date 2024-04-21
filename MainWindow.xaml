@@ -3,7 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ASPNet_WPF_ChatApp" xmlns:local1="clr-namespace:ASPNet_WPF_ChatApp.ValueConverters"
+        xmlns:local="clr-namespace:ASPNet_WPF_ChatApp" 
+        xmlns:valueConverters="clr-namespace:ASPNet_WPF_ChatApp.ValueConverters"
+        xmlns:controls="clr-namespace:ASPNet_WPF_ChatApp.Controls"
         mc:Ignorable="d"
         WindowStyle="None"
         AllowsTransparency="True"
@@ -125,12 +127,22 @@
 
     <Border Background="{StaticResource WordBlueBrush}">
         <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+                
             <!-- Blue background image -->
             <Grid.Background>
                 <ImageBrush TileMode="Tile" ViewportUnits="Absolute" Viewport="0 0 500 500" ImageSource="/Images/Backgrounds/emoji-background.png" />
             </Grid.Background>
 
-            <Frame x:Name="MainFrame" Content="{Binding CurrentPage, Converter={local1:ApplicationPageValueConverter}}" Background="Transparent"/>
+            <Frame x:Name="MainFrame" Content="{Binding CurrentPage, Converter={valueConverters:ApplicationPageValueConverter}}" Background="Transparent"/>
+
+            <!-- Side Menu -->
+            <controls:SideMenuControl>
+                
+            </controls:SideMenuControl>
 
         </Grid>
     </Border>

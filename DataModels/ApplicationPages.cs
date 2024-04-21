@@ -12,7 +12,14 @@ namespace ASPNet_WPF_ChatApp.DataModels
     /// </summary>
     public enum ApplicationPages
     {
-        Login = 0,  // The initial login page
+        /// <summary>
+        /// The initial login page
+        /// </summary>
+        Login = 0,
         
+        /// <summary>
+        /// The main chat page
+        /// </summary>
+        Chat = 1,
     }
 }

@@ -25,6 +25,9 @@ namespace ASPNet_WPF_ChatApp.ValueConverters
                 case ApplicationPages.Login:
                     return new LoginPage();
 
+                case ApplicationPages.Chat:
+                    return new ChatPage();
+
                 default:
                     Debugger.Break();
                     return null;

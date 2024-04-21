@@ -135,7 +135,7 @@
     <Style TargetType="{x:Type TextBlock}" x:Key="SpinningText" BasedOn="{StaticResource BaseTextBlockStyle}">
 
         <Setter Property="FontFamily" Value="{StaticResource FontAwesome}" />
-        <Setter Property="Text" Value="&#xf110;" />
+        <Setter Property="Text" Value="{StaticResource FontAwesomeSpinnerIcon}" />
         <Setter Property="RenderTransformOrigin" Value="0.5 0.5" />
         <Setter Property="RenderTransform">
             <Setter.Value>
