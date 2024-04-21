@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using ASPNet_WPF_ChatApp.Pages;
 using ASPNet_WPF_ChatApp.DataModels;
 
 

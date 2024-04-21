@@ -1,10 +1,13 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:local="clr-namespace:ASPNet_WPF_ChatApp.AttachedProperties"
+                    xmlns:local1="clr-namespace:ASPNet_WPF_ChatApp.ValueConverters"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <ResourceDictionary.MergedDictionaries>
         <!-- Order is important -->
         <ResourceDictionary Source="Colors.xaml" />
         <ResourceDictionary Source="Fonts.xaml" />
+        <ResourceDictionary Source="Texts.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <!-- Hoverless Button -->
@@ -85,6 +88,8 @@
         <Setter Property="Padding" Value="50 10" />
         <Setter Property="Margin" Value="0 10" />
 
+        <Setter Property="local:IsBusyProperty.Value" Value="False" />
+
         <Setter Property="Template">
             <Setter.Value>
                 
@@ -95,13 +100,24 @@
                             BorderBrush="{TemplateBinding BorderBrush}" 
                             BorderThickness="{TemplateBinding BorderThickness}" 
                             SnapsToDevicePixels="true">
-                        <TextBlock Text="{TemplateBinding Content}"
-                                   Focusable="False" 
-                                   FontFamily="{TemplateBinding FontFamily}"
-                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
-                                   Margin="{TemplateBinding Padding}" 
-                                   SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
-                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        <Grid>
+                            <TextBlock Text="{TemplateBinding Content}"
+                                Focusable="False" 
+                                FontFamily="{TemplateBinding FontFamily}"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                Margin="{TemplateBinding Padding}" 
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Visibility="{TemplateBinding local:IsBusyProperty.Value, Converter={local1:BooleanToVisibilityConverter}}" />
+
+                            <TextBlock 
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                Style="{StaticResource SpinningText}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Visibility="{TemplateBinding local:IsBusyProperty.Value, Converter={local1:BooleanToVisibilityConverter}, ConverterParameter=True}" />
+                                <!-- The weird Text value above is setting a specific character in the FontAwesome font (which is the spinner icon we use to show the user we are busy). -->
+
+                        </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
                         

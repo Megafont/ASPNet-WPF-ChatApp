@@ -6,17 +6,17 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Shell;
 
 using ASPNet_WPF_ChatApp.DataModels;
 using ASPNet_WPF_ChatApp.ViewModels.Base;
 using ASPNet_WPF_ChatApp.Window;
 
-using static ASPNet_WPF_ChatApp.Window.WindowResizer;
-using System.Diagnostics;
-using System.Windows.Shell; // This is static because the last name (WindowResizer) is a type, not a namespace.
+using static ASPNet_WPF_ChatApp.Window.WindowResizer; // This is static because the last name here (WindowResizer) is a type, not a namespace.
 
 
-namespace ASPNet_WPF_ChatApp.ViewModel
+
+namespace ASPNet_WPF_ChatApp.ViewModels
 {
     /// <summary>
     /// The View Model for the custom flat window

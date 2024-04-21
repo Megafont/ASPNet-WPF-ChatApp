@@ -11,6 +11,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Fonts\fontawesome-webfont.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="Images\Logo\icon.ico" />
   </ItemGroup>
 
@@ -19,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Fonts\fontawesome-webfont.ttf" />
     <Resource Include="Fonts\Lato-Black.ttf" />
     <Resource Include="Fonts\Lato-BlackItalic.ttf" />
     <Resource Include="Fonts\Lato-Bold.ttf" />

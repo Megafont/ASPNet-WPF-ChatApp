@@ -1,18 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media.Animation;
 
 using ASPNet_WPF_ChatApp.Animations;
+using ASPNet_WPF_ChatApp.ViewModels.Base;
 
 namespace ASPNet_WPF_ChatApp.Pages
 {
-    public class BasePage : Page
+    public class BasePage<VM> : Page
+        where VM: BaseViewModel, new()
     {
+        #region Private Members
+
+        /// <summary>
+        /// The View Model associated with this page
+        /// </summary>
+        private VM _ViewModel;
+
+        #endregion
+
         #region Public Properties
 
         /// <summary>
@@ -30,6 +35,26 @@ namespace ASPNet_WPF_ChatApp.Pages
         /// </summary>
         public float SlideSeconds { get; set; } = 0.8f;
 
+        /// <summary>
+        /// The View Model associated with this page
+        /// </summary>
+        public VM ViewModel
+        {
+            get { return _ViewModel; }
+            set
+            {
+                // If nothing has changed, return
+                if (_ViewModel == value)
+                    return;
+
+                // Update the value
+                _ViewModel = value;
+
+                // Set the data context for this page
+                this.DataContext = _ViewModel;
+            }
+        }
+
         #endregion
 
         #region Constructors
@@ -42,6 +67,9 @@ namespace ASPNet_WPF_ChatApp.Pages
 
             // Listen for page loading
             this.Loaded += BasePage_Loaded;
+
+            // Create a default view model
+            this.ViewModel = new VM();
         }
 
         #endregion

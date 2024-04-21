@@ -9,7 +9,7 @@ using System.Windows.Controls;
 namespace ASPNet_WPF_ChatApp.AttachedProperties
 {
     /// <summary>
-    /// The MonitorPassword property for a <see cref="PasswordBox"/>
+    /// The MonitorPassword attached property for a <see cref="PasswordBox"/>
     /// </summary>
     public class MonitorPasswordProperty : BaseAttachedProperty<MonitorPasswordProperty, bool> 
     {
@@ -51,7 +51,7 @@ namespace ASPNet_WPF_ChatApp.AttachedProperties
 
 
     /// <summary>
-    /// The HasText property for a <see cref="PasswordBox"/>
+    /// The HasText attached property for a <see cref="PasswordBox"/>
     /// </summary>
     public class HasTextProperty : BaseAttachedProperty<HasTextProperty, bool> 
     { 

@@ -4,6 +4,7 @@
     <FontFamily x:Key="LatoThin">/Fonts/#Lato Thin</FontFamily>
     <FontFamily x:Key="LatoRegular">/Fonts/#Lato Regular</FontFamily>
     <FontFamily x:Key="LatoBold">/Fonts/#Lato Bold</FontFamily>
+    <FontFamily x:Key="FontAwesome">/Fonts/#FontAwesome</FontFamily>
 
     <Style TargetType="{x:Type Control}" x:Key="BaseStyle">
         <Setter Property="FontFamily" Value="{StaticResource LatoThin}" />
