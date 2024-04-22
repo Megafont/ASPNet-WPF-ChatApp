@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:ASPNet_WPF_ChatApp" 
         xmlns:valueConverters="clr-namespace:ASPNet_WPF_ChatApp.ValueConverters"
         xmlns:controls="clr-namespace:ASPNet_WPF_ChatApp.Controls"
+        xmlns:chatControls="clr-namespace:ASPNet_WPF_ChatApp.Controls.Chat"
         mc:Ignorable="d"
         WindowStyle="None"
         AllowsTransparency="True"
@@ -141,7 +142,9 @@
 
             <!-- Side Menu -->
             <controls:SideMenuControl>
-                
+
+                <chatControls:ChatListControl />
+
             </controls:SideMenuControl>
 
         </Grid>
