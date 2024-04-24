@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="ASPNet_WPF_ChatApp.Controls.Chat.ChatListControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ASPNet_WPF_ChatApp.Controls.Chat"
+             xmlns:chatViewModels="clr-namespace:ASPNet_WPF_ChatApp.Core.ViewModels.Chat;assembly=ASPNet_WPF_ChatApp.Core"
+             xmlns:chatViewModels_DesignTime="clr-namespace:ASPNet_WPF_ChatApp.Core.ViewModels.Chat.Design;assembly=ASPNet_WPF_ChatApp.Core"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    
+    <Grid DataContext="{x:Static chatViewModels_DesignTime:ChatListDesignViewModel.Instance}"
+          Background="{StaticResource ForegroundLightBrush}">
+    
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding Items}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <local:ChatListItemControl />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    
+    </Grid>
+    
+</UserControl>

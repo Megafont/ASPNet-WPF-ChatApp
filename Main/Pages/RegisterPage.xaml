@@ -1,0 +1,74 @@
+﻿<pages:BasePage x:TypeArguments="viewModels:LoginViewModel" 
+      x:Class="ASPNet_WPF_ChatApp.Pages.RegisterPage"
+      xmlns:pages="clr-namespace:ASPNet_WPF_ChatApp.Pages" 
+      xmlns:viewModels="clr-namespace:ASPNet_WPF_ChatApp.Core.ViewModels;assembly=ASPNet_WPF_ChatApp.Core"
+      xmlns:attachedProperties="clr-namespace:ASPNet_WPF_ChatApp.AttachedProperties"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ASPNet_WPF_ChatApp"
+      mc:Ignorable="d"
+      x:Name="Page"
+      d:DesignHeight="700" d:DesignWidth="700"
+      Title="RegisterPage">
+
+    <Border>
+        <Grid>
+
+            <!-- Main content scroll -->
+            <ScrollViewer  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                <StackPanel
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    TextBlock.TextAlignment="Center">
+                   
+                    <!-- Login main content white -->
+                    <Border Background="{StaticResource ForegroundLightBrush}"
+                            CornerRadius="10"
+                            Padding="15 50 15 15"
+                            Width="330"
+                            Margin="50 50 50 0">
+
+                        <StackPanel>
+
+                            <!-- Sign Up header -->
+                            <TextBlock Text="Sign Up" 
+                                       FontSize="{StaticResource FontSizeLarge}" 
+                                       FontFamily="{StaticResource LatoRegular}"
+                                       Foreground="{StaticResource WordBlueBrush}" />
+
+                            <!-- Sign Up subtext -->
+                            <TextBlock Text="It's about to get fun"
+                                       FontSize="{StaticResource FontSizeRegular}"
+                                       Foreground="{StaticResource ForegroundDarkBrush}"
+                                       Margin="0 0 0 20"/>
+
+                            <!-- Email -->
+                            <TextBox Text="{Binding Email}" Tag="Email"/>
+                            
+                            <!-- Password -->
+                            <PasswordBox x:Name="PasswordText" Tag="Password" Margin="0 0 0 30"/>
+                            
+                            <!-- Login Button -->
+                            <Button Content="Register"                                     
+                                    Command="{Binding LoginCommand}" 
+                                    CommandParameter="{Binding ElementName=Page}" 
+                                    HorizontalAlignment="Center"
+                                    attachedProperties:IsBusyProperty.Value="{Binding LoginIsRunning}"
+                                    />
+                            
+                        </StackPanel>
+                    
+                    </Border>
+                    
+                    <Button Style="{StaticResource TextButton}" 
+                            Content="Or, I already have an account"
+                            HorizontalAlignment="Center"/>
+                    
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Border>
+    
+</pages:BasePage>
