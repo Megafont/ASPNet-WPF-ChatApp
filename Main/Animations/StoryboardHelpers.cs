@@ -14,19 +14,46 @@ namespace ASPNet_WPF_ChatApp.Animations
     public static class StoryboardHelpers
     {
         /// <summary>
+        /// Adds a slide in from the left animation to the storyboard
+        /// </summary>
+        /// <param name="storyboard">The storyboard to add the animation to</param>
+        /// <param name="seconds">The time the animation will take</param>
+        /// <param name="offset">The distance to the left to start from</param>
+        /// <param name="decelerationRatio">The rate of deceleration</param>
+        /// <param name="keepMargin">Whether to keep the element at the same width during animation</param>
+        public static void AddSlideInFromLeft(this Storyboard storyboard, float seconds, double offset, float decelerationRatio = 0.9f, bool keepMargin = true)
+        {
+            // Create the margin animate from the right
+            var slideAnimation = new ThicknessAnimation
+            {
+                Duration = new Duration(TimeSpan.FromSeconds(seconds)),
+                From = new Thickness(-offset, 0, keepMargin ? offset : 0, 0),
+                To = new Thickness(0),
+                DecelerationRatio = decelerationRatio
+            };
+
+            // Set the target property name
+            Storyboard.SetTargetProperty(slideAnimation, new PropertyPath("Margin"));
+
+            // Add this to the storyboard
+            storyboard.Children.Add(slideAnimation);
+        }
+
+        /// <summary>
         /// Adds a slide in from the right animation to the storyboard
         /// </summary>
         /// <param name="storyboard">The storyboard to add the animation to</param>
         /// <param name="seconds">The time the animation will take</param>
         /// <param name="offset">The distance to the right to start from</param>
         /// <param name="decelerationRatio">The rate of deceleration</param>
-        public static void AddSlideInFromRight(this Storyboard storyboard, float seconds, double offset, float decelerationRatio = 0.9f)
+        /// <param name="keepMargin">Whether to keep the element at the same width during animation</param>
+        public static void AddSlideInFromRight(this Storyboard storyboard, float seconds, double offset, float decelerationRatio = 0.9f, bool keepMargin = true)
         {
             // Create the margin animate from the right
             var slideAnimation = new ThicknessAnimation
             {
                 Duration = new Duration(TimeSpan.FromSeconds(seconds)),
-                From = new Thickness(offset, 0, -offset, 0),
+                From = new Thickness(keepMargin ? offset : 0, 0, -offset, 0),
                 To = new Thickness(0),
                 DecelerationRatio = decelerationRatio
             };
@@ -43,16 +70,43 @@ namespace ASPNet_WPF_ChatApp.Animations
         /// </summary>
         /// <param name="storyboard">The storyboard to add the animation to</param>
         /// <param name="seconds">The time the animation will take</param>
-        /// <param name="offset">The distance to the right to start from</param>
+        /// <param name="offset">The distance to the right to end at</param>
         /// <param name="decelerationRatio">The rate of deceleration</param>
-        public static void AddSlideOutToLeft(this Storyboard storyboard, float seconds, double offset, float decelerationRatio = 0.9f)
+        /// <param name="keepMargin">Whether to keep the element at the same width during animation</param>
+        public static void AddSlideOutToLeft(this Storyboard storyboard, float seconds, double offset, float decelerationRatio = 0.9f, bool keepMargin = true)
         {
             // Create the margin animate to the left
             var slideAnimation = new ThicknessAnimation
             {
                 Duration = new Duration(TimeSpan.FromSeconds(seconds)),
                 From = new Thickness(0),
-                To = new Thickness(-offset, 0, offset, 0),
+                To = new Thickness(-offset, 0, keepMargin ? offset : 0, 0),
+                DecelerationRatio = decelerationRatio
+            };
+
+            // Set the target property name
+            Storyboard.SetTargetProperty(slideAnimation, new PropertyPath("Margin"));
+
+            // Add this to the storyboard
+            storyboard.Children.Add(slideAnimation);
+        }
+
+        /// <summary>
+        /// Adds a slide out to the right animation to the storyboard
+        /// </summary>
+        /// <param name="storyboard">The storyboard to add the animation to</param>
+        /// <param name="seconds">The time the animation will take</param>
+        /// <param name="offset">The distance to the left to end at</param>
+        /// <param name="decelerationRatio">The rate of deceleration</param>
+        /// <param name="keepMargin">Whether to keep the element at the same width during animation</param>
+        public static void AddSlideOutToRight(this Storyboard storyboard, float seconds, double offset, float decelerationRatio = 0.9f, bool keepMargin = true)
+        {
+            // Create the margin animate to the left
+            var slideAnimation = new ThicknessAnimation
+            {
+                Duration = new Duration(TimeSpan.FromSeconds(seconds)),
+                From = new Thickness(0),
+                To = new Thickness(keepMargin ? offset : 0, 0, -offset, 0),
                 DecelerationRatio = decelerationRatio
             };
 

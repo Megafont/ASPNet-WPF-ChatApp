@@ -87,7 +87,11 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels
         /// </summary>
         /// <returns></returns>
         public async Task RegisterAsync()
-        {            
+        {
+            IoC.IoC.Get<ApplicationViewModel>().SideMenuVisible ^= true;
+            return;
+
+
             // Go to registration page
             IoC.IoC.Get<ApplicationViewModel>().CurrentPage = ApplicationPages.Register;
 

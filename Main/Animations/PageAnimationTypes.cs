@@ -13,7 +13,9 @@ namespace ASPNet_WPF_ChatApp.Animations
     {
         None = 0,                       // No animation
 
-        SlideAndFadeInFromRight = 1,    // The page slides in and fades in from the right
-        SlideAndFadeOutToLeft = 2,      // The page slides out and fades out to the left
+        SlideAndFadeInFromLeft,     // The page slides in and fades in from the left
+        SlideAndFadeInFromRight,    // The page slides in and fades in from the right
+        SlideAndFadeOutToLeft,      // The page slides out and fades out to the left
+        SlideAndFadeOutToRight      // The page slides out and fades out to the right
     }
 }

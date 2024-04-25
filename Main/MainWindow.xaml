@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ASPNet_WPF_ChatApp" 
+        xmlns:attachedProperties="clr-namespace:ASPNet_WPF_ChatApp.AttachedProperties" 
         xmlns:chatControls="clr-namespace:ASPNet_WPF_ChatApp.Controls.Chat"
         xmlns:controls="clr-namespace:ASPNet_WPF_ChatApp.Controls"
         xmlns:valueConverters="clr-namespace:ASPNet_WPF_ChatApp.ValueConverters"
@@ -26,7 +27,7 @@
                     <ControlTemplate TargetType="{x:Type Window}">
 
                         <!-- Outer border with drop shadow margin -->
-                        <Border Padding="{Binding OuterMarginSize, FallbackValue=10}">
+                        <Border Margin="{Binding OuterMarginSize, FallbackValue=10}">
                             <!-- Main window outline -->
                             <Grid >
 
@@ -104,7 +105,7 @@
                                     </Grid>
 
                                     <!-- Page Content -->
-                                    <Border Grid.Row="1" Padding="{Binding InnerContentPadding}">
+                                    <Border Grid.Row="1" Padding="{Binding InnerContentPadding}" ClipToBounds="True">
                                         <ContentPresenter Content="{TemplateBinding Content}" />
                                     </Border>
 
@@ -130,7 +131,7 @@
     <Border Background="{StaticResource WordBlueBrush}">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="300" />
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
                 
@@ -147,8 +148,11 @@
                    Background="Transparent"/>
 
             <!-- Side Menu -->
-            <controls:SideMenuControl>
-
+            <controls:SideMenuControl 
+                Width="300" 
+                attachedProperties:AnimateSlideInFromLeftProperty.Value="{Binding ApplicationViewModel.SideMenuVisible, 
+                    Source={x:Static viewModels:ViewModelLocator.Instance}}">
+         
                 <chatControls:ChatListControl />
 
             </controls:SideMenuControl>

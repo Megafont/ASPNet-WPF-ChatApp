@@ -98,6 +98,10 @@ namespace ASPNet_WPF_ChatApp.Pages
 
             switch (PageLoadAnimation)
             {
+                case PageAnimationTypes.SlideAndFadeInFromLeft:
+                    // Start the animation
+                    await this.SlideAndFadeInFromLeftAsync(SlideSeconds);
+                    break;
                 case PageAnimationTypes.SlideAndFadeInFromRight:
                     // Start the animation
                     await this.SlideAndFadeInFromRightAsync(SlideSeconds);
@@ -122,6 +126,10 @@ namespace ASPNet_WPF_ChatApp.Pages
                 case PageAnimationTypes.SlideAndFadeOutToLeft:
                     // Start the animation
                     await this.SlideAndFadeOutToTheLeftAsync(SlideSeconds);
+                    break;
+                case PageAnimationTypes.SlideAndFadeOutToRight:
+                    // Start the animation
+                    await this.SlideAndFadeOutToTheRightAsync(SlideSeconds);
                     break;
             }
         }

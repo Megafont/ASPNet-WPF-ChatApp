@@ -21,7 +21,12 @@ namespace ASPNet_WPF_ChatApp.AttachedProperties
         /// <summary>
         /// Fired when the value changes
         /// </summary>
-        public event Action<DependencyObject, DependencyPropertyChangedEventArgs> ValueChanged = (sender, e) => { }; // <--->
+        public event Action<DependencyObject, DependencyPropertyChangedEventArgs> ValueChanged = (sender, e) => { };
+
+        /// <summary>
+        /// Fired when the value is set, even when the value is the same
+        /// </summary>
+        public event Action<DependencyObject, object> ValueUpdated = (sender, value) => { };
 
         #endregion
 
@@ -39,7 +44,13 @@ namespace ASPNet_WPF_ChatApp.AttachedProperties
         /// <summary>
         /// The attached property for this class
         /// </summary>
-        public static readonly DependencyProperty ValueProperty = DependencyProperty.RegisterAttached("Value", typeof(Property), typeof(BaseAttachedProperty<Parent, Property>), new PropertyMetadata(new PropertyChangedCallback(OnValuePropertyChanged)));
+        public static readonly DependencyProperty ValueProperty = DependencyProperty.RegisterAttached(
+            "Value", 
+            typeof(Property), 
+            typeof(BaseAttachedProperty<Parent, Property>), 
+            new PropertyMetadata(default(Property),
+                new PropertyChangedCallback(OnValuePropertyChanged),
+                new CoerceValueCallback(OnValuePropertyUpdated)));
 
         /// <summary>
         /// The callback event when the <see cref="ValueProperty"/> is changed
@@ -54,6 +65,24 @@ namespace ASPNet_WPF_ChatApp.AttachedProperties
 
             // Call event listeners
             Instance.ValueChanged(d, e);
+        }
+
+        /// <summary>
+        /// The callback event when the <see cref="ValueProperty"/> is changed, even if it is the same value
+        /// </summary>
+        /// <param name="d">The UI element that had its property changed</param>
+        /// <param name="e">The arguments for the event</param>
+        /// <exception cref="NotImplementedException"></exception>
+        private static object OnValuePropertyUpdated(DependencyObject d, object value)
+        {
+            // Call the parent function
+            Instance.OnValueUpdated(d, value);
+
+            // Call event listeners
+            Instance.ValueUpdated(d, value);
+
+            // Return the value
+            return value;
         }
 
         /// <summary>
@@ -81,11 +110,22 @@ namespace ASPNet_WPF_ChatApp.AttachedProperties
         #region EventMethods
 
         /// <summary>
-        /// The method that is called when any attached property of this typeis changed
+        /// The method that is called when any attached property of this type is changed
         /// </summary>
         /// <param name="sender">The UI element that this property was changed for</param>
         /// <param name="e">The arguments for this event</param>
         public virtual void OnValueChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+
+        }
+
+
+        /// <summary>
+        /// The method that is called when any attached property of this type is set, even if the value is the same
+        /// </summary>
+        /// <param name="sender">The UI element that this property was changed for</param>
+        /// <param name="e">The arguments for this event</param>
+        public virtual void OnValueUpdated(DependencyObject sender, object value)
         {
 
         }
