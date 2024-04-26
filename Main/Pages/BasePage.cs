@@ -6,19 +6,12 @@ using ASPNet_WPF_ChatApp.Core.ViewModels.Base;
 
 namespace ASPNet_WPF_ChatApp.Pages
 {
-    public class BasePage<VM> : Page
-        where VM: BaseViewModel, new()
+    /// <summary>
+    /// The base page for all pages to gain base functionality
+    /// </summary>
+    public class BasePage : Page
     {
-        #region Private Members
-
-        /// <summary>
-        /// The View Model associated with this page
-        /// </summary>
-        private VM _ViewModel;
-
-        #endregion
-
-        #region Public Properties
+        #region Public Properties 
 
         /// <summary>
         /// The animation to play when the page is first loaded
@@ -33,24 +26,13 @@ namespace ASPNet_WPF_ChatApp.Pages
         /// <summary>
         /// The time any slide animation takes to complete
         /// </summary>
-        public float SlideSeconds { get; set; } = 0.8f;
+        public float SlideSeconds { get; set; } = 0.4f;
 
-        public VM ViewModel
-        {
-            get { return _ViewModel; }
-            set
-            {
-                // If nothing has changed, return
-                if (_ViewModel == value)
-                    return;
-
-                // Update the value
-                _ViewModel = value;
-
-                // Set the data context for this page
-                DataContext = _ViewModel;
-            }
-        }
+        /// <summary>
+        /// A flag to indicate whether this page should animate out on load
+        /// Useful for when we are moving the page to another frame
+        /// </summary>
+        public bool ShouldAnimateOut { get; set; }
 
         #endregion
 
@@ -64,9 +46,6 @@ namespace ASPNet_WPF_ChatApp.Pages
 
             // Listen for page loading
             Loaded += BasePage_LoadedAsync;
-
-            // Create a default view model
-            ViewModel = new VM();
         }
 
         #endregion
@@ -78,10 +57,19 @@ namespace ASPNet_WPF_ChatApp.Pages
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void BasePage_LoadedAsync(object sender, EventArgs e)
+        private async void BasePage_LoadedAsync(object sender, RoutedEventArgs e)
         {
-            // Animate the page into view
-            await AnimateInAsync();
+            // If we are set up to animate out on load...
+            if (ShouldAnimateOut)
+            {
+                // Animate the page out of view
+                await AnimateOutAsync();
+            }
+            else
+            {
+                // Animate the page into view
+                await AnimateInAsync();
+            }
         }
 
         /// <summary>
@@ -113,7 +101,7 @@ namespace ASPNet_WPF_ChatApp.Pages
         /// Animates the page out of view
         /// </summary>
         /// <returns></returns>
-        public async Task AnimateOutAsync() 
+        public async Task AnimateOutAsync()
         {
             // Make sure we have something to do
             if (PageUnloadAnimation == PageAnimationTypes.None)
@@ -125,13 +113,64 @@ namespace ASPNet_WPF_ChatApp.Pages
             {
                 case PageAnimationTypes.SlideAndFadeOutToLeft:
                     // Start the animation
-                    await this.SlideAndFadeOutToTheLeftAsync(SlideSeconds);
+                    await this.SlideAndFadeOutToLeftAsync(SlideSeconds);
                     break;
                 case PageAnimationTypes.SlideAndFadeOutToRight:
                     // Start the animation
-                    await this.SlideAndFadeOutToTheRightAsync(SlideSeconds);
+                    await this.SlideAndFadeOutToRightAsync(SlideSeconds);
                     break;
             }
+        }
+
+        #endregion
+
+    }
+
+
+    /// <summary>
+    /// A base page with added ViewModel support
+    /// </summary>
+    /// <typeparam name="VM"></typeparam>
+    public class BasePage<VM> : BasePage
+        where VM: BaseViewModel, new()
+    {
+        #region Private Members
+
+        /// <summary>
+        /// The View Model associated with this page
+        /// </summary>
+        private VM _ViewModel;
+
+        #endregion
+
+        #region Public Properties
+
+        public VM ViewModel
+        {
+            get { return _ViewModel; }
+            set
+            {
+                // If nothing has changed, return
+                if (_ViewModel == value)
+                    return;
+
+                // Update the value
+                _ViewModel = value;
+
+                // Set the data context for this page
+                DataContext = _ViewModel;
+            }
+        }
+
+        #endregion
+
+        #region Constructors
+
+        public BasePage() 
+            : base()
+        {
+            // Create a default view model
+            ViewModel = new VM();
         }
 
         #endregion

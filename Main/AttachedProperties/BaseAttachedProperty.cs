@@ -14,7 +14,7 @@ namespace ASPNet_WPF_ChatApp.AttachedProperties
     /// <typeparam name="Parent">The parent class to be the attached property</typeparam>
     /// <typeparam name="Property">The type of this attached property</typeparam>
     public abstract class BaseAttachedProperty<Parent, Property>
-        where Parent : BaseAttachedProperty<Parent, Property>, new()
+        where Parent : new()
     {
         #region Public Events
 
@@ -61,10 +61,10 @@ namespace ASPNet_WPF_ChatApp.AttachedProperties
         private static void OnValuePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             // Call the parent function
-            Instance.OnValueChanged(d, e);
+            (Instance as BaseAttachedProperty<Parent, Property>)?.OnValueChanged(d, e);
 
             // Call event listeners
-            Instance.ValueChanged(d, e);
+            (Instance as BaseAttachedProperty<Parent, Property>)?.ValueChanged(d, e);
         }
 
         /// <summary>
@@ -76,10 +76,10 @@ namespace ASPNet_WPF_ChatApp.AttachedProperties
         private static object OnValuePropertyUpdated(DependencyObject d, object value)
         {
             // Call the parent function
-            Instance.OnValueUpdated(d, value);
+            (Instance as BaseAttachedProperty<Parent, Property>)?.OnValueUpdated(d, value);
 
             // Call event listeners
-            Instance.ValueUpdated(d, value);
+            (Instance as BaseAttachedProperty<Parent, Property>)?.ValueUpdated(d, value);
 
             // Return the value
             return value;

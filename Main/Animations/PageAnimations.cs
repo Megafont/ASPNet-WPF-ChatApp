@@ -75,7 +75,7 @@ namespace ASPNet_WPF_ChatApp.Animations
         /// <param name="page">The page to animate</param>
         /// <param name="seconds">The time the animation will take</param>
         /// <returns></returns>
-        public static async Task SlideAndFadeOutToTheLeftAsync(this Page page, float seconds)
+        public static async Task SlideAndFadeOutToLeftAsync(this Page page, float seconds)
         {
             // Create the storyboard
             var sb = new Storyboard();
@@ -102,7 +102,7 @@ namespace ASPNet_WPF_ChatApp.Animations
         /// <param name="page">The page to animate</param>
         /// <param name="seconds">The time the animation will take</param>
         /// <returns></returns>
-        public static async Task SlideAndFadeOutToTheRightAsync(this Page page, float seconds)
+        public static async Task SlideAndFadeOutToRightAsync(this Page page, float seconds)
         {
             // Create the storyboard
             var sb = new Storyboard();

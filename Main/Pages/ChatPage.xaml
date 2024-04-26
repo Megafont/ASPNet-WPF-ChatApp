@@ -14,7 +14,7 @@
       Title="ChatPage">
 
     <Border>
-        
+        <TextBlock Text="Hello world!" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="{StaticResource FontSizeLarge}"/>
     </Border>
     
 </pages:BasePage>

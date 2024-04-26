@@ -1,4 +1,4 @@
-﻿<pages:BasePage x:TypeArguments="viewModels:LoginViewModel" 
+﻿<pages:BasePage x:TypeArguments="viewModels:RegisterViewModel" 
       x:Class="ASPNet_WPF_ChatApp.Pages.RegisterPage"
       xmlns:pages="clr-namespace:ASPNet_WPF_ChatApp.Pages" 
       xmlns:viewModels="clr-namespace:ASPNet_WPF_ChatApp.Core.ViewModels;assembly=ASPNet_WPF_ChatApp.Core"
@@ -52,20 +52,21 @@
                             
                             <!-- Login Button -->
                             <Button Content="Register"                                     
-                                    Command="{Binding LoginCommand}" 
+                                    Command="{Binding RegisterCommand}" 
                                     CommandParameter="{Binding ElementName=Page}" 
                                     HorizontalAlignment="Center"
-                                    attachedProperties:IsBusyProperty.Value="{Binding LoginIsRunning}"
+                                    attachedProperties:IsBusyProperty.Value="{Binding RegisterIsRunning}"
                                     />
                             
                         </StackPanel>
                     
                     </Border>
-                    
+
                     <Button Style="{StaticResource TextButton}" 
                             Content="Or, I already have an account"
-                            HorizontalAlignment="Center"/>
-                    
+                            HorizontalAlignment="Center"
+                            Command="{Binding LoginCommand}" />
+
                 </StackPanel>
             </ScrollViewer>
         </Grid>
