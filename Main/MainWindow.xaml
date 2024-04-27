@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ASPNet_WPF_ChatApp" 
         xmlns:attachedProperties="clr-namespace:ASPNet_WPF_ChatApp.AttachedProperties" 
-        xmlns:chatControls="clr-namespace:ASPNet_WPF_ChatApp.Controls.Chat"
         xmlns:controls="clr-namespace:ASPNet_WPF_ChatApp.Controls"
+        xmlns:chatListControls="clr-namespace:ASPNet_WPF_ChatApp.Controls.Chat.ChatList"
         xmlns:valueConverters="clr-namespace:ASPNet_WPF_ChatApp.ValueConverters"
         xmlns:viewModels="clr-namespace:ASPNet_WPF_ChatApp.ViewModels"
         mc:Ignorable="d"
@@ -27,7 +27,7 @@
                     <ControlTemplate TargetType="{x:Type Window}">
 
                         <!-- Outer border with drop shadow margin -->
-                        <Border Margin="{Binding OuterMarginSize, FallbackValue=10}">
+                        <Border Padding="{Binding OuterMarginSize, FallbackValue=10}">
                             <!-- Main window outline -->
                             <Grid >
 
@@ -88,7 +88,7 @@
                                         <!-- Title -->
                                         <Viewbox Grid.Column="0" Grid.ColumnSpan="3" Margin="5">
                                             <StackPanel>
-                                                <TextBlock FontFamily="{StaticResource LatoBold}" FontSize="{StaticResource FontSizeRegular}" TextAlignment="Center" Margin="0 0 0 -5">
+                                                <TextBlock FontFamily="{StaticResource LatoBold}" FontSize="{StaticResource FontSizeLarge}" TextAlignment="Center" Margin="0 0 0 -5">
                                                     <Run Text="C" Foreground="{StaticResource WordOrangeBrush}" /><Run Text="H" Foreground="{StaticResource WordBlueBrush}" /><Run Text="A" Foreground="{StaticResource WordRedBrush}" /><Run Text="T" Foreground="{StaticResource WordGreenBrush}" />
                                                 </TextBlock>
                                                 <TextBlock Text="by Megafont" Foreground="{StaticResource ForegroundDarkBrush}" TextAlignment="Center" />
@@ -153,7 +153,7 @@
                 attachedProperties:AnimateSlideInFromLeftProperty.Value="{Binding ApplicationViewModel.SideMenuVisible, 
                     Source={x:Static viewModels:ViewModelLocator.Instance}}">
          
-                <chatControls:ChatListControl />
+                <chatListControls:ChatListControl />
 
             </controls:SideMenuControl>
 

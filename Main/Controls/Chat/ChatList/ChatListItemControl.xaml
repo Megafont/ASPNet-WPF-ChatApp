@@ -1,15 +1,15 @@
-﻿<UserControl x:Class="ASPNet_WPF_ChatApp.Controls.Chat.ChatListItemControl"
+﻿<UserControl x:Class="ASPNet_WPF_ChatApp.Controls.Chat.ChatList.ChatListItemControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ASPNet_WPF_ChatApp.Controls.Chat"
+             xmlns:local="clr-namespace:ASPNet_WPF_ChatApp"
+             xmlns:chatMessageControls="clr-namespace:ASPNet_WPF_ChatApp.Controls.Chat.ChatMessage"
              xmlns:chatViewModels="clr-namespace:ASPNet_WPF_ChatApp.Core.ViewModels.Chat;assembly=ASPNet_WPF_ChatApp.Core"
              xmlns:chatViewModels_DesignTime="clr-namespace:ASPNet_WPF_ChatApp.Core.ViewModels.Chat.Design;assembly=ASPNet_WPF_ChatApp.Core"
              xmlns:valueConverters="clr-namespace:ASPNet_WPF_ChatApp.ValueConverters"
              mc:Ignorable="d" 
-             Height="60"
-             d:DesignHeight="60" d:DesignWidth="300">
+             d:DesignWidth="300">
 
 
     <UserControl.Resources>
@@ -41,11 +41,13 @@
                                         />
 
                                 <!-- Profile Picture padding -->
-                                <Border Grid.Column="0" Padding="8">
+                                <Border Grid.Column="0" 
+                                        Padding="8 15">
 
                                     <!-- Profile Picture background -->
                                     <Border 
                                         Background="{Binding ProfilePictureRGB, Converter={valueConverters:StringRGBToBrushConverter}}"
+                                        Height="40"
                                         Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
                                         CornerRadius="{Binding ActualHeight, RelativeSource={RelativeSource Self}}">
 
@@ -56,7 +58,7 @@
                                               HorizontalAlignment="Center"
                                               Foreground="{StaticResource ForegroundLightBrush}"
                                               FontFamily="{StaticResource LatoRegular}"
-                                              FontSize="{StaticResource FontSizeAverage}" 
+                                              FontSize="{StaticResource FontSizeLarge}" 
                                               />
 
                                     </Border>
@@ -71,6 +73,7 @@
                                         <!-- Name -->
                                         <TextBlock 
                                             Text="{Binding Name}"
+                                            Padding="0 0 0 2"
                                             Foreground="{StaticResource WordBlueBrush}"
                                             FontFamily="{StaticResource LatoRegular}"
                                             TextTrimming="CharacterEllipsis"
@@ -79,6 +82,7 @@
                                         <!-- Message -->
                                         <TextBlock 
                                             Text="{Binding Message}"
+                                            Padding="0 2 0 0"
                                             Foreground="{StaticResource ForegroundDarkBrush}"
                                             FontFamily="{StaticResource LatoRegular}"
                                             TextTrimming="CharacterEllipsis"

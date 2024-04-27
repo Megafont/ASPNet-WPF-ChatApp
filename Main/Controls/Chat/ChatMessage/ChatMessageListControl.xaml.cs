@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ASPNet_WPF_ChatApp.Controls.Chat
+namespace ASPNet_WPF_ChatApp.Controls.Chat.ChatMessage
 {
     /// <summary>
-    /// Interaction logic for ChatListControl.xaml
+    /// Interaction logic for ChatMessageListControl.xaml
     /// </summary>
-    public partial class ChatListControl : UserControl
+    public partial class ChatMessageListControl : UserControl
     {
-        public ChatListControl()
+        public ChatMessageListControl()
         {
             InitializeComponent();
         }

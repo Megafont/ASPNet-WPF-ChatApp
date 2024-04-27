@@ -1,5 +1,7 @@
 ﻿<pages:BasePage x:TypeArguments="viewModels:LoginViewModel" 
       x:Class="ASPNet_WPF_ChatApp.Pages.ChatPage"
+      xmlns:controls="clr-namespace:ASPNet_WPF_ChatApp.Controls"
+      xmlns:chatMessageControls="clr-namespace:ASPNet_WPF_ChatApp.Controls.Chat.ChatMessage"
       xmlns:pages="clr-namespace:ASPNet_WPF_ChatApp.Pages" 
       xmlns:viewModels="clr-namespace:ASPNet_WPF_ChatApp.Core.ViewModels;assembly=ASPNet_WPF_ChatApp.Core"
       xmlns:attachedProperties="clr-namespace:ASPNet_WPF_ChatApp.AttachedProperties"
@@ -14,7 +16,7 @@
       Title="ChatPage">
 
     <Border>
-        <TextBlock Text="Hello world!" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="{StaticResource FontSizeLarge}"/>
+        <chatMessageControls:ChatMessageListControl />
     </Border>
     
 </pages:BasePage>

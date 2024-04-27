@@ -83,7 +83,7 @@
         <Setter Property="Background" Value="{StaticResource WordOrangeBrush}" />
         <Setter Property="Foreground" Value="{StaticResource ForegroundLightBrush}" />
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="FontSize" Value="{StaticResource FontSizeLarge}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeXXLarge}" />
         <Setter Property="FontFamily" Value="{StaticResource LatoRegular}" />
         <Setter Property="Padding" Value="50 10" />
         <Setter Property="Margin" Value="0 10" />
@@ -104,15 +104,16 @@
                             <TextBlock Text="{TemplateBinding Content}"
                                 Focusable="False" 
                                 FontFamily="{TemplateBinding FontFamily}"
+                                FontSize="{TemplateBinding FontSize}"
                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
                                 Margin="{TemplateBinding Padding}" 
                                 SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
                                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                 Visibility="{TemplateBinding attachedProperties:IsBusyProperty.Value, Converter={valueConverters:BooleanToVisibilityConverter}}" />
 
-                            <TextBlock 
-                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                            <TextBlock HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"                                 
                                 Style="{StaticResource SpinningText}"
+                                FontSize="{TemplateBinding FontSize}"
                                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                 Visibility="{TemplateBinding attachedProperties:IsBusyProperty.Value, Converter={valueConverters:BooleanToVisibilityConverter}, ConverterParameter=True}" />
                                 <!-- The weird Text value above is setting a specific character in the FontAwesome font (which is the spinner icon we use to show the user we are busy). -->
@@ -150,7 +151,7 @@
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{StaticResource ForegroundLightBrush}" />
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="FontSize" Value="{StaticResource FontSizeRegular}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeLarge}" />
         <Setter Property="FontFamily" Value="{StaticResource LatoRegular}" />
         <Setter Property="Padding" Value="50 10" />
         <Setter Property="Margin" Value="0 10" />
@@ -169,6 +170,7 @@
                                    x:Name="alreadyHaveAccountText"
                                    Focusable="False" 
                                    FontFamily="{TemplateBinding FontFamily}"
+                                   FontSize="{TemplateBinding FontSize}"
                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
                                    Margin="{TemplateBinding Padding}" 
                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
@@ -209,7 +211,7 @@
         <Setter Property="Background" Value="{StaticResource WordBlueBrush}" />
         <Setter Property="Foreground" Value="{StaticResource ForegroundLightBrush}" />
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="FontSize" Value="{StaticResource FontSizeLarge}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeXXLarge}" />
         <Setter Property="FontFamily" Value="{StaticResource FontAwesome}" />
         <Setter Property="Padding" Value="10" />
         <Setter Property="Margin" Value="0" />
@@ -230,6 +232,7 @@
                                 <TextBlock Text="{TemplateBinding Content}"
                                     Focusable="False" 
                                     FontFamily="{TemplateBinding FontFamily}"
+                                    FontSize="{TemplateBinding FontSize}"
                                     HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
                                     Margin="{TemplateBinding Padding}" 
                                     SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
