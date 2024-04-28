@@ -4,19 +4,20 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ASPNet_WPF_ChatApp"
-             xmlns:chatMessageControls="clr-namespace:ASPNet_WPF_ChatApp.Controls.Chat.ChatMessage"      
-             xmlns:chatViewModels="clr-namespace:ASPNet_WPF_ChatApp.Core.ViewModels.Chat;assembly=ASPNet_WPF_ChatApp.Core"
-             xmlns:chatViewModels_DesignTime="clr-namespace:ASPNet_WPF_ChatApp.Core.ViewModels.Chat.Design;assembly=ASPNet_WPF_ChatApp.Core"
+             xmlns:chatMessageListControls="clr-namespace:ASPNet_WPF_ChatApp.Controls.Chat.ChatMessage"      
+             xmlns:chatMessageViewModels="clr-namespace:ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatMessage;assembly=ASPNet_WPF_ChatApp.Core"
+             xmlns:chatMessageViewModels_DesignTime="clr-namespace:ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatMessage.Design;assembly=ASPNet_WPF_ChatApp.Core"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    
-    <Grid DataContext="{x:Static chatViewModels_DesignTime:ChatListDesignViewModel.Instance}" >
+             d:DesignHeight="600" d:DesignWidth="300">
+
+    <Grid DataContext="{x:Static chatMessageViewModels_DesignTime:ChatMessageListDesignViewModel.Instance}"
+          VerticalAlignment="Bottom">
     
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <ItemsControl ItemsSource="{Binding Items}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <chatMessageControls:ChatMessageListItemControl />
+                        <chatMessageListControls:ChatMessageListItemControl />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

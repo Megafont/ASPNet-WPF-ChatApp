@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ASPNet_WPF_ChatApp"
              xmlns:chatMessageControls="clr-namespace:ASPNet_WPF_ChatApp.Controls.Chat.ChatMessage"
-             xmlns:chatViewModels="clr-namespace:ASPNet_WPF_ChatApp.Core.ViewModels.Chat;assembly=ASPNet_WPF_ChatApp.Core"
-             xmlns:chatViewModels_DesignTime="clr-namespace:ASPNet_WPF_ChatApp.Core.ViewModels.Chat.Design;assembly=ASPNet_WPF_ChatApp.Core"
+             xmlns:chatListViewModels="clr-namespace:ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatList;assembly=ASPNet_WPF_ChatApp.Core"
+             xmlns:chatListViewModels_DesignTime="clr-namespace:ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatList.Design;assembly=ASPNet_WPF_ChatApp.Core"
              xmlns:valueConverters="clr-namespace:ASPNet_WPF_ChatApp.ValueConverters"
              mc:Ignorable="d" 
              d:DesignWidth="300">
@@ -126,7 +126,7 @@
     </UserControl.Resources>
     
     <!-- The "d:" prefix on the line below tells WPF to only use this data context at design time. -->
-    <ContentControl d:DataContext="{x:Static chatViewModels_DesignTime:ChatListItemDesignViewModel.Instance}"    
+    <ContentControl d:DataContext="{x:Static chatListViewModels_DesignTime:ChatListItemDesignViewModel.Instance}"    
                     Style="{StaticResource ContentStyle}" />
     
 </UserControl>

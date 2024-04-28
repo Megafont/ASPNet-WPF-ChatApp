@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using ASPNet_WPF_ChatApp.Core.ViewModels.Base;
 
-namespace ASPNet_WPF_ChatApp.Core.ViewModels.Chat
+namespace ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatList
 {
     /// <summary>
     /// A view model for each chat list item in the overview chat list

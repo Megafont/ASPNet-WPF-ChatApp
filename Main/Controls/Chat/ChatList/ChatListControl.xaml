@@ -6,12 +6,12 @@
              xmlns:local="clr-namespace:ASPNet_WPF_ChatApp"
              xmlns:controls="clr-namespace:ASPNet_WPF_ChatApp.Controls"
              xmlns:chatListControls="clr-namespace:ASPNet_WPF_ChatApp.Controls.Chat.ChatList"
-             xmlns:chatViewModels="clr-namespace:ASPNet_WPF_ChatApp.Core.ViewModels.Chat;assembly=ASPNet_WPF_ChatApp.Core"
-             xmlns:chatViewModels_DesignTime="clr-namespace:ASPNet_WPF_ChatApp.Core.ViewModels.Chat.Design;assembly=ASPNet_WPF_ChatApp.Core"
+             xmlns:chatListViewModels="clr-namespace:ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatList;assembly=ASPNet_WPF_ChatApp.Core"
+             xmlns:chatListViewModels_DesignTime="clr-namespace:ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatList.Design;assembly=ASPNet_WPF_ChatApp.Core"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     
-    <Grid DataContext="{x:Static chatViewModels_DesignTime:ChatListDesignViewModel.Instance}"
+    <Grid DataContext="{x:Static chatListViewModels_DesignTime:ChatListDesignViewModel.Instance}"
           Background="{StaticResource ForegroundLightBrush}">
     
         <ScrollViewer VerticalScrollBarVisibility="Auto">

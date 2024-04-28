@@ -63,10 +63,14 @@
     <Compile Include="ViewModels\Base\IHavePassword.cs" />
     <Compile Include="ViewModels\Base\RelayCommand.cs" />
     <Compile Include="ViewModels\Base\RelayParameterizedCommand.cs" />
-    <Compile Include="ViewModels\Chat\ChatListItemViewModel.cs" />
-    <Compile Include="ViewModels\Chat\ChatListViewModel.cs" />
-    <Compile Include="ViewModels\Chat\Design\ChatListDesignViewModel.cs" />
-    <Compile Include="ViewModels\Chat\Design\ChatListItemDesignViewModel.cs" />
+    <Compile Include="ViewModels\Chat\ChatList\ChatListItemViewModel.cs" />
+    <Compile Include="ViewModels\Chat\ChatList\ChatListViewModel.cs" />
+    <Compile Include="ViewModels\Chat\ChatList\Design\ChatListDesignViewModel.cs" />
+    <Compile Include="ViewModels\Chat\ChatList\Design\ChatListItemDesignViewModel.cs" />
+    <Compile Include="ViewModels\Chat\ChatMessage\ChatMessageListItemViewModel.cs" />
+    <Compile Include="ViewModels\Chat\ChatMessage\ChatMessageListViewModel.cs" />
+    <Compile Include="ViewModels\Chat\ChatMessage\Design\ChatMessageListDesignViewModel.cs" />
+    <Compile Include="ViewModels\Chat\ChatMessage\Design\ChatMessageListItemDesignViewModel.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
   </ItemGroup>
@@ -76,6 +80,7 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

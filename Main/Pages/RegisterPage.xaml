@@ -1,4 +1,4 @@
-﻿<pages:BasePage x:TypeArguments="viewModels:RegisterViewModel" 
+﻿<pages:BasePage x:TypeArguments="viewModels:RegisterViewModel"
       x:Class="ASPNet_WPF_ChatApp.Pages.RegisterPage"
       xmlns:pages="clr-namespace:ASPNet_WPF_ChatApp.Pages" 
       xmlns:viewModels="clr-namespace:ASPNet_WPF_ChatApp.Core.ViewModels;assembly=ASPNet_WPF_ChatApp.Core"

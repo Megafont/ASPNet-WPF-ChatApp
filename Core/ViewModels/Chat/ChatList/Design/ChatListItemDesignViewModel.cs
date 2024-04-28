@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ASPNet_WPF_ChatApp.Core.ViewModels.Chat.Design
+namespace ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatList.Design
 {
     /// <summary>
     /// The design-time data for a <see cref="ChatListItemViewModel"/>
