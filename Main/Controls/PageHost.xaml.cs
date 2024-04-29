@@ -70,7 +70,18 @@ namespace ASPNet_WPF_ChatApp.Controls
             // Animate out previous page when the Loaded event fires
             // right after this call due to moving it to another frame
             if (oldPageContent is BasePage oldPage)
+            {
+                // Tell old page to animate out
                 oldPage.ShouldAnimateOut = true;
+
+                // Once done, remove it
+                Task.Delay((int)(oldPage.SlideSeconds * 1000)).ContinueWith(t =>
+                {
+                    // Set oldPageFrame.content to null to remove it, making sure that we
+                    // do so on the UI thread. Otherwise the program will crash.
+                    Application.Current.Dispatcher.Invoke(() => oldPageFrame.Content = null);
+                });
+            }
 
             // Set the new page content
             newPageFrame.Content = e.NewValue;

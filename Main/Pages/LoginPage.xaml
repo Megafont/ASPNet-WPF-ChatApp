@@ -45,13 +45,17 @@
                                        Margin="0 0 0 20"/>
 
                             <!-- Email -->
-                            <TextBox Text="{Binding Email}" Tag="Email"/>
+                            <TextBox Text="{Binding Email}" 
+                                     Tag="Email"
+                                     attachedProperties:IsFocusedProperty.Value="True"
+                                     />
                             
                             <!-- Password -->
                             <PasswordBox x:Name="PasswordText" Tag="Password" Margin="0 0 0 30"/>
                             
                             <!-- Login Button -->
-                            <Button Content="Login"                                     
+                            <Button Content="Login"
+                                    IsDefault="True"
                                     Command="{Binding LoginCommand}" 
                                     CommandParameter="{Binding ElementName=Page}" 
                                     HorizontalAlignment="Center"
