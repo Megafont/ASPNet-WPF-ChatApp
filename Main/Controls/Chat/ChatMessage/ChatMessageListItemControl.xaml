@@ -98,7 +98,6 @@
                 <!-- Time containers -->
                 <StackPanel x:Name="ExtaDetails" 
                             Grid.Row="2" 
-                            HorizontalAlignment="{Binding SentByMe, Converter={valueConverters:SentByMeToAlignmentConverter}, ConverterParameter=True}"
                             Orientation="Horizontal"
                             Opacity="0">
 
@@ -106,6 +105,7 @@
                     <TextBlock Grid.Row="2"
                            Text="{Binding MessageSentTime, Converter={valueConverters:TimeToDisplayTimeConverter}}"
                            Foreground="{StaticResource ForegroundLightBrush}" 
+                           HorizontalAlignment="Right"
                            FontSize="{StaticResource FontSizeSmall}"
                            FontFamily="{StaticResource LatoRegular}"
                            Margin="0 0 15 0"
@@ -115,6 +115,7 @@
                     <TextBlock Grid.Row="2"
                            Text="{Binding MessageReadTime, Converter={valueConverters:TimeToReadDisplayTimeConverter}}"
                            Foreground="{StaticResource WordDarkBlueBrush}" 
+                           HorizontalAlignment="Right"
                            FontSize="{StaticResource FontSizeSmall}"
                            FontFamily="{StaticResource LatoRegular}"
                            />
