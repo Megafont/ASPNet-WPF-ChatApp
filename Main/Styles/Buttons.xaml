@@ -208,12 +208,12 @@
     <!-- Icon Button -->
     <Style x:Key="IconButton" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseStyle}">
 
-        <Setter Property="Background" Value="{StaticResource WordBlueBrush}" />
+        <Setter Property="Background" Value="{StaticResource WordTransparentBlueBrush}" />
         <Setter Property="Foreground" Value="{StaticResource ForegroundLightBrush}" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="FontSize" Value="{StaticResource FontSizeXXLarge}" />
         <Setter Property="FontFamily" Value="{StaticResource FontAwesome}" />
-        <Setter Property="Padding" Value="10" />
+        <Setter Property="Padding" Value="30" />
         <Setter Property="Margin" Value="0" />
 
         <Setter Property="Width" Value="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" />
@@ -253,7 +253,7 @@
                         <EventTrigger RoutedEvent="MouseLeave">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <ColorAnimation To="{StaticResource WordBlue}" Duration="0:0:0.2" Storyboard.TargetName="border" Storyboard.TargetProperty="Background.Color" />
+                                    <ColorAnimation To="{StaticResource WordTransparentBlue}" Duration="0:0:0.2" Storyboard.TargetName="border" Storyboard.TargetProperty="Background.Color" />
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>

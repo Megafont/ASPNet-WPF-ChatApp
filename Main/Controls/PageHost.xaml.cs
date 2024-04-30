@@ -1,7 +1,10 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Windows;
 using System.Windows.Controls;
-
+using ASPNet_WPF_ChatApp.Core.IoC;
+using ASPNet_WPF_ChatApp.Core.ViewModels;
 using ASPNet_WPF_ChatApp.Pages;
+using ASPNet_WPF_ChatApp.ValueConverters;
 
 namespace ASPNet_WPF_ChatApp.Controls
 {
@@ -40,6 +43,13 @@ namespace ASPNet_WPF_ChatApp.Controls
         public PageHost()
         {
             InitializeComponent();
+
+            // If we are in design time, show the current page
+            // as the dependency property does not fire
+            if (DesignerProperties.GetIsInDesignMode(this))
+            {
+                NewPage.Content = (BasePage)new ApplicationPageValueConverter().Convert(IoC.Get<ApplicationViewModel>().CurrentPage);
+            }
         }
 
         #endregion

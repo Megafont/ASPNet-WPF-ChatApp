@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Windows;
 using System.Windows.Controls;
 
 using ASPNet_WPF_ChatApp.Animations;
@@ -9,7 +10,7 @@ namespace ASPNet_WPF_ChatApp.Pages
     /// <summary>
     /// The base page for all pages to gain base functionality
     /// </summary>
-    public class BasePage : Page
+    public class BasePage : UserControl
     {
         #region Public Properties 
 
@@ -40,6 +41,10 @@ namespace ASPNet_WPF_ChatApp.Pages
 
         public BasePage()
         {
+            // Don't bother animating in design time
+            if (DesignerProperties.GetIsInDesignMode(this))
+                return;
+
             // If we are animating in, start out hidden
             if (PageLoadAnimation != PageAnimationTypes.None)
                 Visibility = Visibility.Collapsed;
@@ -88,11 +93,11 @@ namespace ASPNet_WPF_ChatApp.Pages
             {
                 case PageAnimationTypes.SlideAndFadeInFromLeft:
                     // Start the animation
-                    await this.SlideAndFadeInFromLeftAsync(SlideSeconds);
+                    await this.SlideAndFadeInFromLeftAsync(SlideSeconds, width: (int) Application.Current.MainWindow.Width);
                     break;
                 case PageAnimationTypes.SlideAndFadeInFromRight:
                     // Start the animation
-                    await this.SlideAndFadeInFromRightAsync(SlideSeconds);
+                    await this.SlideAndFadeInFromRightAsync(SlideSeconds, width: (int)Application.Current.MainWindow.Width);
                     break;
             }
         }

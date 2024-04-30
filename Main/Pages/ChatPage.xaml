@@ -12,11 +12,50 @@
       xmlns:local="clr-namespace:ASPNet_WPF_ChatApp"
       mc:Ignorable="d"
       x:Name="Page"
-      d:DesignHeight="700" d:DesignWidth="700"
-      Title="ChatPage">
+      d:DesignHeight="700" d:DesignWidth="700">
 
-    <Border>
-        <chatMessageControls:ChatMessageListControl />
-    </Border>
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <!-- Title bar -->
+            <RowDefinition Height="Auto" />
+            
+            <!-- Chat message list -->
+            <RowDefinition Height="*" />
+            
+            <!-- Chat input text box -->
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
+        <!-- Title bar -->
+        <Grid Height="50">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            
+            <!-- Title text -->
+            <TextBlock Text="Parnell" 
+                       Grid.ColumnSpan="2"
+                       Foreground="{StaticResource ForegroundLightBrush}"
+                       FontSize="{StaticResource FontSizeXLarge}"
+                       FontFamily="{StaticResource LatoRegular}"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       />
+
+            <!-- Main Buttons -->
+            <StackPanel Orientation="Horizontal" Grid.Column="1">
+                <Button Content="{StaticResource FontAwesomeSearchIcon}" Style="{StaticResource IconButton}" />
+                <Button Content="{StaticResource FontAwesomeEllipsisVerticalIcon}" Style="{StaticResource IconButton}" />
+            </StackPanel>
+            
+        </Grid>
+        
+        <!-- Chat message list -->
+        <chatMessageControls:ChatMessageListControl Grid.Row="1" />
+        
+    </Grid>
     
 </pages:BasePage>
