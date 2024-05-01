@@ -17,12 +17,12 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels
         /// <summary>
         /// The current page of the application
         /// </summary>
-        public ApplicationPages CurrentPage { get; private set; } = ApplicationPages.Login;
+        public ApplicationPages CurrentPage { get; private set; } = ApplicationPages.Chat;
 
         /// <summary>
         /// True if the side menu should be shown
         /// </summary>
-        public bool SideMenuVisible { get; set; } = false;
+        public bool SideMenuVisible { get; set; } = true;
 
 
         /// <summary>

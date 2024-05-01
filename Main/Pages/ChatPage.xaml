@@ -23,7 +23,7 @@
             <!-- Chat message list -->
             <RowDefinition Height="*" />
             
-            <!-- Chat input text box -->
+            <!-- Chat message input text box, etc. -->
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         
@@ -47,14 +47,73 @@
 
             <!-- Main Buttons -->
             <StackPanel Orientation="Horizontal" Grid.Column="1">
-                <Button Content="{StaticResource FontAwesomeSearchIcon}" Style="{StaticResource IconButton}" />
-                <Button Content="{StaticResource FontAwesomeEllipsisVerticalIcon}" Style="{StaticResource IconButton}" />
+                <Button Content="{StaticResource FontAwesomeSearchIcon}" Style="{StaticResource IconGrowButton}" />
+                <Button Content="{StaticResource FontAwesomeEllipsisVerticalIcon}" Style="{StaticResource IconGrowButton}" />
             </StackPanel>
             
         </Grid>
         
         <!-- Chat message list -->
         <chatMessageControls:ChatMessageListControl Grid.Row="1" />
+        
+        <!-- Chat message input text box, etc. -->
+        <Grid Grid.Row="2" 
+              MinHeight="50"
+              MaxHeight="114"
+              Background="{StaticResource ForegroundLightBrush}">
+
+            <Grid.ColumnDefinitions>
+                <!-- Attachment button-->
+                <ColumnDefinition Width="Auto" />
+                
+                <!-- Text entry box-->
+                <ColumnDefinition Width="*" />
+                
+                <!-- Additional buttons-->
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Attachment button -->
+            <Button Style="{StaticResource IconGrowButton}"
+                    Height="{Binding MinHeight, RelativeSource={RelativeSource AncestorType=Grid}}"
+                    Content="{StaticResource FontAwesomePaperclipIcon}"
+                    VerticalAlignment="Top"
+                    Foreground="{StaticResource ForegroundDarkBrush}" 
+                    />
+
+            <!-- Chat message entry box -->
+            <TextBox Grid.Column="1"
+                     Tag="Write a message..."
+                     FontSize="{StaticResource FontSizeRegular}"
+                     VerticalAlignment="Center"
+                     BorderThickness="0"
+                     Padding="0 10"
+                     AcceptsReturn="True"
+                     AcceptsTab="True"
+                     VerticalScrollBarVisibility="Auto"
+                     />
+
+            <!-- Additional buttons -->
+            <StackPanel Grid.Column="2" 
+                        Orientation="Horizontal"
+                        VerticalAlignment="Top"
+                        Margin="0 0 8 0">
+                
+                <!-- Emoji button -->
+                <Button Style="{StaticResource IconGrowButton}"
+                        Height="{Binding MinHeight, RelativeSource={RelativeSource AncestorType=Grid}}"
+                        Content="{StaticResource FontAwesomeEmojiIcon}"
+                        Foreground="{StaticResource WordOrangeBrush}" 
+                    />
+                
+                <!-- Send button -->
+                <Button Content="Send"
+                        Padding="8"
+                        Background="{StaticResource WordGreenBrush}"
+                        FontSize="{StaticResource FontSizeRegular}" />
+
+            </StackPanel>
+        </Grid>
         
     </Grid>
     
