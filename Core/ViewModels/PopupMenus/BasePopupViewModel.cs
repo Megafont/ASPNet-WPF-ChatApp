@@ -7,14 +7,15 @@ using System.Windows;
 
 using ASPNet_WPF_ChatApp.Core.DataModels;
 using ASPNet_WPF_ChatApp.Core.ViewModels.Base;
+using ASPNet_WPF_ChatApp.Core.ViewModels.Menus;
 
 
-namespace ASPNet_WPF_ChatApp.Core.ViewModels.PopupMenu
+namespace ASPNet_WPF_ChatApp.Core.ViewModels.PopupMenus
 {
     /// <summary>
     /// A view model for any popup menus
     /// </summary>
-    public class BasePopupMenuViewModel : BaseViewModel
+    public class BasePopupViewModel : BaseViewModel
     {
 
         #region Public Properties
@@ -29,11 +30,16 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels.PopupMenu
         /// </summary>
         public ElementHorizontalAlignment ArrowAlignment { get; set; }
 
+        /// <summary>
+        /// The content inside of this popup menu
+        /// </summary>
+        public BaseViewModel Content { get; set; }
+
         #endregion
 
         #region Constructor
 
-        public BasePopupMenuViewModel()
+        public BasePopupViewModel()
         {
             // Set default values
             // TODO: Move colors into Core and make use of it here

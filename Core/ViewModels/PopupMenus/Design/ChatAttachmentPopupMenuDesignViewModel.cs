@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace ASPNet_WPF_ChatApp.Core.ViewModels.PopupMenu.Design
+namespace ASPNet_WPF_ChatApp.Core.ViewModels.PopupMenus.Design
 {
     /// <summary>
     /// A view model for any popup menus

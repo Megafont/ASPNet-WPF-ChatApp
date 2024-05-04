@@ -11,6 +11,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ASPNet_WPF_ChatApp"
+      xmlns:valueConverters="clr-namespace:ASPNet_WPF_ChatApp.ValueConverters"                
       mc:Ignorable="d"
       x:Name="Page"
       d:DesignHeight="700" d:DesignWidth="700">
@@ -28,6 +29,19 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         
+        <!-- Popups Overlay -->
+        <Border Background="Transparent"
+                Grid.RowSpan="2"
+                Panel.ZIndex="1"
+                Visibility="{Binding AnyPopupVisible, Converter={valueConverters:BooleanToVisibilityConverter}, ConverterParameter=True}"        
+                >
+
+            <Border.InputBindings>
+                <MouseBinding MouseAction="LeftClick" Command="{Binding PopupClickAwayCommand}" />
+            </Border.InputBindings>
+            
+        </Border>
+
         <!-- Title bar -->
         <Grid Height="50">
 
@@ -60,6 +74,7 @@
         <!-- Attachment Menu Popup -->
         <controls:BubbleContentControl
             Grid.Row="1"
+            Panel.ZIndex="2"
             DataContext="{Binding AttachmentMenu}"
             VerticalAlignment="Bottom"
             HorizontalAlignment="Left"
@@ -67,7 +82,8 @@
             />
 
         <!-- Chat message input text box, etc. -->
-        <Grid Grid.Row="2" 
+        <Grid Grid.Row="2"
+              Panel.ZIndex="3"
               MinHeight="50"
               MaxHeight="114"
               Background="{StaticResource ForegroundLightBrush}">
