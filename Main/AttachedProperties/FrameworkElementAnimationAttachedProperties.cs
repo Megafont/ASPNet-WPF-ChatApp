@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ASPNet_WPF_ChatApp.Animations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -66,5 +67,89 @@ namespace ASPNet_WPF_ChatApp.AttachedProperties
         /// <param name="value">The new value</param>
         protected virtual void DoAnimationAsync(FrameworkElement element, bool value) { }
 
+    }
+
+    /// <summary>
+    /// Animates a framework element (WPF UI element) sliding it in from the left on show
+    /// and sliding out to the left on hide
+    /// </summary>
+    public class AnimateSlideInFromLeftProperty : AnimateBaseProperty<AnimateSlideInFromLeftProperty>
+    {
+        protected override async void DoAnimationAsync(FrameworkElement element, bool value)
+        {
+            if (value)
+            {
+                // Animate in
+                await element.SlideAndFadeInFromLeftAsync(FirstLoad ? 0 : 0.3f, false);
+            }
+            else
+            {
+                // Animate out
+                await element.SlideAndFadeOutToLeftAsync(FirstLoad ? 0 : 0.3f, false);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Animates a framework element (WPF UI element) sliding it in from the right on show
+    /// and sliding out to the right on hide
+    /// </summary>
+    public class AnimateSlideInFromRightProperty : AnimateBaseProperty<AnimateSlideInFromRightProperty>
+    {
+        protected override async void DoAnimationAsync(FrameworkElement element, bool value)
+        {
+            if (value)
+            {
+                // Animate in
+                await element.SlideAndFadeInFromRightAsync(FirstLoad ? 0 : 0.3f, false);
+            }
+            else
+            {
+                // Animate out
+                await element.SlideAndFadeOutToRightAsync(FirstLoad ? 0 : 0.3f, false);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Animates a framework element (WPF UI element) sliding up from the bottom on show
+    /// and sliding out to the bottom on hide
+    /// </summary>
+    public class AnimateSlideInFromBottomProperty : AnimateBaseProperty<AnimateSlideInFromBottomProperty>
+    {
+        protected override async void DoAnimationAsync(FrameworkElement element, bool value)
+        {
+            if (value)
+            {
+                // Animate in
+                await element.SlideAndFadeInFromBottomAsync(FirstLoad ? 0 : 0.3f, false);
+            }
+            else
+            {
+                // Animate out
+                await element.SlideAndFadeOutToBottomAsync(FirstLoad ? 0 : 0.3f, false);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Animates a framework element (WPF UI element) sliding down from the top on show
+    /// and sliding out to the top on hide
+    /// </summary>
+    public class AnimateSlideInFromTopProperty : AnimateBaseProperty<AnimateSlideInFromTopProperty>
+    {
+        protected override async void DoAnimationAsync(FrameworkElement element, bool value)
+        {
+            if (value)
+            {
+                // Animate in
+                await element.SlideAndFadeInFromTopAsync(FirstLoad ? 0 : 0.3f, false);
+            }
+            else
+            {
+                // Animate out
+                await element.SlideAndFadeOutToTopAsync(FirstLoad ? 0 : 0.3f, false);
+            }
+        }
     }
 }
