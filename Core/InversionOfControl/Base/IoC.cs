@@ -8,9 +8,10 @@ using Ninject;
 
 using ASPNet_WPF_ChatApp.Core.DataModels;
 using ASPNet_WPF_ChatApp.Core.ViewModels;
+using ASPNet_WPF_ChatApp.Core.InversionOfControl.Interfaces;
 
 
-namespace ASPNet_WPF_ChatApp.Core.IoC
+namespace ASPNet_WPF_ChatApp.Core.InversionOfControl.Base
 {
     /// <summary>
     /// The Inversion of Control container for our application
@@ -23,6 +24,11 @@ namespace ASPNet_WPF_ChatApp.Core.IoC
         /// The kernel for our IoC container
         /// </summary>
         public static IKernel Kernel { get; private set; } = new StandardKernel();
+
+        /// <summary>
+        /// A shortcut to access the IUIManager
+        /// </summary>
+        public static IUIManager UI => IoC.Get<IUIManager>();
 
         #endregion
 

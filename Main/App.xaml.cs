@@ -2,7 +2,9 @@
 using System.Data;
 using System.Windows;
 
-using ASPNet_WPF_ChatApp.Core.IoC;
+using ASPNet_WPF_ChatApp.Core.InversionOfControl.Base;
+using ASPNet_WPF_ChatApp.Core.InversionOfControl.Interfaces;
+using ASPNet_WPF_ChatApp.InversionOfControl;
 
 
 namespace ASPNet_WPF_ChatApp
@@ -21,12 +23,24 @@ namespace ASPNet_WPF_ChatApp
             // Let the base application do what it needs to
             base.OnStartup(e);
 
-            // Setup IoC container
-            IoC.Setup();
+            // Setup the main application
+            ApplicationSetup();
 
             // Show the main window
             Current.MainWindow = new MainWindow();
             Current.MainWindow.Show();
+        }
+
+        /// <summary>
+        /// Configures our application ready for use
+        /// </summary>
+        private void ApplicationSetup()
+        {
+            // Setup IoC container
+            IoC.Setup();
+
+            // Bind a UI manager
+            IoC.Kernel.Bind<IUIManager>().ToConstant(new UIManager());
         }
     }
 

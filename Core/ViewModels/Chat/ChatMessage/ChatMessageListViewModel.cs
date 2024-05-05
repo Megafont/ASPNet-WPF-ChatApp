@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using ASPNet_WPF_ChatApp.Core.InversionOfControl.Base;
 using ASPNet_WPF_ChatApp.Core.ViewModels.Base;
 using ASPNet_WPF_ChatApp.Core.ViewModels.PopupMenus;
 
@@ -50,6 +51,11 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatMessage
         /// </summary>
         public ICommand PopupClickAwayCommand { get; set; }
 
+        /// <summary>
+        /// The command for when the send button is clicked
+        /// </summary>
+        public ICommand SendCommand { get; set; }
+
         #endregion
 
         #region Constructors
@@ -62,6 +68,7 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatMessage
             // Create commands
             AttachmentButtonCommand = new RelayCommand(AttachmentButtonClicked);
             PopupClickAwayCommand = new RelayCommand(PopupClickAway);
+            SendCommand = new RelayCommand(SendButtonClicked);
 
             // Make a default menu
             AttachmentMenu = new ChatAttachmentPopupMenuViewModel();
@@ -87,6 +94,19 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatMessage
         {
             // Hide attachment menu
             AttachmentMenuVisible = false;
+        }
+
+        /// <summary>
+        /// Sends the message when the user clicks the send button
+        /// </summary>
+        public async void SendButtonClicked()
+        {
+            await IoC.UI.ShowMessage(new Dialogs.MessageBoxDialogViewModel
+            {
+                Title = "Send Message",
+                Message = "Thank you for writing a nice message :)",
+                OkText = "OK"
+            });
         }
 
         #endregion

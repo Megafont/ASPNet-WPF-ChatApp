@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Input;
 
 using ASPNet_WPF_ChatApp.Core.DataModels;
+using ASPNet_WPF_ChatApp.Core.InversionOfControl.Base;
 using ASPNet_WPF_ChatApp.Core.Security;
 using ASPNet_WPF_ChatApp.Core.ViewModels.Base;
 
@@ -85,7 +86,7 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels
         public async Task LoginAsync()
         {
             // Go to registration page
-            IoC.IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPages.Login);
+            IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPages.Login);
 
             await Task.Delay(1);
 

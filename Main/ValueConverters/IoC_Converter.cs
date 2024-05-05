@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 
-using ASPNet_WPF_ChatApp.Core.IoC;
+using ASPNet_WPF_ChatApp.Core.InversionOfControl.Base;
 using ASPNet_WPF_ChatApp.Core.ViewModels;
+using ASPNet_WPF_ChatApp.Pages;
 
 
 namespace ASPNet_WPF_ChatApp.ValueConverters

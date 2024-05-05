@@ -7,6 +7,7 @@ using System.Windows.Input;
 
 using ASPNet_WPF_ChatApp.Core;
 using ASPNet_WPF_ChatApp.Core.DataModels;
+using ASPNet_WPF_ChatApp.Core.InversionOfControl.Base;
 using ASPNet_WPF_ChatApp.Core.Security;
 using ASPNet_WPF_ChatApp.Core.ViewModels.Base;
 
@@ -76,7 +77,7 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels
                 await Task.Delay(1000);
 
                 // Go to chat page
-                IoC.IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPages.Chat);
+                IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPages.Chat);
                 //var email = Email;
 
                 // IMPORTANT: Never store an unsecure password in a variable like this!!! This is just temporary debug code.
@@ -92,7 +93,7 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels
         public async Task RegisterAsync()
         {
             // Go to registration page
-            IoC.IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPages.Register);
+            IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPages.Register);
 
             await Task.Delay(1);
 

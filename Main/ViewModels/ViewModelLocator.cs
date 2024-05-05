@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using ASPNet_WPF_ChatApp.Core.IoC;
+using ASPNet_WPF_ChatApp.Core.InversionOfControl.Base;
 using ASPNet_WPF_ChatApp.Core.ViewModels;
 
 namespace ASPNet_WPF_ChatApp.ViewModels

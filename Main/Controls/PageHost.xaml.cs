@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using ASPNet_WPF_ChatApp.Core.IoC;
-using ASPNet_WPF_ChatApp.Core.ViewModels;
+
+using ASPNet_WPF_ChatApp.Core.InversionOfControl.Base;
 using ASPNet_WPF_ChatApp.Pages;
+using ASPNet_WPF_ChatApp.Core.ViewModels;
 using ASPNet_WPF_ChatApp.ValueConverters;
 
 namespace ASPNet_WPF_ChatApp.Controls

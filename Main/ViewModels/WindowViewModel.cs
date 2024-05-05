@@ -38,7 +38,7 @@ namespace ASPNet_WPF_ChatApp.ViewModels
         /// <summary>
         /// The radius of the corners of the window
         /// </summary>
-        private int _WindowCornerSize = 10; 
+        private int _WindowCornerSize = 10;
 
         private WindowDockPosition _DockPosition = WindowDockPosition.Undocked;
 
@@ -50,7 +50,7 @@ namespace ASPNet_WPF_ChatApp.ViewModels
         /// The smallest width the window can go to
         /// </summary>
         public double WindowMinimumWidth { get; set; } = 800;
-        
+
         /// <summary>
         /// The smallest height the window can go to
         /// </summary>
@@ -79,15 +79,15 @@ namespace ASPNet_WPF_ChatApp.ViewModels
         public int OuterMarginSize
         {
             get => Borderless ? 0 : _OuterMarginSize;
-            set => _OuterMarginSize = value;            
+            set => _OuterMarginSize = value;
         }
 
         /// <summary>
         /// The size (as a Thickness object) of the margin around the window that allows for the drop shadow
         /// </summary>
         public Thickness OuterMarginThickness
-        { 
-            get => new Thickness(_OuterMarginSize);            
+        {
+            get => new Thickness(_OuterMarginSize);
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace ASPNet_WPF_ChatApp.ViewModels
         public int WindowCornerSize
         {
             get => Borderless ? 0 : _WindowCornerSize;
-            set => _WindowCornerSize = value;            
+            set => _WindowCornerSize = value;
         }
 
         /// <summary>
@@ -116,6 +116,12 @@ namespace ASPNet_WPF_ChatApp.ViewModels
         /// The height of the title bar / caption of the window as a GridLength object
         /// </summary>
         public GridLength TitleHeightGridLength { get => new GridLength(TitleHeight + ResizeBorderSize); }
+
+        /// <summary>
+        /// True if we should have a dimmed overlay on the window
+        /// such as when a popup is visible or the window is not focused
+        /// </summary>
+        public bool DimmableOverlayVisible { get; set; }
 
         #endregion
 

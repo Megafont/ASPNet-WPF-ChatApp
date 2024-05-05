@@ -107,6 +107,10 @@ namespace ASPNet_WPF_ChatApp.Pages
                     // Start the animation
                     await this.SlideAndFadeInFromTopAsync(SlideSeconds, height: (int)Application.Current.MainWindow.Height);
                     break;
+                case PageAnimationTypes.FadeIn:
+                    // Start the animation
+                    await this.FadeInAsync(SlideSeconds);
+                    break;
             }
         }
 
@@ -139,6 +143,10 @@ namespace ASPNet_WPF_ChatApp.Pages
                 case PageAnimationTypes.SlideAndFadeOutToTop:
                     // Start the animation
                     await this.SlideAndFadeOutToTopAsync(SlideSeconds);
+                    break;
+                case PageAnimationTypes.FadeOut:
+                    // Start the animation
+                    await this.FadeOutAsync(SlideSeconds);
                     break;
             }
         }
