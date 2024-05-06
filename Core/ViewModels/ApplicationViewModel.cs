@@ -20,10 +20,11 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels
         public ApplicationPages CurrentPage { get; private set; } = ApplicationPages.Chat;
 
         /// <summary>
-        /// True if the side menu should be shown
+        /// True if the settings menu should be shown
         /// </summary>
         public bool SideMenuVisible { get; set; } = true;
 
+        public bool SettingsMenuVisible { get; set; }
 
         /// <summary>
         /// Navigates to the specified page

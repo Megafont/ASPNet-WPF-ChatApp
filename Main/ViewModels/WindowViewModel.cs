@@ -9,6 +9,8 @@ using System.Windows.Input;
 using System.Windows.Shell;
 
 using ASPNet_WPF_ChatApp.Core.DataModels;
+using ASPNet_WPF_ChatApp.Core.InversionOfControl.Base;
+using ASPNet_WPF_ChatApp.Core.ViewModels;
 using ASPNet_WPF_ChatApp.Core.ViewModels.Base;
 using ASPNet_WPF_ChatApp.Window;
 

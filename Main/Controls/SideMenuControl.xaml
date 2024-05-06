@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ASPNet_WPF_ChatApp.Controls"
+             xmlns:local="clr-namespace:ASPNet_WPF_ChatApp"
+             xmlns:viewModels="clr-namespace:ASPNet_WPF_ChatApp.ViewModels"        
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
@@ -36,7 +37,11 @@
                         </StackPanel>
 
                         <!-- Settings Button -->
-                        <Button Grid.Column="2" Foreground="{StaticResource WordDarkBlueBrush}" Content="{StaticResource FontAwesomeCogIcon}" Style="{StaticResource IconButton}" />
+                        <Button Grid.Column="2" 
+                                Foreground="{StaticResource WordDarkBlueBrush}"
+                                Command="{Binding SettingsViewModel.OpenCommand, Source={x:Static viewModels:ViewModelLocator.Instance}}"
+                                Content="{StaticResource FontAwesomeCogIcon}" 
+                                Style="{StaticResource IconButton}" />
 
                     </Grid>
 

@@ -86,7 +86,7 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels
         public async Task LoginAsync()
         {
             // Go to registration page
-            IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPages.Login);
+            IoC.ApplicationViewModel.GoToPage(ApplicationPages.Login);
 
             await Task.Delay(1);
 

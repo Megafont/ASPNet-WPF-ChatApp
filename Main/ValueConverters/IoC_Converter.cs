@@ -21,7 +21,7 @@ namespace ASPNet_WPF_ChatApp.ValueConverters
             switch ((string) parameter)
             {
                 case nameof(ApplicationViewModel):
-                    return IoC.Get<ApplicationViewModel>();
+                    return IoC.ApplicationViewModel;
 
                 default:
                     Debugger.Break();

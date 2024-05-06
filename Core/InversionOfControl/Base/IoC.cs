@@ -26,9 +26,21 @@ namespace ASPNet_WPF_ChatApp.Core.InversionOfControl.Base
         public static IKernel Kernel { get; private set; } = new StandardKernel();
 
         /// <summary>
-        /// A shortcut to access the IUIManager
+        /// A shortcut to access the <see cref="IUIManager"/>
         /// </summary>
-        public static IUIManager UI => IoC.Get<IUIManager>();
+        public static IUIManager UI => Get<IUIManager>();
+
+
+        /// <summary>
+        /// A shortcut to access the <see cref="ApplicationViewModel"/>
+        /// </summary>
+        public static ApplicationViewModel ApplicationViewModel => Get<ApplicationViewModel>();
+
+        /// <summary>
+        /// A shortcut to access the <see cref="SettingsViewModel"/>
+        /// </summary>
+        public static SettingsViewModel SettingsViewModel => Get<SettingsViewModel>();
+
 
         #endregion
 
@@ -52,6 +64,10 @@ namespace ASPNet_WPF_ChatApp.Core.InversionOfControl.Base
         {
             // Bind to a single instance of ApplicationViewModel
             Kernel.Bind<ApplicationViewModel>().ToConstant(new ApplicationViewModel());
+
+            // Bind to a single instance of SettingsViewModel
+            Kernel.Bind<SettingsViewModel>().ToConstant(new SettingsViewModel());
+
         }
 
         #endregion

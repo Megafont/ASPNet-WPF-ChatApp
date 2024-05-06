@@ -53,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="DataModels\ApplicationPages.cs" />
     <Compile Include="DataModels\ElementHorizontalAlignment.cs" />
     <Compile Include="DataModels\IconTypes.cs" />

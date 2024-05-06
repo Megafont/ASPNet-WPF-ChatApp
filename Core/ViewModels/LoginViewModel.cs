@@ -77,7 +77,7 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels
                 await Task.Delay(1000);
 
                 // Go to chat page
-                IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPages.Chat);
+                IoC.ApplicationViewModel.GoToPage(ApplicationPages.Chat);
                 //var email = Email;
 
                 // IMPORTANT: Never store an unsecure password in a variable like this!!! This is just temporary debug code.
@@ -93,7 +93,7 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels
         public async Task RegisterAsync()
         {
             // Go to registration page
-            IoC.Get<ApplicationViewModel>().GoToPage(ApplicationPages.Register);
+            IoC.ApplicationViewModel.GoToPage(ApplicationPages.Register);
 
             await Task.Delay(1);
 
