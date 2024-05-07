@@ -4,8 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ASPNet_WPF_ChatApp.Controls"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             xmlns:attachedProperties="clr-namespace:ASPNet_WPF_ChatApp.AttachedProperties"              
+             mc:Ignorable="d">
 
     <Border  Background="{StaticResource ForegroundLightBrush}"
              Padding="15"
@@ -20,7 +20,7 @@
 
             <!-- Settings Title -->
             <Grid Height="50"
-              Margin="0 0 0 20">
+                  Margin="0 0 0 20">
 
                 <!-- Back button -->
                 <Button Style="{StaticResource IconGrowButton}"
@@ -51,7 +51,71 @@
             </Grid>
 
             <!-- Main Content -->
+            <Grid Grid.Row="1"
+                  Width="700"
+                  VerticalAlignment="Top">
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="260" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                
+                <!-- Profile Picture -->
+                <Grid Margin="0 0 10 0"
+                      Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
+                      >
 
+                    <!-- Mask for rounded corners -->
+                    <Border CornerRadius="8"
+                            Name="Mask"
+                            Background="White" />
+
+                    <!-- Image -->
+                    <Grid>
+                        <Grid.OpacityMask>
+                            <VisualBrush Visual="{Binding ElementName=Mask}" />
+                        </Grid.OpacityMask>
+
+                        <Image Source="/Images/Samples/Willow.png" Stretch="UniformToFill"/>
+                    </Grid>
+
+
+                </Grid>
+                
+                <!-- Profile Details -->
+                <Grid Grid.Column="1"
+                      attachedProperties:PanelChildMarginProperty.Value="15 8"
+                      >
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    
+                    <!-- Labels -->
+                    <TextBlock Text="Name" FontFamily="{StaticResource LatoRegular}" />
+                    <TextBlock Text="Username" Grid.Row="1" FontFamily="{StaticResource LatoRegular}" />
+                    <TextBlock Text="Password" Grid.Row="2" FontFamily="{StaticResource LatoRegular}" />
+                    <TextBlock Text="Email" Grid.Row="3" FontFamily="{StaticResource LatoRegular}" />
+
+                    <!-- Content -->
+                    <TextBlock Text="Michael Fontanini" Grid.Column="1"/>
+                    <TextBlock Text="Megafont" Grid.Column="1" Grid.Row="1"/>
+                    <TextBlock Text="**********" Grid.Column="1" Grid.Row="2"/>
+                    <TextBlock Text="PixagonalGames@gmail.com" Grid.Column="1" Grid.Row="3"/>
+
+                </Grid>
+                
+            </Grid>
         </Grid>
 
     </Border>
