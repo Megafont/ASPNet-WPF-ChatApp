@@ -10,7 +10,7 @@
              xmlns:inputDesignViewModels="clr-namespace:ASPNet_WPF_ChatApp.Core.ViewModels.Input.Design;assembly=ASPNet_WPF_ChatApp.Core"             
              xmlns:valueConverters="clr-namespace:ASPNet_WPF_ChatApp.ValueConverters"              
              mc:Ignorable="d" 
-             DataContext="{x:Static inputDesignViewModels:TextEntryDesignViewModel.Instance}"
+             d:DataContext="{x:Static inputDesignViewModels:TextEntryDesignViewModel.Instance}"
              >
     
     <!-- Gray underline -->
@@ -20,6 +20,11 @@
 
         <Grid Background="{StaticResource ForegroundLightBrush}">
 
+            <!-- Double click to edit -->
+            <Grid.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding EditCommand}"/>
+            </Grid.InputBindings>
+            
             <!-- Hover over to show edit button -->
             <Grid.Triggers>
 
@@ -49,13 +54,14 @@
             
             <!-- Label -> Name* -> Buttons -->
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Name="LabelColumnDefinition" Width="Auto" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <!-- Label -->
             <TextBlock Text="{Binding Label}" 
+                       Name="Label"
                        Margin="15 12"
                        HorizontalAlignment="Left"
                        VerticalAlignment="Center"
@@ -63,8 +69,9 @@
                        />
             
             <!--  Edit Mode Content -->
-            <TextBox Text="{Binding EditedText}"
+            <TextBox Text="{Binding EditedText, UpdateSourceTrigger=PropertyChanged}"
                      Grid.Column="1"
+                     Opacity="0"
                      attachedProperties:AnimateFadeInProperty.Value="{Binding Editing}"
                      attachedProperties:FocusAndSelectProperty.Value="{Binding Editing}"
                      FontSize="{StaticResource FontSizeRegular}"
