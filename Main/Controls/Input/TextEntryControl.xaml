@@ -1,0 +1,142 @@
+﻿<UserControl x:Class="ASPNet_WPF_ChatApp.Controls.Input.TextEntryControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ASPNet_WPF_ChatApp"
+             xmlns:attachedProperties="clr-namespace:ASPNet_WPF_ChatApp.AttachedProperties"              
+             xmlns:inputControls="clr-namespace:ASPNet_WPF_ChatApp.Controls.Input"
+             xmlns:inputViewModels="clr-namespace:ASPNet_WPF_ChatApp.Core.ViewModels.Input;assembly=ASPNet_WPF_ChatApp.Core"
+             xmlns:inputDesignViewModels="clr-namespace:ASPNet_WPF_ChatApp.Core.ViewModels.Input.Design;assembly=ASPNet_WPF_ChatApp.Core"             
+             xmlns:valueConverters="clr-namespace:ASPNet_WPF_ChatApp.ValueConverters"              
+             mc:Ignorable="d" 
+             DataContext="{x:Static inputDesignViewModels:TextEntryDesignViewModel.Instance}"
+             >
+    
+    <!-- Gray underline -->
+    <Border BorderBrush="{StaticResource ForegroundDarkBrush}"
+            BorderThickness="0 0 0 0.5"
+            >
+
+        <Grid Background="{StaticResource ForegroundLightBrush}">
+
+            <!-- Hover over to show edit button -->
+            <Grid.Triggers>
+
+                <EventTrigger RoutedEvent="MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation To="1" 
+                                             Duration="0:0:0.4" 
+                                             Storyboard.TargetName="EditButton" 
+                                             Storyboard.TargetProperty="Opacity" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+
+                <EventTrigger RoutedEvent="MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation To="0" 
+                                             Duration="0:0:0.4" 
+                                             Storyboard.TargetName="EditButton" 
+                                             Storyboard.TargetProperty="Opacity" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+
+            </Grid.Triggers>
+            
+            <!-- Label -> Name* -> Buttons -->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Label -->
+            <TextBlock Text="{Binding Label}" 
+                       Margin="15 12"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Center"
+                       FontFamily="{StaticResource LatoRegular}"
+                       />
+            
+            <!--  Edit Mode Content -->
+            <TextBox Text="{Binding EditedText}"
+                     Grid.Column="1"
+                     attachedProperties:AnimateFadeInProperty.Value="{Binding Editing}"
+                     attachedProperties:FocusAndSelectProperty.Value="{Binding Editing}"
+                     FontSize="{StaticResource FontSizeRegular}"
+                     Padding="2"
+                     Margin="10 10 15 8"
+                     />
+
+            <!-- Content -->
+            <TextBlock Text="{Binding OriginalText}" 
+                       Grid.Column="1"
+                       attachedProperties:AnimateFadeInProperty.Value="{Binding Editing, Converter={valueConverters:BooleanInvertConverter}}"
+                       Margin="15 8"
+                       VerticalAlignment="Center"
+                       />
+
+            <!-- Edit Button container -->
+            <Grid Grid.Column="2"
+                  HorizontalAlignment="Right"
+                  VerticalAlignment="Center"
+                  attachedProperties:AnimateFadeInProperty.Value="{Binding Editing, Converter={valueConverters:BooleanInvertConverter}}"
+                  >
+                
+                <!-- Edit Button -->
+                <Button Content="{StaticResource FontAwesomeEllipsisHorizontalIcon}"
+                        FontFamily="{StaticResource FontAwesome}"
+                        x:Name="EditButton"
+                        Opacity="0"
+                        Padding="8 5"
+                        Margin="0"
+                        Cursor="Hand"
+                        Command="{Binding EditCommand}"
+                        Background="{StaticResource ForegroundDarkBrush}"
+                        FontSize="{StaticResource FontSizeSmall}"
+                        VerticalAlignment="Center"
+                        />
+
+            </Grid>
+
+            <StackPanel Grid.Column="2"
+                        Orientation="Horizontal"
+                        >
+
+                <Button Content="{StaticResource FontAwesomeTickIcon}"
+                        FontFamily="{StaticResource FontAwesome}"
+                        attachedProperties:AnimateFadeInProperty.Value="{Binding Editing}"
+                        IsDefault="True"
+                        Cursor="Hand"
+                        Command="{Binding SaveCommand}"
+                        Background="{StaticResource WordGreenBrush}"
+                        Padding="8 5"
+                        Margin="0 0 5 0"
+                        VerticalAlignment="Center"
+                        FontSize="{StaticResource FontSizeSmall}"
+                        />
+
+                <Button Content="{StaticResource FontAwesomeCloseIcon}"
+                        FontFamily="{StaticResource FontAwesome}"
+                        attachedProperties:AnimateFadeInProperty.Value="{Binding Editing}"
+                        IsCancel="True"
+                        Cursor="Hand"
+                        Command="{Binding CancelCommand}"
+                        Background="{StaticResource WordOrangeBrush}"
+                        Padding="8 5"
+                        Margin="0"
+                        VerticalAlignment="Center"
+                        FontSize="{StaticResource FontSizeSmall}"
+                        />                
+
+            </StackPanel>
+
+        </Grid>
+        
+    </Border>
+    
+</UserControl>

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using ASPNet_WPF_ChatApp.Core.DataModels;
 using ASPNet_WPF_ChatApp.Core.ViewModels.Base;
 
-namespace ASPNet_WPF_ChatApp.Core.ViewModels
+namespace ASPNet_WPF_ChatApp.Core.ViewModels.Application
 {
     /// <summary>
     /// The application state as a view model

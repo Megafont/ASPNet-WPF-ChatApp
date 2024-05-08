@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using ASPNet_WPF_ChatApp.Core.InversionOfControl.Base;
 using ASPNet_WPF_ChatApp.Core.ViewModels;
+using ASPNet_WPF_ChatApp.Core.ViewModels.Application;
 
 namespace ASPNet_WPF_ChatApp.ViewModels
 {

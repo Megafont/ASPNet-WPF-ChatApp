@@ -10,7 +10,7 @@ using ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatList.Design;
 namespace ASPNet_WPF_ChatApp.Core.ViewModels.Dialogs.Design
 {
     /// <summary>
-    /// View model for a message box dialog
+    /// Design data for the <see cref="MessageBoxDialogViewModel"/>
     /// </summary>
     public class MessageBoxDialogDesignViewModel : MessageBoxDialogViewModel
     {

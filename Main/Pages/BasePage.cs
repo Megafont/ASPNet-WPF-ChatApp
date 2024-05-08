@@ -93,23 +93,23 @@ namespace ASPNet_WPF_ChatApp.Pages
             {
                 case PageAnimationTypes.SlideAndFadeInFromLeft:
                     // Start the animation
-                    await this.SlideAndFadeInFromLeftAsync(SlideSeconds, width: (int) Application.Current.MainWindow.Width);
+                    await this.SlideAndFadeInAsync(AnimationSlideDirections.Left, false, SlideSeconds, size: (int) Application.Current.MainWindow.Width);
                     break;
                 case PageAnimationTypes.SlideAndFadeInFromRight:
                     // Start the animation
-                    await this.SlideAndFadeInFromRightAsync(SlideSeconds, width: (int)Application.Current.MainWindow.Width);
+                    await this.SlideAndFadeInAsync(AnimationSlideDirections.Right, false, SlideSeconds, size: (int)Application.Current.MainWindow.Width);
                     break;
                 case PageAnimationTypes.SlideAndFadeInFromBottom:
                     // Start the animation
-                    await this.SlideAndFadeInFromBottomAsync(SlideSeconds, height: (int)Application.Current.MainWindow.Height);
+                    await this.SlideAndFadeInAsync(AnimationSlideDirections.Bottom, false, SlideSeconds, size: (int)Application.Current.MainWindow.Height);
                     break;
                 case PageAnimationTypes.SlideAndFadeInFromTop:
                     // Start the animation
-                    await this.SlideAndFadeInFromTopAsync(SlideSeconds, height: (int)Application.Current.MainWindow.Height);
+                    await this.SlideAndFadeInAsync(AnimationSlideDirections.Top, false, SlideSeconds, size: (int)Application.Current.MainWindow.Height);
                     break;
                 case PageAnimationTypes.FadeIn:
                     // Start the animation
-                    await this.FadeInAsync(SlideSeconds);
+                    await this.FadeInAsync(false, SlideSeconds);
                     break;
             }
         }
@@ -130,19 +130,19 @@ namespace ASPNet_WPF_ChatApp.Pages
             {
                 case PageAnimationTypes.SlideAndFadeOutToLeft:
                     // Start the animation
-                    await this.SlideAndFadeOutToLeftAsync(SlideSeconds);
+                    await this.SlideAndFadeOutAsync(AnimationSlideDirections.Left, SlideSeconds);
                     break;
                 case PageAnimationTypes.SlideAndFadeOutToRight:
                     // Start the animation
-                    await this.SlideAndFadeOutToRightAsync(SlideSeconds);
+                    await this.SlideAndFadeOutAsync(AnimationSlideDirections.Right, SlideSeconds);
                     break;
                 case PageAnimationTypes.SlideAndFadeOutToBottom:
                     // Start the animation
-                    await this.SlideAndFadeOutToBottomAsync(SlideSeconds);
+                    await this.SlideAndFadeOutAsync(AnimationSlideDirections.Bottom, SlideSeconds);
                     break;
                 case PageAnimationTypes.SlideAndFadeOutToTop:
                     // Start the animation
-                    await this.SlideAndFadeOutToTopAsync(SlideSeconds);
+                    await this.SlideAndFadeOutAsync(AnimationSlideDirections.Top, SlideSeconds);
                     break;
                 case PageAnimationTypes.FadeOut:
                     // Start the animation

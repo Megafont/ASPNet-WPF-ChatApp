@@ -14,25 +14,44 @@ namespace ASPNet_WPF_ChatApp.Animations
     /// </summary>
     public static class FrameworkElementAnimations
     {
-        #region Slide In From Left
+        #region Slide In / Out
 
         /// <summary>
-        /// Slides an element in from the left
+        /// Slides an element in
         /// </summary>
         /// <param name="element">The element to animate</param>
+        /// <param name="direction">The direction of the slide animation</param>
+        /// <param name="firstLoad">Indicates if this is happening when the app first loads</param>
         /// <param name="seconds">The time the animation will take</param>
         /// <param name="keepMargin">Whether to keep the element at the same width during animation</param>
-        /// <param name="width">The width to animate to. If not specified, the element's width is used.</param>
+        /// <param name="size">The animation width/height to animate to. If not specified, the element's size is used.</param>
         /// <returns></returns>
-        public static async Task SlideAndFadeInFromLeftAsync(this FrameworkElement element, float seconds = 0.3f, bool keepMargin = true, int width = 0)
+        public static async Task SlideAndFadeInAsync(this FrameworkElement element, AnimationSlideDirections direction, bool firstLoad, float seconds = 0.3f, bool keepMargin = true, int size = 0)
         {
             // Create the storyboard
             var sb = new Storyboard();
 
-            // Add slide from the left animation
-            sb.AddSlideInFromLeft(seconds, 
-                                  width == 0 ? element.ActualWidth : width, 
-                                  keepMargin: keepMargin);
+            // Slide in from the correct direction
+            switch (direction)
+            {
+                // Add slide from left animation
+                case AnimationSlideDirections.Left:
+                    sb.AddSlideInFromLeft(seconds, size == 0 ? element.ActualWidth : size, keepMargin: keepMargin);
+                    break;
+                // Add slide from right animation
+                case AnimationSlideDirections.Right:
+                    sb.AddSlideInFromRight(seconds, size == 0 ? element.ActualWidth : size, keepMargin: keepMargin);
+                    break;
+                // Add slide from top animation
+                case AnimationSlideDirections.Top:
+                    sb.AddSlideInFromTop(seconds, size == 0 ? element.ActualHeight : size, keepMargin: keepMargin);
+                    break;
+                // Add slide from bottom animation
+                case AnimationSlideDirections.Bottom:
+                    sb.AddSlideInFromBottom(seconds, size == 0 ? element.ActualHeight : size, keepMargin: keepMargin);
+                    break;
+
+            } // end switch
 
             // Add fade in animation
             sb.AddFadeIn(seconds);
@@ -40,8 +59,8 @@ namespace ASPNet_WPF_ChatApp.Animations
             // Start animating
             sb.Begin(element);
 
-            // Make page visible
-            if (seconds != 0)
+            // Make page visible only if we are animating or it's the first load
+            if (seconds != 0 || firstLoad)
                 element.Visibility = Visibility.Visible;
 
             // Wait for it to finish
@@ -49,61 +68,40 @@ namespace ASPNet_WPF_ChatApp.Animations
         }
 
         /// <summary>
-        /// Slides an element out to the left
+        /// Slides an element out
         /// </summary>
         /// <param name="element">The element to animate</param>
+        /// <param name="direction">The direction of the slide animation</param>
         /// <param name="seconds">The time the animation will take</param>
         /// <param name="keepMargin">Whether to keep the element at the same width during animation</param>
-        /// <param name="width">The width to animate to. If not specified, the element's width is used.</param>
+        /// <param name="size">The animation width/height to animate to. If not specified, the element's size is used.</param>
         /// <returns></returns>
-        public static async Task SlideAndFadeOutToLeftAsync(this FrameworkElement element, float seconds = 0.3f, bool keepMargin = true, int width = 0)
+        public static async Task SlideAndFadeOutAsync(this FrameworkElement element, AnimationSlideDirections direction, float seconds = 0.3f, bool keepMargin = true, int size = 0)
         {
             // Create the storyboard
             var sb = new Storyboard();
 
-            // Add slide to the left animation
-            sb.AddSlideOutToLeft(seconds,
-                                 width == 0 ? element.ActualWidth : width,
-                                 keepMargin: keepMargin);
+            // Slide in from the correct direction
+            switch (direction)
+            {
+                // Add slide from left animation
+                case AnimationSlideDirections.Left:
+                    sb.AddSlideOutToLeft(seconds, size == 0 ? element.ActualWidth : size, keepMargin: keepMargin);
+                    break;
+                // Add slide from right animation
+                case AnimationSlideDirections.Right:
+                    sb.AddSlideOutToRight(seconds, size == 0 ? element.ActualWidth : size, keepMargin: keepMargin);
+                    break;
+                // Add slide from top animation
+                case AnimationSlideDirections.Top:
+                    sb.AddSlideOutToTop(seconds, size == 0 ? element.ActualHeight : size, keepMargin: keepMargin);
+                    break;
+                // Add slide from bottom animation
+                case AnimationSlideDirections.Bottom:
+                    sb.AddSlideOutToBottom(seconds, size == 0 ? element.ActualHeight : size, keepMargin: keepMargin);
+                    break;
 
-            // Add fade in animation
-            sb.AddFadeOut(seconds);
-
-            // Start animating
-            sb.Begin(element);
-
-            // Make page visible
-            if (seconds != 0)
-                element.Visibility = Visibility.Visible;
-
-            // Wait for it to finish
-            await Task.Delay((int)(seconds * 1000));
-
-            // Set the element's visibility to hidden so it won't continue to block click events (Collapsed didn't work)
-            element.Visibility = Visibility.Hidden;
-        }
-
-        #endregion
-
-        #region Slide In From Right
-
-        /// <summary>
-        /// Slides an element in from the right
-        /// </summary>
-        /// <param name="element">The element to animate</param>
-        /// <param name="seconds">The time the animation will take</param>
-        /// <param name="keepMargin">Whether to keep the element at the same width during animation</param>
-        /// <param name="width">The width to animate to. If not specified, the element's width is used.</param>
-        /// <returns></returns>
-        public static async Task SlideAndFadeInFromRightAsync(this FrameworkElement element, float seconds = 0.3f, bool keepMargin = true, int width = 0)
-        {
-            // Create the storyboard
-            var sb = new Storyboard();
-            
-            // Add slide from the right animation
-            sb.AddSlideInFromRight(seconds,
-                                   width == 0 ? element.ActualWidth : width, 
-                                   keepMargin: keepMargin);
+            } // end switch
 
             // Add fade in animation
             sb.AddFadeIn(seconds);
@@ -111,189 +109,12 @@ namespace ASPNet_WPF_ChatApp.Animations
             // Start animating
             sb.Begin(element);
 
-            // Make page visible
+            // Make page visible only if we are animating
             if (seconds != 0)
                 element.Visibility = Visibility.Visible;
 
             // Wait for it to finish
             await Task.Delay((int)(seconds * 1000));
-        }
-
-        /// <summary>
-        /// Slides an element out to the right
-        /// </summary>
-        /// <param name="element">The element to animate</param>
-        /// <param name="seconds">The time the animation will take</param>
-        /// <param name="keepMargin">Whether to keep the element at the same width during animation</param>
-        /// <param name="width">The width to animate to. If not specified, the element's width is used.</param>
-        /// <returns></returns>
-        public static async Task SlideAndFadeOutToRightAsync(this FrameworkElement element, float seconds = 0.3f, bool keepMargin = true, int width = 0)
-        {
-            // Create the storyboard
-            var sb = new Storyboard();
-
-            // Add slide to the right animation
-            sb.AddSlideOutToRight(seconds,
-                                  width == 0 ? element.ActualWidth : width,
-                                  keepMargin: keepMargin);
-
-            // Add fade in animation
-            sb.AddFadeOut(seconds);
-
-            // Start animating
-            sb.Begin(element);
-
-            // Make page visible
-            if (seconds != 0)
-                element.Visibility = Visibility.Visible;
-
-            // Wait for it to finish
-            await Task.Delay((int)(seconds * 1000));
-
-            // Set the element's visibility to hidden so it won't continue to block click events (Collapsed didn't work)
-            element.Visibility = Visibility.Hidden;
-        }
-
-        #endregion
-
-        #region Slide In From Bottom
-
-        /// <summary>
-        /// Slides an element in from the bottom
-        /// </summary>
-        /// <param name="element">The element to animate</param>
-        /// <param name="seconds">The time the animation will take</param>
-        /// <param name="keepMargin">Whether to keep the element at the same height during animation</param>
-        /// <param name="height">The height to animate to. If not specified, the element's height is used.</param>
-        /// <returns></returns>
-        public static async Task SlideAndFadeInFromBottomAsync(this FrameworkElement element, float seconds = 0.3f, bool keepMargin = true, int height = 0)
-        {
-            // Create the storyboard
-            var sb = new Storyboard();
-
-            // Add slide from the bottom animation
-            sb.AddSlideInFromBottom(seconds,
-                                    height == 0 ? element.ActualHeight : height,
-                                    keepMargin: keepMargin);
-
-            // Add fade in animation
-            sb.AddFadeIn(seconds);
-
-            // Start animating
-            sb.Begin(element);
-
-            // Make page visible
-            if (seconds != 0)
-                element.Visibility = Visibility.Visible;
-
-            // Wait for it to finish
-            await Task.Delay((int)(seconds * 1000));
-        }
-
-        /// <summary>
-        /// Slides an element out to the left
-        /// </summary>
-        /// <param name="element">The element to animate</param>
-        /// <param name="seconds">The time the animation will take</param>
-        /// <param name="keepMargin">Whether to keep the element at the same width during animation</param>
-        /// <param name="height">The width to animate to. If not specified, the element's width is used.</param>
-        /// <returns></returns>
-        public static async Task SlideAndFadeOutToBottomAsync(this FrameworkElement element, float seconds = 0.3f, bool keepMargin = true, int height = 0)
-        {
-            // Create the storyboard
-            var sb = new Storyboard();
-
-            // Add slide to the bottom animation
-            sb.AddSlideOutToBottom(seconds,
-                                   height == 0 ? element.ActualHeight : height,
-                                   keepMargin: keepMargin);
-
-            // Add fade in animation
-            sb.AddFadeOut(seconds);
-
-            // Start animating
-            sb.Begin(element);
-
-            // Make page visible
-            if (seconds != 0)
-                element.Visibility = Visibility.Visible;
-
-            // Wait for it to finish
-            await Task.Delay((int)(seconds * 1000));
-
-            // Set the element's visibility to hidden so it won't continue to block click events (Collapsed didn't work)
-            element.Visibility = Visibility.Hidden;
-        }
-
-        #endregion
-
-        #region Slide In From Top
-
-        /// <summary>
-        /// Slides an element in from the top
-        /// </summary>
-        /// <param name="element">The element to animate</param>
-        /// <param name="seconds">The time the animation will take</param>
-        /// <param name="keepMargin">Whether to keep the element at the same height during animation</param>
-        /// <param name="height">The height to animate to. If not specified, the element's height is used.</param>
-        /// <returns></returns>
-        public static async Task SlideAndFadeInFromTopAsync(this FrameworkElement element, float seconds = 0.3f, bool keepMargin = true, int height = 0)
-        {
-            // Create the storyboard
-            var sb = new Storyboard();
-
-            // Add slide from the top animation
-            sb.AddSlideInFromTop(seconds,
-                                 height == 0 ? element.ActualHeight : height,
-                                 keepMargin: keepMargin);
-
-            // Add fade in animation
-            sb.AddFadeIn(seconds);
-
-            // Start animating
-            sb.Begin(element);
-
-            // Make page visible
-            if (seconds != 0)
-                element.Visibility = Visibility.Visible;
-
-            // Wait for it to finish
-            await Task.Delay((int)(seconds * 1000));
-        }
-
-        /// <summary>
-        /// Slides an element out to the top
-        /// </summary>
-        /// <param name="element">The element to animate</param>
-        /// <param name="seconds">The time the animation will take</param>
-        /// <param name="keepMargin">Whether to keep the element at the same width during animation</param>
-        /// <param name="height">The width to animate to. If not specified, the element's width is used.</param>
-        /// <returns></returns>
-        public static async Task SlideAndFadeOutToTopAsync(this FrameworkElement element, float seconds = 0.3f, bool keepMargin = true, int height = 0)
-        {
-            // Create the storyboard
-            var sb = new Storyboard();
-
-            // Add slide to the top animation
-            sb.AddSlideOutToTop(seconds,
-                                height == 0 ? element.ActualHeight : height,
-                                keepMargin: keepMargin);
-
-            // Add fade in animation
-            sb.AddFadeOut(seconds);
-
-            // Start animating
-            sb.Begin(element);
-
-            // Make page visible
-            if (seconds != 0)
-                element.Visibility = Visibility.Visible;
-
-            // Wait for it to finish
-            await Task.Delay((int)(seconds * 1000));
-
-            // Set the element's visibility to hidden so it won't continue to block click events (Collapsed didn't work)
-            element.Visibility = Visibility.Hidden;
         }
 
         #endregion
@@ -304,9 +125,10 @@ namespace ASPNet_WPF_ChatApp.Animations
         /// Fades an element in
         /// </summary>
         /// <param name="element">The element to animate</param>
+        /// <param name="firstLoad">Indicates if this is happening when the app first loads</param>
         /// <param name="seconds">The time the animation will take</param>
         /// <returns></returns>
-        public static async Task FadeInAsync(this FrameworkElement element, float seconds = 0.3f)
+        public static async Task FadeInAsync(this FrameworkElement element, bool firstLoad, float seconds = 0.3f)
         {
             // Create the storyboard
             var sb = new Storyboard();
@@ -317,8 +139,8 @@ namespace ASPNet_WPF_ChatApp.Animations
             // Start animating
             sb.Begin(element);
 
-            // Make page visible
-            if (seconds != 0)
+            // Make page visible only if we are animating or it's the first load
+            if (seconds != 0 || firstLoad)
                 element.Visibility = Visibility.Visible;
 
             // Wait for it to finish
@@ -342,7 +164,7 @@ namespace ASPNet_WPF_ChatApp.Animations
             // Start animating
             sb.Begin(element);
 
-            // Make page visible
+            // Make page visible only if we are animating
             if (seconds != 0)
                 element.Visibility = Visibility.Visible;
 

@@ -11,7 +11,7 @@ using ASPNet_WPF_ChatApp.Core.InversionOfControl.Base;
 using ASPNet_WPF_ChatApp.Core.Security;
 using ASPNet_WPF_ChatApp.Core.ViewModels.Base;
 
-namespace ASPNet_WPF_ChatApp.Core.ViewModels
+namespace ASPNet_WPF_ChatApp.Core.ViewModels.Application
 {
     /// <summary>
     /// The View Model for a login screen

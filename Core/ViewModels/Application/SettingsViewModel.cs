@@ -4,17 +4,43 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+
 using ASPNet_WPF_ChatApp.Core.DataModels;
 using ASPNet_WPF_ChatApp.Core.InversionOfControl.Base;
 using ASPNet_WPF_ChatApp.Core.ViewModels.Base;
+using ASPNet_WPF_ChatApp.Core.ViewModels.Input;
 
-namespace ASPNet_WPF_ChatApp.Core.ViewModels
+namespace ASPNet_WPF_ChatApp.Core.ViewModels.Application
 {
     /// <summary>
     /// The settings state as a view model
     /// </summary>
     public class SettingsViewModel : BaseViewModel
     {
+        #region Public Properties
+
+        /// <summary>
+        /// The current user's name
+        /// </summary>
+        public TextEntryViewModel Name { get; set; }
+
+        /// <summary>
+        /// The current user's username
+        /// </summary>
+        public TextEntryViewModel Username { get; set; }
+
+        /// <summary>
+        /// The current user's password
+        /// </summary>
+        public TextEntryViewModel Password { get; set; }
+
+        /// <summary>
+        /// The current user's email
+        /// </summary>
+        public TextEntryViewModel Email { get; set; }
+
+        #endregion
+
         #region Public Commands
 
         /// <summary>

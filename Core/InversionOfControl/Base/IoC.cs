@@ -8,6 +8,7 @@ using Ninject;
 
 using ASPNet_WPF_ChatApp.Core.DataModels;
 using ASPNet_WPF_ChatApp.Core.ViewModels;
+using ASPNet_WPF_ChatApp.Core.ViewModels.Application;
 using ASPNet_WPF_ChatApp.Core.InversionOfControl.Interfaces;
 
 

@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Input;
 
-using ASPNet_WPF_ChatApp.Core.ViewModels;
+using ASPNet_WPF_ChatApp.Core.ViewModels.Application;
 using ASPNet_WPF_ChatApp.Core.ViewModels.Base;
 
 namespace ASPNet_WPF_ChatApp.Pages
