@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 
 namespace ASPNet_WPF_ChatApp.AttachedProperties
 {
@@ -31,14 +32,22 @@ namespace ASPNet_WPF_ChatApp.AttachedProperties
     {
         public override void OnValueChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            // If we don't have a control, return.
-            if (!(sender is Control control))
-                return;
-
-            if ((bool)e.NewValue)
+            if (sender is TextBox textBox)
             {
-                // Focus this control
-                control.Focus();
+                if ((bool)e.NewValue)
+                {
+                    // Focus this control
+                    textBox.Focus();
+                }
+            }
+
+            if (sender is PasswordBox passwordBox)
+            {
+                if ((bool)e.NewValue)
+                {
+                    // Focus this control
+                    passwordBox.Focus();
+                }
             }
         }
     }
@@ -50,17 +59,28 @@ namespace ASPNet_WPF_ChatApp.AttachedProperties
     {
         public override void OnValueChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            // If we don't have a control, return.
-            if (!(sender is TextBox control))
-                return;
-
-            if ((bool)e.NewValue)
+            if (sender is TextBox textBox)
             {
-                // Focus this control
-                control.Focus();
+                if ((bool)e.NewValue)
+                {
+                    // Focus this control
+                    textBox.Focus();
 
-                // Select all text
-                control.SelectAll();
+                    // Select all text
+                    textBox.SelectAll();
+                }
+            }
+
+            if (sender is PasswordBox passwordBox)
+            {
+                if ((bool)e.NewValue)
+                {
+                    // Focus this control
+                    passwordBox.Focus();
+
+                    // Select all text
+                    passwordBox.SelectAll();
+                }
             }
         }
     }

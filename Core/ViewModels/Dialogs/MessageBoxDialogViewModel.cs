@@ -23,7 +23,7 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels.Dialogs
         /// <summary>
         /// The text tp ise fpr tje OK button
         /// </summary>
-        public string OkText { get; set; }
+        public string OkText { get; set; } = "OK";
 
         #endregion
     }

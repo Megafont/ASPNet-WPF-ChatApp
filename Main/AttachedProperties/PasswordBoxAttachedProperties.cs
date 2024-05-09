@@ -61,7 +61,7 @@ namespace ASPNet_WPF_ChatApp.AttachedProperties
         /// <param name="sender"></param>
         public static void SetValue(DependencyObject sender)
         {
-            HasTextProperty.SetValue(sender, ((PasswordBox) sender).SecurePassword.Length > 0);
+            SetValue(sender, ((PasswordBox) sender).SecurePassword.Length > 0);
         }
     }
 }

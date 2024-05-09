@@ -64,7 +64,7 @@ namespace ASPNet_WPF_ChatApp.Animations
             Storyboard.SetTargetProperty(slideAnimation, new PropertyPath("Margin"));
 
             // Add this to the storyboard
-            storyboard.Children.Add(slideAnimation);
+            storyboard.Children.Add(slideAnimation);            
         }
 
         #endregion

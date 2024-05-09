@@ -1,5 +1,4 @@
-﻿using ASPNet_WPF_ChatApp.Controls.Input;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -7,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+
+using ASPNet_WPF_ChatApp.Controls.Input;    
 
 namespace ASPNet_WPF_ChatApp.AttachedProperties
 {
@@ -37,13 +38,16 @@ namespace ASPNet_WPF_ChatApp.AttachedProperties
                 // Loop each child
                 foreach (var child in panel.Children)
                 {
-                    // Ignore any non-TextEntry controls
-                    if (!(child is TextEntryControl control))
+                    // Ignore controls that aren't TextEntryControl or PasswordEntryControl
+                    if (!(child is TextEntryControl control) && !(child is PasswordEntryControl))
                         continue;
 
-
+                    // Get the label from the text entry or password entry control
+                    var label = child is TextEntryControl ? (child as TextEntryControl).Label
+                                                          : (child as PasswordEntryControl).Label;           
+                        
                     // Update the widths if the size of the label has changed
-                    control.Label.SizeChanged += (sss, eee) =>
+                    label.SizeChanged += (sss, eee) =>
                     {
                         // Update widths
                         SetWidths(panel);
@@ -69,13 +73,17 @@ namespace ASPNet_WPF_ChatApp.AttachedProperties
             // Loop each child
             foreach (var child in panel.Children)
             {
-                // Ignore any non-TextEntry controls
-                if (!(child is TextEntryControl control))
+                // Ignore controls that aren't TextEntryControl or PasswordEntryControl
+                if (!(child is TextEntryControl control) && !(child is PasswordEntryControl))
                     continue;
 
 
+                // Get the label from the text entry or password entry control
+                var label = child is TextEntryControl ? (child as TextEntryControl).Label
+                                                      : (child as PasswordEntryControl).Label;
+
                 // Find if this value is larger than the other controls
-                maxSize = Math.Max(maxSize, control.Label.RenderSize.Width + control.Label.Margin.Left + control.Label.Margin.Right);
+                maxSize = Math.Max(maxSize, label.RenderSize.Width + label.Margin.Left + label.Margin.Right);
             }
 
 
@@ -86,14 +94,18 @@ namespace ASPNet_WPF_ChatApp.AttachedProperties
             // Loop each child
             foreach (var child in panel.Children)
             {
-                // Ignore any non-TextEntry controls
-                if (!(child is TextEntryControl control))
-                    continue;
+                if (child is TextEntryControl text)
+                {
+                    // Set each controls LabelWidth value to the max size
+                    text.LabelWidth = gridLength;
+                }
+                else if (child is PasswordEntryControl pass)
+                {
+                    // Set each controls LabelWidth value to the max size
+                    pass.LabelWidth = gridLength;
+                }
+            } // end foreach
 
-
-                // Set each control's LabelWidth value to the max size
-                control.LabelWidth = gridLength;
-            }
         }
     }
 }

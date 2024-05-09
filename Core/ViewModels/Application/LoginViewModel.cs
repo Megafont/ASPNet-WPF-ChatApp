@@ -10,6 +10,7 @@ using ASPNet_WPF_ChatApp.Core.DataModels;
 using ASPNet_WPF_ChatApp.Core.InversionOfControl.Base;
 using ASPNet_WPF_ChatApp.Core.Security;
 using ASPNet_WPF_ChatApp.Core.ViewModels.Base;
+using ASPNet_WPF_ChatApp.Core.ViewModels.Input;
 
 namespace ASPNet_WPF_ChatApp.Core.ViewModels.Application
 {
@@ -74,7 +75,18 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels.Application
 
             await RunCommandAsync(() => LoginIsRunning, async () =>
             {
+                // TODO: Fake a login...
                 await Task.Delay(1000);
+
+                // Ok, successfully logged in... Now get the user's data
+                // TODO: Ask server for user's info
+
+                // TODO: In the future, replace this with real information pulled from our database
+                IoC.SettingsViewModel.Name = new TextEntryViewModel { Label = "Name", OriginalText = $"Michael Fontanini {DateTime.Now.ToLocalTime()}" };
+                IoC.SettingsViewModel.Username = new TextEntryViewModel { Label = "Username", OriginalText = "Megafont" };
+                IoC.SettingsViewModel.Password = new PasswordEntryViewModel { Label = "Password", FakePassword = "********" };
+                IoC.SettingsViewModel.Email = new TextEntryViewModel { Label = "Email", OriginalText = "megafont@gmail.com" };
+
 
                 // Go to chat page
                 IoC.ApplicationViewModel.GoToPage(ApplicationPages.Chat);

@@ -49,6 +49,20 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
+
+
+            <!-- Example Marquee Title -->
+            <!--<Border ClipToBounds="True">
+                <Border local:AnimateMarqueeProperty.Value="True">
+                    <TextBlock Text="Parnell" 
+                       Foreground="{StaticResource ForegroundLightBrush}"
+                       FontSize="{StaticResource FontSizeXLarge}"
+                       FontFamily="{StaticResource LatoRegular}"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Center"
+                       />
+                </Border>
+            </Border>-->
             
             <!-- Title text -->
             <TextBlock Text="Parnell" 
@@ -116,7 +130,7 @@
                      FontSize="{StaticResource FontSizeRegular}"
                      VerticalAlignment="Center"
                      BorderThickness="0"
-                     Padding="0 10 17 10"
+                     Padding="0 10 10 10"
                      AcceptsReturn="True"
                      AcceptsTab="True"
                      VerticalScrollBarVisibility="Auto"

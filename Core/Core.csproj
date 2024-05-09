@@ -81,7 +81,9 @@
     <Compile Include="ViewModels\Dialogs\BaseDialogViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\Design\MessageBoxDialogDesignViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\MessageBoxDialogViewModel.cs" />
+    <Compile Include="ViewModels\Input\Design\PasswordEntryDesignViewModel.cs" />
     <Compile Include="ViewModels\Input\Design\TextEntryDesignViewModel.cs" />
+    <Compile Include="ViewModels\Input\PasswordEntryViewModel.cs" />
     <Compile Include="ViewModels\Input\TextEntryViewModel.cs" />
     <Compile Include="ViewModels\Menus\Design\MenuDesignViewModel.cs" />
     <Compile Include="ViewModels\Menus\Design\MenuItemDesignViewModel.cs" />
