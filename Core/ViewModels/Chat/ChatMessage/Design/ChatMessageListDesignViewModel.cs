@@ -61,7 +61,6 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatMessage.Design
                 },
             };
 
-            Items[0].Message = "Test";
         }
 
         #endregion
