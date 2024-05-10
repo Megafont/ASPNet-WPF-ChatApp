@@ -5,16 +5,17 @@
       xmlns:chatMessageViewModels="clr-namespace:ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatMessage;assembly=ASPNet_WPF_ChatApp.Core"
       xmlns:controls="clr-namespace:ASPNet_WPF_ChatApp.Controls"
       xmlns:pages="clr-namespace:ASPNet_WPF_ChatApp.Pages"
-      xmlns:viewModels="clr-namespace:ASPNet_WPF_ChatApp.Core.ViewModels;assembly=ASPNet_WPF_ChatApp.Core"
+      xmlns:valueConverters="clr-namespace:ASPNet_WPF_ChatApp.ValueConverters"                
+      xmlns:chatMessageViewModels_DesignTime="clr-namespace:ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatMessage.Design;assembly=ASPNet_WPF_ChatApp.Core"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ASPNet_WPF_ChatApp"
-      xmlns:valueConverters="clr-namespace:ASPNet_WPF_ChatApp.ValueConverters"                
       mc:Ignorable="d"
       x:Name="Page"
-      d:DesignHeight="700" d:DesignWidth="700">
+      d:DesignHeight="700" d:DesignWidth="700"
+      d:DataContext="{x:Static chatMessageViewModels_DesignTime:ChatMessageListDesignViewModel.Instance}">
 
     <Grid>
 
@@ -83,19 +84,22 @@
         </Grid>
         
         <!-- Chat message list -->
-        <chatMessageControls:ChatMessageListControl Grid.Row="1"
-                                                    DataContext="{Binding}"/>
+        <chatMessageControls:ChatMessageListControl x:Name="ChatMessageList"
+                                                    Grid.Row="1"
+                                                    DataContext="{Binding}"
+                                                    />
         
         <!-- Attachment Menu Popup -->
-        <controls:BubbleContentControl
-            Grid.Row="1"
-            Panel.ZIndex="2"
-            DataContext="{Binding AttachmentMenu}"
-            VerticalAlignment="Bottom"
-            HorizontalAlignment="Left"
-            attachedProperties:AnimateSlideInFromBottomProperty.Value="{Binding ViewModel.AttachmentMenuVisible, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type pages:ChatPage}}}"
-            />
+        <Border Grid.Row="1"
+                Panel.ZIndex="2"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Left"
+                attachedProperties:AnimateSlideInFromBottomProperty.Value="{Binding AttachmentMenuVisible}" >
 
+            <controls:BubbleContentControl DataContext="{Binding AttachmentMenu}" />
+
+        </Border>
+    
         <!-- Chat message input text box, etc. -->
         <Grid Grid.Row="2"
               Panel.ZIndex="3"

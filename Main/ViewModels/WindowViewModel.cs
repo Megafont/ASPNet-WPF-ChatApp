@@ -63,7 +63,7 @@ namespace ASPNet_WPF_ChatApp.ViewModels
         /// <summary>
         /// The size of the resize border around the window
         /// </summary>
-        public int ResizeBorderSize { get => Borderless ? 0 : 6; }
+        public int ResizeBorderSize => _Window.WindowState == WindowState.Maximized ? 0 : 4;
 
         /// <summary>
         /// The size of the resize border around the window (as a Thickness object).

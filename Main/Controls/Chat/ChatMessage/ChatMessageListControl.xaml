@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ASPNet_WPF_ChatApp"
+             xmlns:attachedProperties="clr-namespace:ASPNet_WPF_ChatApp.AttachedProperties"
              xmlns:chatMessageListControls="clr-namespace:ASPNet_WPF_ChatApp.Controls.Chat.ChatMessage"      
              xmlns:chatMessageViewModels="clr-namespace:ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatMessage;assembly=ASPNet_WPF_ChatApp.Core"
              xmlns:chatMessageViewModels_DesignTime="clr-namespace:ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatMessage.Design;assembly=ASPNet_WPF_ChatApp.Core"
@@ -13,7 +14,8 @@
     <Grid d:DataContext="{x:Static chatMessageViewModels_DesignTime:ChatMessageListDesignViewModel.Instance}"
           VerticalAlignment="Bottom">
     
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <ScrollViewer VerticalScrollBarVisibility="Auto"
+                      attachedProperties:ScrollToBottomOnLoadProperty.Value="True">
             <ItemsControl ItemsSource="{Binding Items}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>

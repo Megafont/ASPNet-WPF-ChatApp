@@ -12,8 +12,8 @@
              d:DesignWidth="300">
 
     <Border Padding="5"
-            d:DataContext="{x:Static chatMessageViewModels_DesignTime:ChatMessageListItemDesignViewModel.Instance}">
-    <!-- Background="{StaticResource WordBlueBrush}" -->
+            d:DataContext="{x:Static chatMessageViewModels_DesignTime:ChatMessageListItemDesignViewModel.Instance}"
+            >
         
         <Grid>
 
@@ -98,27 +98,25 @@
                 <!-- Time containers -->
                 <StackPanel x:Name="ExtaDetails" 
                             Grid.Row="2" 
+                            Opacity="0"
+                            HorizontalAlignment="{Binding SentByMe, Converter={valueConverters:SentByMeToAlignmentConverter}, ConverterParameter=True}"
                             Orientation="Horizontal"
-                            Opacity="0">
+                            >
 
                     <!-- Sent time-->
-                    <TextBlock Grid.Row="2"
-                           Text="{Binding MessageSentTime, Converter={valueConverters:TimeToDisplayTimeConverter}}"
-                           Foreground="{StaticResource ForegroundLightBrush}" 
-                           HorizontalAlignment="Right"
-                           FontSize="{StaticResource FontSizeSmall}"
-                           FontFamily="{StaticResource LatoRegular}"
-                           Margin="0 0 15 0"
-                           />
+                    <TextBlock Text="{Binding MessageSentTime, Converter={valueConverters:TimeToDisplayTimeConverter}}"
+                               Foreground="{StaticResource ForegroundLightBrush}" 
+                               FontSize="{StaticResource FontSizeSmall}"
+                               FontFamily="{StaticResource LatoRegular}"
+                               Margin="0 0 15 0"
+                               />
 
                     <!-- Read time-->
-                    <TextBlock Grid.Row="2"
-                           Text="{Binding MessageReadTime, Converter={valueConverters:TimeToReadDisplayTimeConverter}}"
-                           Foreground="{StaticResource WordDarkBlueBrush}" 
-                           HorizontalAlignment="Right"
-                           FontSize="{StaticResource FontSizeSmall}"
-                           FontFamily="{StaticResource LatoRegular}"
-                           />
+                    <TextBlock Text="{Binding MessageReadTime, Converter={valueConverters:TimeToReadDisplayTimeConverter}}"
+                               Foreground="{StaticResource WordDarkBlueBrush}" 
+                               FontSize="{StaticResource FontSizeSmall}"
+                               FontFamily="{StaticResource LatoRegular}"
+                               />
                     
                 </StackPanel>
             

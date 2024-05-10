@@ -28,10 +28,10 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatMessage.Design
         /// Default constructor
         /// </summary>
         public ChatMessageListDesignViewModel()
-        {
+        {            
             Items = new List<ChatMessageListItemViewModel>
             {
-                new ChatMessageListItemViewModel
+                new ChatMessageListItemViewModel()
                 {
                     SenderName = "Parnell",
                     Initials = "PL",
@@ -40,8 +40,8 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatMessage.Design
                     MessageSentTime = DateTimeOffset.UtcNow,
                     SentByMe = false,
                 },
-                new ChatMessageListItemViewModel
-                {
+                new ChatMessageListItemViewModel()
+                {                    
                     SenderName = "Luke",
                     Initials = "LM",
                     Message = "Let me know when you manage to spin up the new server",
@@ -50,7 +50,7 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatMessage.Design
                     MessageReadTime = DateTimeOffset.UtcNow.Subtract(TimeSpan.FromDays(1.3f)),
                     SentByMe = true,
                 },
-                new ChatMessageListItemViewModel
+                new ChatMessageListItemViewModel()
                 {
                     SenderName = "Parnell",
                     Initials = "PL",
@@ -58,9 +58,10 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatMessage.Design
                     ProfilePictureRGB = "3099c5",
                     MessageSentTime = DateTimeOffset.UtcNow,
                     SentByMe = false,
-                },                
+                },
             };
 
+            Items[0].Message = "Test";
         }
 
         #endregion

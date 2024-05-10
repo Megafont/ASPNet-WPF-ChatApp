@@ -9,9 +9,10 @@
              xmlns:chatListViewModels="clr-namespace:ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatList;assembly=ASPNet_WPF_ChatApp.Core"
              xmlns:chatListViewModels_DesignTime="clr-namespace:ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatList.Design;assembly=ASPNet_WPF_ChatApp.Core"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300"
+             d:DataContext="{x:Static chatListViewModels_DesignTime:ChatListDesignViewModel.Instance}">
     
-    <Grid DataContext="{x:Static chatListViewModels_DesignTime:ChatListDesignViewModel.Instance}"
+    <Grid 
           Background="{StaticResource ForegroundLightBrush}">
     
         <ScrollViewer VerticalScrollBarVisibility="Auto">

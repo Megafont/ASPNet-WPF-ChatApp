@@ -28,6 +28,9 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatMessage.Design
         /// </summary>
         public ChatMessageListItemDesignViewModel()
         {
+            if (!string.IsNullOrEmpty(SenderName))
+                return;
+
             Initials = "LM";
             SenderName = "Luke";
             Message = "This new chat app is awesome! I bet it will be fast too!";
