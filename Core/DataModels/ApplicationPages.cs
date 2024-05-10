@@ -12,6 +12,8 @@ namespace ASPNet_WPF_ChatApp.Core.DataModels
     /// </summary>
     public enum ApplicationPages
     {
+        None = -1,
+
         /// <summary>
         /// The initial login page
         /// </summary>

@@ -10,7 +10,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="300">
 
-    <Grid DataContext="{x:Static chatMessageViewModels_DesignTime:ChatMessageListDesignViewModel.Instance}"
+    <Grid d:DataContext="{x:Static chatMessageViewModels_DesignTime:ChatMessageListDesignViewModel.Instance}"
           VerticalAlignment="Bottom">
     
         <ScrollViewer VerticalScrollBarVisibility="Auto">

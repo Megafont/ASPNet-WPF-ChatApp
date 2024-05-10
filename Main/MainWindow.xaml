@@ -162,11 +162,10 @@
             </Border>
             
             <controls:PageHost Grid.Column="1" 
-                   d:DataContext=""
-                   DataContext="{Binding ApplicationViewModel.CurrentPage, 
-                             Source={x:Static viewModels:ViewModelLocator.Instance}, 
-                             Converter={valueConverters:ApplicationPageValueConverter}}"
-                   CurrentPage="{Binding}" />
+                   CurrentPage="{Binding ApplicationViewModel.CurrentPage,
+                                         Source={x:Static viewModels:ViewModelLocator.Instance}}"
+                   CurrentPageViewModel="{Binding ApplicationViewModel.CurrentPageViewModel,
+                                                  Source={x:Static viewModels:ViewModelLocator.Instance}}" />
 
             <!-- Side Menu -->
             <controls:SideMenuControl 

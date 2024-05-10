@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
+using ASPNet_WPF_ChatApp.Core.DataModels;
+using ASPNet_WPF_ChatApp.Core.InversionOfControl.Base;
 using ASPNet_WPF_ChatApp.Core.ViewModels.Base;
+using ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatMessage;
 
 namespace ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatList
 {
@@ -13,6 +17,8 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatList
     /// </summary>
     public class ChatListItemViewModel: BaseViewModel
     {
+        #region Public Properties
+
         /// <summary>
         /// The display name of this chat list item
         /// </summary>
@@ -43,5 +49,94 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatList
         /// True if this item is currently selected
         /// </summary>
         public bool IsSelected { get; set; }
+
+        #endregion
+
+        #region Public Commands
+
+        public ICommand OpenMessageCommand { get; set; }
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        public ChatListItemViewModel()
+        {
+            // Create commands
+            OpenMessageCommand = new RelayCommand(OpenMessage);
+        }
+
+        #endregion
+
+        #region Command Methods
+
+        private void OpenMessage()
+        {
+            IoC.ApplicationViewModel.GoToPage(ApplicationPages.Chat, new ChatMessageListViewModel
+            {
+                Items = new List<ChatMessageListItemViewModel>
+                {
+                    new ChatMessageListItemViewModel
+                    {
+                        Message = Message,
+                        Initials = Initials,
+                        MessageSentTime = DateTime.UtcNow,
+                        ProfilePictureRGB = "0000FF",
+                        SenderName = "Mike",
+                        SentByMe = true,
+                    },
+                    new ChatMessageListItemViewModel
+                    {
+                        Message = "A received message",
+                        Initials = Initials,
+                        MessageSentTime = DateTime.UtcNow,
+                        ProfilePictureRGB = "FF0000",
+                        SenderName = "Parnell",
+                        SentByMe = false,
+                    },
+                    new ChatMessageListItemViewModel
+                    {
+                        Message = "A received message",
+                        Initials = Initials,
+                        MessageSentTime = DateTime.UtcNow,
+                        ProfilePictureRGB = "FF0000",
+                        SenderName = "Parnell",
+                        SentByMe = false,
+                    },
+                    new ChatMessageListItemViewModel
+                    {
+                        Message = Message,
+                        Initials = Initials,
+                        MessageSentTime = DateTime.UtcNow,
+                        ProfilePictureRGB = "0000FF",
+                        SenderName = "Mike",
+                        SentByMe = true,
+                    },
+                    new ChatMessageListItemViewModel
+                    {
+                        Message = "A received message",
+                        Initials = Initials,
+                        MessageSentTime = DateTime.UtcNow,
+                        ProfilePictureRGB = "FF0000",
+                        SenderName = "Parnell",
+                        SentByMe = false,
+                    },
+                    new ChatMessageListItemViewModel
+                    {
+                        Message = "A received message",
+                        Initials = Initials,
+                        MessageSentTime = DateTime.UtcNow,
+                        ProfilePictureRGB = "FF0000",
+                        SenderName = "Parnell",
+                        SentByMe = false,
+                    },
+                }
+            });
+        }
+
+        #endregion
     }
 }

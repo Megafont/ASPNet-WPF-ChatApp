@@ -83,7 +83,8 @@
         </Grid>
         
         <!-- Chat message list -->
-        <chatMessageControls:ChatMessageListControl Grid.Row="1" />
+        <chatMessageControls:ChatMessageListControl Grid.Row="1"
+                                                    DataContext="{Binding}"/>
         
         <!-- Attachment Menu Popup -->
         <controls:BubbleContentControl

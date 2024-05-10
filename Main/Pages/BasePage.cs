@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 
 using ASPNet_WPF_ChatApp.Animations;
+using ASPNet_WPF_ChatApp.Core.InversionOfControl.Base;
 using ASPNet_WPF_ChatApp.Core.ViewModels.Base;
 
 namespace ASPNet_WPF_ChatApp.Pages
@@ -12,6 +13,15 @@ namespace ASPNet_WPF_ChatApp.Pages
     /// </summary>
     public class BasePage : UserControl
     {
+        #region Private Members
+
+        /// <summary>
+        /// The View Model associated with this page
+        /// </summary>
+        private object _ViewModel;
+
+        #endregion
+
         #region Public Properties 
 
         /// <summary>
@@ -22,7 +32,7 @@ namespace ASPNet_WPF_ChatApp.Pages
         /// <summary>
         /// The animation to play when the page is unloaded
         /// </summary>
-        public PageAnimationTypes PageUnloadAnimation { get; set; } = PageAnimationTypes.SlideAndFadeOutToLeft;
+        public PageAnimationTypes PageUnloadAnimation { get; set; } = PageAnimationTypes.SlideAndFadeOutToRight;
 
         /// <summary>
         /// The time any slide animation takes to complete
@@ -34,6 +44,23 @@ namespace ASPNet_WPF_ChatApp.Pages
         /// Useful for when we are moving the page to another frame
         /// </summary>
         public bool ShouldAnimateOut { get; set; }
+
+        public object ViewModelObject
+        {
+            get { return _ViewModel; }
+            set
+            {
+                // If nothing has changed, return
+                if (_ViewModel == value)
+                    return;
+
+                // Update the value
+                _ViewModel = value;
+
+                // Set the data context for this page
+                DataContext = _ViewModel;
+            }
+        }
 
         #endregion
 
@@ -165,41 +192,46 @@ namespace ASPNet_WPF_ChatApp.Pages
     {
         #region Private Members
 
-        /// <summary>
-        /// The View Model associated with this page
-        /// </summary>
-        private VM _ViewModel;
-
         #endregion
 
         #region Public Properties
 
-        public VM ViewModel
+        /// <summary>
+        /// The view model associated with this page
+        /// </summary>
+        public VM ViewModel 
         {
-            get { return _ViewModel; }
-            set
-            {
-                // If nothing has changed, return
-                if (_ViewModel == value)
-                    return;
-
-                // Update the value
-                _ViewModel = value;
-
-                // Set the data context for this page
-                DataContext = _ViewModel;
-            }
+            get => (VM)ViewModelObject;
+            set => ViewModelObject = value;
         }
 
         #endregion
 
         #region Constructors
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public BasePage() 
             : base()
         {
             // Create a default view model
-            ViewModel = new VM();
+            ViewModel = IoC.Get<VM>();
+        }
+
+        public BasePage(VM specificViewModel = null)
+            : base()
+        {
+            if (specificViewModel != null)
+            {
+                // Set the specific view model
+                ViewModel = specificViewModel;
+            }
+            else
+            {
+                // Create a default view model
+                ViewModel = IoC.Get<VM>();
+            }
         }
 
         #endregion

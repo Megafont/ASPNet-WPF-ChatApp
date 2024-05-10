@@ -12,14 +12,35 @@ namespace ASPNet_WPF_ChatApp.Pages
     /// </summary>
     public partial class LoginPage : BasePage<LoginViewModel>, IHavePassword
     {
+        #region Constructors
+
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public LoginPage()
+            : base()
         {
             InitializeComponent();
         }
 
         /// <summary>
+        /// A constructor that takes a view model
+        /// </summary>
+        public LoginPage(LoginViewModel specificViewModel)
+            : base(specificViewModel)
+        {
+            InitializeComponent();
+        }
+
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
         /// The secure password for this login page
         /// </summary>
-        public SecureString SecurePassword => PasswordText.SecurePassword;
+        public SecureString SecurePassword => PasswordText.SecurePassword; 
+
+        #endregion
     }
 }

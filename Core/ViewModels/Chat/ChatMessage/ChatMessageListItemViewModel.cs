@@ -13,6 +13,8 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatMessage
     /// </summary>
     public class ChatMessageListItemViewModel: BaseViewModel
     {
+        #region Public Properties
+
         /// <summary>
         /// The display name of the sender of the message
         /// </summary>
@@ -47,7 +49,7 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatMessage
         /// <summary>
         /// The time the message was read, or <see cref="DateTimeOffset.MinValue"/> if not read
         /// </summary>
-        public DateTimeOffset  MessageReadTime { get; set; }
+        public DateTimeOffset MessageReadTime { get; set; }
 
         /// <summary>
         /// True if this message has been read
@@ -59,5 +61,6 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatMessage
         /// </summary>
         public DateTimeOffset MessageSentTime { get; set; }
 
+        #endregion
     }
 }

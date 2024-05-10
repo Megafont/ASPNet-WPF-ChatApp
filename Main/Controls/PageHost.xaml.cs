@@ -6,6 +6,8 @@ using ASPNet_WPF_ChatApp.Core.InversionOfControl.Base;
 using ASPNet_WPF_ChatApp.Pages;
 using ASPNet_WPF_ChatApp.Core.ViewModels;
 using ASPNet_WPF_ChatApp.ValueConverters;
+using ASPNet_WPF_ChatApp.Core.ViewModels.Base;
+using ASPNet_WPF_ChatApp.Core.DataModels;
 
 namespace ASPNet_WPF_ChatApp.Controls
 {
@@ -19,9 +21,9 @@ namespace ASPNet_WPF_ChatApp.Controls
         /// <summary>
         /// The current page to show in the page host
         /// </summary>
-        public BasePage CurrentPage
+        public ApplicationPages CurrentPage
         {
-            get { return (BasePage)GetValue(CurrentPageProperty); }
+            get { return (ApplicationPages) GetValue(CurrentPageProperty); }
             set { SetValue(CurrentPageProperty, value); }
         }
 
@@ -30,10 +32,28 @@ namespace ASPNet_WPF_ChatApp.Controls
         /// </summary>
         public static readonly DependencyProperty CurrentPageProperty =
             DependencyProperty.Register(nameof(CurrentPage),
-                typeof(BasePage),
+                typeof(ApplicationPages),
                 typeof(PageHost),
-                new UIPropertyMetadata(CurrentPagePropertyChanged));
+                new UIPropertyMetadata(default(ApplicationPages), null, new CoerceValueCallback(CurrentPagePropertyChanged)));
 
+
+        /// <summary>
+        /// The view model for the current page
+        /// </summary>
+        public BaseViewModel CurrentPageViewModel
+        {
+            get { return (BaseViewModel)GetValue(CurrentPageViewModelProperty); }
+            set { SetValue(CurrentPageViewModelProperty, value); }
+        }
+
+        /// <summary>
+        /// Registers <see cref="CurrentPageViewModel"/> as a dependency property
+        /// </summary>
+        public static readonly DependencyProperty CurrentPageViewModelProperty =
+            DependencyProperty.Register(nameof(CurrentPageViewModel),
+                typeof(BaseViewModel),
+                typeof(PageHost),
+                new UIPropertyMetadata());
         #endregion
 
         #region Constructors
@@ -49,7 +69,7 @@ namespace ASPNet_WPF_ChatApp.Controls
             // as the dependency property does not fire
             if (DesignerProperties.GetIsInDesignMode(this))
             {
-                NewPage.Content = (BasePage)new ApplicationPageValueConverter().Convert(IoC.ApplicationViewModel.CurrentPage);
+                NewPage.Content = IoC.ApplicationViewModel.CurrentPage.ToBasePage();
             }
         }
 
@@ -63,11 +83,27 @@ namespace ASPNet_WPF_ChatApp.Controls
         /// <param name="d"></param>
         /// <param name="e"></param>
         /// <exception cref="NotImplementedException"></exception>
-        private static void CurrentPagePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static object CurrentPagePropertyChanged(DependencyObject d, object value)
         {
+            // Get current values
+            var currentPage = (ApplicationPages)d.GetValue(CurrentPageProperty);
+            var currentPageViewModel = d.GetValue(CurrentPageViewModelProperty);
+
             // Get the frames
             var newPageFrame = (d as PageHost).NewPage;
             var oldPageFrame = (d as PageHost).OldPage;
+
+            // If the current page hasn't changed, just update the view model
+            if (newPageFrame.Content is BasePage page &&
+                page.ToApplicationPage() == currentPage)
+            {
+                // Set the view model
+                page.ViewModelObject = currentPageViewModel;
+
+                // Just return since we don't need to do anything beyond setting the view model.
+                return value;
+            }
+
 
             // Store the current page content as the old page
             var oldPageContent = newPageFrame.Content;
@@ -95,7 +131,10 @@ namespace ASPNet_WPF_ChatApp.Controls
 
 
             // Set the new page content
-            newPageFrame.Content = e.NewValue;
+            newPageFrame.Content = currentPage.ToBasePage(currentPageViewModel);
+
+
+            return value;
         }
 
         #endregion
