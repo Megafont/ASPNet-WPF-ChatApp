@@ -102,6 +102,10 @@ namespace ASPNet_WPF_ChatApp.Dialogs
                     // Set up this control's data context binding to the view model
                     DataContext = viewModel;
 
+                    // Show the dialog in the center of the parent window
+                    _DialogWindow.Owner = Application.Current.MainWindow;
+                    _DialogWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
                     // Show dialog
                     _DialogWindow.ShowDialog();
                 }

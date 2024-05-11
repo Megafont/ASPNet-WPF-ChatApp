@@ -49,9 +49,7 @@ namespace ASPNet_WPF_ChatApp.AttachedProperties
                 _AlreadyLoaded[sender] = false;
 
                 // Start off hidden before we decide how to animate
-                // if we are to be animated out initially
-                if (!(bool)value)
-                    element.Visibility = Visibility.Hidden;
+                element.Visibility = Visibility.Hidden;
 
                 // Create a single self-unhookable event
                 // for the eleemnt's Loaded event
@@ -230,6 +228,22 @@ namespace ASPNet_WPF_ChatApp.AttachedProperties
                                                    firstLoad ? 0 : 0.3f, 
                                                    keepMargin: false);
             }
+        }
+    }
+
+    /// <summary>
+    /// Animates a framework element (WPF UI element) sliding up from the bottom on load
+    /// if the value is true
+    /// </summary>
+    public class AnimateSlideInFromBottomOnLoadProperty : AnimateBaseProperty<AnimateSlideInFromBottomOnLoadProperty>
+    {
+        protected override async void DoAnimation(FrameworkElement element, bool value, bool firstLoad)
+        {
+            // Animate in
+            await element.SlideAndFadeInAsync(AnimationSlideDirections.Bottom,
+                                                !value,
+                                                !value ? 0 : 0.3f,
+                                                keepMargin: false);
         }
     }
 

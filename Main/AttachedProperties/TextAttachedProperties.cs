@@ -84,4 +84,5 @@ namespace ASPNet_WPF_ChatApp.AttachedProperties
             }
         }
     }
+
 }

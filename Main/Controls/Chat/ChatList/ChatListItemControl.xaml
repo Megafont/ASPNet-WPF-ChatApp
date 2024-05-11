@@ -130,9 +130,10 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    
+
+
     <!-- The "d:" prefix on the line below tells WPF to only use this data context at design time. -->
-    <ContentControl d:DataContext="{x:Static chatListViewModels_DesignTime:ChatListItemDesignViewModel.Instance}"    
+    <ContentControl d:DataContext="{x:Static chatListViewModels_DesignTime:ChatListItemDesignViewModel.Instance}"
                     Style="{StaticResource ContentStyle}" />
     
 </UserControl>

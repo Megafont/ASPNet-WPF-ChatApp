@@ -131,6 +131,7 @@
             <TextBox x:Name="MessageText"
                      Grid.Column="1"
                      Tag="Write a message..."
+                     Text="{Binding PendingMessageText, UpdateSourceTrigger=PropertyChanged}"
                      attachedProperties:IsFocusedProperty.Value="True"
                      FontSize="{StaticResource FontSizeRegular}"
                      VerticalAlignment="Center"
@@ -139,6 +140,7 @@
                      AcceptsReturn="True"
                      AcceptsTab="True"
                      VerticalScrollBarVisibility="Auto"
+                     PreviewKeyDown="MessageText_PreviewKeyDown"
                      />
 
             <!-- Additional buttons -->
@@ -155,11 +157,15 @@
                     />
                 
                 <!-- Send button -->
+                <!-- We set Focusable to false on this button so it is not focusable. That way the focus will stay on the textbox -->
                 <Button Content="Send"
                         Padding="8"
+                        IsDefault="true"
+                        Focusable="False"
                         Command="{Binding SendCommand}"
                         Background="{StaticResource WordGreenBrush}"
-                        FontSize="{StaticResource FontSizeRegular}" />
+                        FontSize="{StaticResource FontSizeRegular}" 
+                        />
 
             </StackPanel>
         </Grid>

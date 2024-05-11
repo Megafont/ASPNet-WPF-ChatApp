@@ -61,6 +61,12 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatMessage
         /// </summary>
         public DateTimeOffset MessageSentTime { get; set; }
 
+        /// <summary>
+        /// A flag indicating if this item was added since the first main list of items was createdf
+        /// Used as a flag for animating new messages in
+        /// </summary>
+        public bool NewItem { get; set; }
+
         #endregion
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,7 +21,7 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatMessage
         /// <summary>
         /// The chat thread items for the list
         /// </summary>
-        public List<ChatMessageListItemViewModel> Items { get; set; }
+        public ObservableCollection<ChatMessageListItemViewModel> Items { get; set; }
 
         /// <summary>
         /// True to show the attachment menu, false to hide it
@@ -36,6 +37,11 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatMessage
         /// The view model for the attachment menu
         /// </summary>
         public ChatAttachmentPopupMenuViewModel AttachmentMenu { get; set; }
+
+        /// <summary>
+        /// The text for the current message being written
+        /// </summary>
+        public string PendingMessageText { get; set; }
 
         #endregion
 
@@ -101,12 +107,30 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatMessage
         /// </summary>
         public async void SendButtonClicked()
         {
-            await IoC.UI.ShowMessage(new Dialogs.MessageBoxDialogViewModel
+            // Do not allow user to send a blank message
+            if (string.IsNullOrWhiteSpace(PendingMessageText))
             {
-                Title = "Send Message",
-                Message = "Thank you for writing a nice message :)",
-                OkText = "OK"
+                return;
+            }
+
+
+            if (Items == null)
+                Items = new ObservableCollection<ChatMessageListItemViewModel>();
+
+            // Fake send a new message
+            Items.Add(new ChatMessageListItemViewModel
+            {
+                Initials = "MF",
+                Message = PendingMessageText,
+                MessageSentTime = DateTime.UtcNow,
+                SentByMe = true,
+                SenderName = "Michael Fontanini",
+                NewItem = true,
             });
+
+
+            // Clear the pending message text
+            PendingMessageText = string.Empty;
         }
 
         #endregion

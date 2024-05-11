@@ -15,11 +15,14 @@
           VerticalAlignment="Bottom">
     
         <ScrollViewer VerticalScrollBarVisibility="Auto"
-                      attachedProperties:ScrollToBottomOnLoadProperty.Value="True">
+                      attachedProperties:ScrollToBottomOnLoadProperty.Value="True"
+                      attachedProperties:AutoScrollToBottomProperty.Value="True"
+                      >
+            
             <ItemsControl ItemsSource="{Binding Items}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <chatMessageListControls:ChatMessageListItemControl />
+                        <chatMessageListControls:ChatMessageListItemControl attachedProperties:AnimateSlideInFromBottomOnLoadProperty.Value="{Binding NewItem}"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

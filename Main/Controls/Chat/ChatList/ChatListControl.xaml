@@ -9,17 +9,16 @@
              xmlns:chatListViewModels="clr-namespace:ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatList;assembly=ASPNet_WPF_ChatApp.Core"
              xmlns:chatListViewModels_DesignTime="clr-namespace:ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatList.Design;assembly=ASPNet_WPF_ChatApp.Core"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300"
-             d:DataContext="{x:Static chatListViewModels_DesignTime:ChatListDesignViewModel.Instance}">
+             d:DesignHeight="300" d:DesignWidth="300">
     
-    <Grid 
+    <Grid d:DataContext="{x:Static chatListViewModels_DesignTime:ChatListDesignViewModel.Instance}"
           Background="{StaticResource ForegroundLightBrush}">
     
         <ScrollViewer VerticalScrollBarVisibility="Auto">
             <ItemsControl ItemsSource="{Binding Items}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <chatListControls:ChatListItemControl />
+                        <chatListControls:ChatListItemControl/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
