@@ -79,13 +79,27 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
+                    <!-- Image Loading Glyph -->
+                    <Border HorizontalAlignment="{Binding SentByMe, Converter={valueConverters:SentByMeToAlignmentConverter}}"
+                            VerticalAlignment="Top"
+                            >
+
+                        <TextBlock Style="{StaticResource SpinningText}"
+                                   Foreground="{StaticResource ForegroundLightBrush}" 
+                                   Padding="20"
+                                   DataContext="{Binding ImageAttachment}"
+                                   Visibility="{Binding ImageLoaded, Converter={valueConverters:BooleanToVisibilityGoneConverter}, ConverterParameter=True, FallbackValue=Collapsed}"
+                                   />
+                    </Border>
+
                     <!-- Image attachment -->
                     <Border CornerRadius="10"
                             Margin="0 0 0 15">
                         
                         <Image  DataContext="{Binding ImageAttachment}"
                                 attachedProperties:ClipFromBorderProperty.Value="True"
-                                Source="{Binding LocalFilePath}"
+                                attachedProperties:FadeInImageOnLoadProperty.Value="True"
+                                Source="{Binding LocalFilePath, NotifyOnTargetUpdated=True}"
                                 MaxWidth="600"
                                 />
                         
@@ -93,6 +107,7 @@
                     
                     <!-- Chat Message Text Bubble -->
                     <Grid Grid.Row="1"
+                          HorizontalAlignment="{Binding SentByMe, Converter={valueConverters:SentByMeToAlignmentConverter}}"
                           Visibility="{Binding HasMessage, Converter={valueConverters:BooleanToVisibilityGoneConverter}}"
                           >
 

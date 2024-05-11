@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Media.Animation;
 
 namespace ASPNet_WPF_ChatApp.AttachedProperties
@@ -98,6 +100,33 @@ namespace ASPNet_WPF_ChatApp.AttachedProperties
         /// <param name="firstLoad">Indicates if this is happening when the app first loads</param>
         protected virtual void DoAnimation(FrameworkElement element, bool value, bool firstLoad) { }
 
+    }
+
+
+    /// <summary>
+    /// Fades in an image when the source changes
+    /// </summary>
+    /// <typeparam name="Parent"></typeparam>
+    public class FadeInImageOnLoadProperty : AnimateBaseProperty<FadeInImageOnLoadProperty>
+    {
+        public override void OnValueUpdated(DependencyObject sender, object value)
+        {
+            // Make sure we have an image
+            if (!(sender is Image image))
+                    return;
+
+            // If we want to animate in...
+            if ((bool)value)
+                image.TargetUpdated += Image_TargetUpdatedAsync;
+            else
+                image.TargetUpdated -= Image_TargetUpdatedAsync;
+        }
+
+        private async void Image_TargetUpdatedAsync(object? sender, DataTransferEventArgs e)
+        {
+            // Fade in image
+            await (sender as Image).FadeInAsync(false);
+        }
     }
 
     /// <summary>
