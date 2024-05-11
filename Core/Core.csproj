@@ -74,6 +74,7 @@
     <Compile Include="ViewModels\Chat\ChatList\ChatListViewModel.cs" />
     <Compile Include="ViewModels\Chat\ChatList\Design\ChatListDesignViewModel.cs" />
     <Compile Include="ViewModels\Chat\ChatList\Design\ChatListItemDesignViewModel.cs" />
+    <Compile Include="ViewModels\Chat\ChatMessage\ChatMessageListItemImageAttachmentViewModel.cs" />
     <Compile Include="ViewModels\Chat\ChatMessage\ChatMessageListItemViewModel.cs" />
     <Compile Include="ViewModels\Chat\ChatMessage\ChatMessageListViewModel.cs" />
     <Compile Include="ViewModels\Chat\ChatMessage\Design\ChatMessageListDesignViewModel.cs" />

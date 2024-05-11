@@ -67,6 +67,22 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatMessage
         /// </summary>
         public bool NewItem { get; set; }
 
+        /// <summary>
+        /// The attachment to the message, if it is of an image type
+        /// </summary>
+        public ChatMessageListItemImageAttachmentViewModel ImageAttachment { get; set; }
+
+        /// <summary>
+        /// A flag indicating if we have a message or not
+        /// </summary>
+        public bool HasMessage => Message != null;
+
+
+        /// <summary>
+        /// A flag indicating if we have an image attached to this message
+        /// </summary>
+        public bool HasImageAttachment => ImageAttachment != null;
+
         #endregion
     }
 }

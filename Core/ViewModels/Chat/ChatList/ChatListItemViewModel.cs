@@ -128,6 +128,10 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatList
                     new ChatMessageListItemViewModel
                     {
                         Message = "A received message",
+                        ImageAttachment = new ChatMessageListItemImageAttachmentViewModel
+                        {
+                            ThumbnailURL = "http://anywhere",
+                        },
                         Initials = Initials,
                         MessageSentTime = DateTime.UtcNow,
                         ProfilePictureRGB = "FF0000",

@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ASPNet_WPF_ChatApp"
+             xmlns:attachedProperties="clr-namespace:ASPNet_WPF_ChatApp.AttachedProperties"      
              xmlns:chatMessageListControls="clr-namespace:ASPNet_WPF_ChatApp.Controls.Chat.ChatMessage"      
              xmlns:chatMessageViewModels="clr-namespace:ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatMessage;assembly=ASPNet_WPF_ChatApp.Core"
              xmlns:chatMessageViewModels_DesignTime="clr-namespace:ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatMessage.Design;assembly=ASPNet_WPF_ChatApp.Core"             
@@ -42,12 +43,6 @@
             <Grid Margin="25 0 25 0" 
                   HorizontalAlignment="{Binding SentByMe, Converter={valueConverters:SentByMeToAlignmentConverter}}">
 
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-
                 <Grid.Triggers>
                     
                     <!-- Mouse over shows time -->
@@ -69,32 +64,73 @@
                     </EventTrigger>
                     
                 </Grid.Triggers>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
                 
-                <!-- Speech bubble rectangle -->
-                <Border CornerRadius="10" 
+                <!-- Message text/attachments grid -->
+                <Grid>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <!-- Image attachment -->
+                    <Border CornerRadius="10"
+                            Margin="0 0 0 15">
+                        
+                        <Image  DataContext="{Binding ImageAttachment}"
+                                attachedProperties:ClipFromBorderProperty.Value="True"
+                                Source="{Binding LocalFilePath}"
+                                MaxWidth="600"
+                                />
+                        
+                    </Border>
+                    
+                    <!-- Chat Message Text Bubble -->
+                    <Grid Grid.Row="1"
+                          Visibility="{Binding HasMessage, Converter={valueConverters:BooleanToVisibilityGoneConverter}}"
+                          >
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <!-- Speech bubble rectangle -->
+                        <Border CornerRadius="10" 
                         Padding="15"
                         Background="{Binding SentByMe, Converter={valueConverters:SentByMeToBackgroundConverter}}">
+
+                            <!-- Message text -->
+                            <TextBlock VerticalAlignment="Center"
+                                       TextWrapping="Wrap"
+                                       FontFamily="{StaticResource LatoRegular}"
+                                       Foreground="{StaticResource WordDarkBlueBrush}"
+                                       Text="{Binding Message}"
+                                       />
+
+                        </Border>
+
+                        <!-- The little tip on the bottom of the chat bubble -->
+                        <Path Grid.Row="1"
+                              Stroke="Black" 
+                              Panel.ZIndex="1"
+                              Margin="15 -1 15 0"
+                              Data="M 0,0 L 10,10 L 20,0" 
+                              StrokeThickness="0" 
+                              HorizontalAlignment="{Binding SentByMe, Converter={valueConverters:SentByMeToAlignmentConverter}}"
+                              Fill="{Binding SentByMe, Converter={valueConverters:SentByMeToBackgroundConverter}}"/>
+                        
+                    </Grid>
+
+                </Grid>
+               
                 
-                    <!-- Message text -->
-                    <TextBlock VerticalAlignment="Center"
-                               TextWrapping="Wrap"
-                               FontFamily="{StaticResource LatoRegular}"
-                               Foreground="{StaticResource WordDarkBlueBrush}"
-                               Text="{Binding Message}"
-                               />
-
-                </Border>
-
-                <!-- The little tip on the bottom of the chat bubble -->
-                <Path Grid.Row="1"
-                      Stroke="Black" 
-                      Panel.ZIndex="1"
-                      Margin="15 -1 15 0"
-                      Data="M 0,0 L 10,10 L 20,0" 
-                      StrokeThickness="0" 
-                      HorizontalAlignment="{Binding SentByMe, Converter={valueConverters:SentByMeToAlignmentConverter}}"
-                      Fill="{Binding SentByMe, Converter={valueConverters:SentByMeToBackgroundConverter}}"/>
-
                 <!-- Time containers -->
                 <StackPanel x:Name="ExtaDetails" 
                             Grid.Row="2" 

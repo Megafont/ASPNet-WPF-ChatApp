@@ -11,7 +11,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     
-    <Grid d:DataContext="{x:Static chatListViewModels_DesignTime:ChatListDesignViewModel.Instance}"
+    <Grid DataContext="{x:Static chatListViewModels_DesignTime:ChatListDesignViewModel.Instance}"
           Background="{StaticResource ForegroundLightBrush}">
     
         <ScrollViewer VerticalScrollBarVisibility="Auto">
