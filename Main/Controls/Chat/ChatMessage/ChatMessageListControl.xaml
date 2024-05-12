@@ -19,7 +19,7 @@
                       attachedProperties:AutoScrollToBottomProperty.Value="True"
                       >
             
-            <ItemsControl ItemsSource="{Binding Items}">
+            <ItemsControl ItemsSource="{Binding FilteredItems}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <chatMessageListControls:ChatMessageListItemControl attachedProperties:AnimateSlideInFromBottomOnLoadProperty.Value="{Binding NewItem}"/>

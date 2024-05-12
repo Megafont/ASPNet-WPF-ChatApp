@@ -29,7 +29,9 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatMessage.Design
         /// Default constructor
         /// </summary>
         public ChatMessageListDesignViewModel()
-        {            
+        {
+            DisplayTitle = "Parnell";
+
             Items = new ObservableCollection<ChatMessageListItemViewModel>
             {
                 new ChatMessageListItemViewModel()

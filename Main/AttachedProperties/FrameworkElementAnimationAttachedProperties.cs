@@ -167,9 +167,9 @@ namespace ASPNet_WPF_ChatApp.AttachedProperties
             {
                 // Animate in
                 await element.SlideAndFadeInAsync(AnimationSlideDirections.Right, 
-                                                           firstLoad,
-                                                           firstLoad ? 0 : 0.3f, 
-                                                           keepMargin: false);
+                                                  firstLoad,
+                                                  firstLoad ? 0 : 0.3f, 
+                                                  keepMargin: false);
             }
             else
             {
@@ -177,6 +177,32 @@ namespace ASPNet_WPF_ChatApp.AttachedProperties
                 await element.SlideAndFadeOutAsync(AnimationSlideDirections.Right, 
                                                    firstLoad ? 0 : 0.3f, 
                                                    keepMargin: false);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Animates a framework element (WPF UI element) sliding it in from the right on show
+    /// and sliding out to the right on hide
+    /// </summary>
+    public class AnimateSlideInFromRightMarginProperty : AnimateBaseProperty<AnimateSlideInFromRightMarginProperty>
+    {
+        protected override async void DoAnimation(FrameworkElement element, bool value, bool firstLoad)
+        {
+            if (value)
+            {
+                // Animate in
+                await element.SlideAndFadeInAsync(AnimationSlideDirections.Right,
+                                                  firstLoad,
+                                                  firstLoad ? 0 : 0.3f,
+                                                  keepMargin: true);
+            }
+            else
+            {
+                // Animate out
+                await element.SlideAndFadeOutAsync(AnimationSlideDirections.Right,
+                                                   firstLoad ? 0 : 0.3f,
+                                                   keepMargin: true);
             }
         }
     }

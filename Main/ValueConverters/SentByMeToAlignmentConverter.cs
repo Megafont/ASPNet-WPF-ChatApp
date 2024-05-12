@@ -11,7 +11,10 @@ namespace ASPNet_WPF_ChatApp.ValueConverters
     {
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (bool) value ? HorizontalAlignment.Right : HorizontalAlignment.Left;
+            if (parameter == null)
+                return (bool) value ? HorizontalAlignment.Right : HorizontalAlignment.Left;
+            else
+                return (bool) value ? HorizontalAlignment.Left : HorizontalAlignment.Right;
         }
 
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

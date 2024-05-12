@@ -78,6 +78,8 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatList
         {
             IoC.ApplicationViewModel.GoToPage(ApplicationPages.Chat, new ChatMessageListViewModel
             {
+                DisplayTitle = "Parnell, Me",
+
                 Items = new ObservableCollection<ChatMessageListItemViewModel>
                 {
                     new ChatMessageListItemViewModel
@@ -140,6 +142,7 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatList
                     },
                 }
             });
+            
         }
 
         #endregion
