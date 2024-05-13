@@ -1,115 +1,23 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\PropertyChanged.Fody.4.1.0\build\PropertyChanged.Fody.props" Condition="Exists('..\packages\PropertyChanged.Fody.4.1.0\build\PropertyChanged.Fody.props')" />
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3A1780D0-CDAA-47BB-837C-ABD49C474765}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ASPNet_WPF_ChatApp.Core</RootNamespace>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
     <AssemblyName>ASPNet_WPF_ChatApp.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <RootNamespace>ASPNet_WPF_ChatApp.Core</RootNamespace>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Ninject, Version=3.3.6.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ninject.3.3.6\lib\net45\Ninject.dll</HintPath>
-    </Reference>
-    <Reference Include="PropertyChanged, Version=4.1.0.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
-      <HintPath>..\packages\PropertyChanged.Fody.4.1.0\lib\net40\PropertyChanged.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <PackageReference Include="Fody" Version="6.8.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Ninject" Version="3.3.6" />
+    <PackageReference Include="PropertyChanged.Fody" Version="4.1.0">
+      <PrivateAssets>all</PrivateAssets>	
+	</PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="ViewModels\Application\Design\SettingsDesignViewModel.cs" />
-    <Compile Include="ViewModels\Application\SettingsViewModel.cs" />
-    <Compile Include="DataModels\ApplicationPages.cs" />
-    <Compile Include="DataModels\ElementHorizontalAlignment.cs" />
-    <Compile Include="DataModels\IconTypes.cs" />
-    <Compile Include="DataModels\MenuItemTypes.cs" />
-    <Compile Include="Expressions\ExpressionHelpers.cs" />
-    <Compile Include="InversionOfControl\Interfaces\IUIManager.cs" />
-    <Compile Include="StyleConverters\IconTypesExtensions.cs" />
-    <Compile Include="InversionOfControl\Base\IoC.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Security\SecureStringHelpers.cs" />
-    <Compile Include="ViewModels\Application\ApplicationViewModel.cs" />
-    <Compile Include="ViewModels\Base\BaseViewModel.cs" />
-    <Compile Include="ViewModels\Base\IHavePassword.cs" />
-    <Compile Include="ViewModels\Base\RelayCommand.cs" />
-    <Compile Include="ViewModels\Base\RelayParameterizedCommand.cs" />
-    <Compile Include="ViewModels\Chat\ChatList\ChatListItemViewModel.cs" />
-    <Compile Include="ViewModels\Chat\ChatList\ChatListViewModel.cs" />
-    <Compile Include="ViewModels\Chat\ChatList\Design\ChatListDesignViewModel.cs" />
-    <Compile Include="ViewModels\Chat\ChatList\Design\ChatListItemDesignViewModel.cs" />
-    <Compile Include="ViewModels\Chat\ChatMessage\ChatMessageListItemImageAttachmentViewModel.cs" />
-    <Compile Include="ViewModels\Chat\ChatMessage\ChatMessageListItemViewModel.cs" />
-    <Compile Include="ViewModels\Chat\ChatMessage\ChatMessageListViewModel.cs" />
-    <Compile Include="ViewModels\Chat\ChatMessage\Design\ChatMessageListDesignViewModel.cs" />
-    <Compile Include="ViewModels\Chat\ChatMessage\Design\ChatMessageListItemDesignViewModel.cs" />
-    <Compile Include="ViewModels\Dialogs\BaseDialogViewModel.cs" />
-    <Compile Include="ViewModels\Dialogs\Design\MessageBoxDialogDesignViewModel.cs" />
-    <Compile Include="ViewModels\Dialogs\MessageBoxDialogViewModel.cs" />
-    <Compile Include="ViewModels\Input\Design\PasswordEntryDesignViewModel.cs" />
-    <Compile Include="ViewModels\Input\Design\TextEntryDesignViewModel.cs" />
-    <Compile Include="ViewModels\Input\PasswordEntryViewModel.cs" />
-    <Compile Include="ViewModels\Input\TextEntryViewModel.cs" />
-    <Compile Include="ViewModels\Menus\Design\MenuDesignViewModel.cs" />
-    <Compile Include="ViewModels\Menus\Design\MenuItemDesignViewModel.cs" />
-    <Compile Include="ViewModels\Menus\MenuViewModel.cs" />
-    <Compile Include="ViewModels\Menus\MenuItemViewModel.cs" />
-    <Compile Include="ViewModels\PopupMenus\ChatAttachmentPopupMenuViewModel.cs" />
-    <Compile Include="ViewModels\PopupMenus\BasePopupViewModel.cs" />
-    <Compile Include="ViewModels\PopupMenus\Design\ChatAttachmentPopupMenuDesignViewModel.cs" />
-    <Compile Include="ViewModels\Application\RegisterViewModel.cs" />
-    <Compile Include="ViewModels\Application\LoginViewModel.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="FodyWeavers.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\PropertyChanged.Fody.4.1.0\build\PropertyChanged.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\PropertyChanged.Fody.4.1.0\build\PropertyChanged.Fody.props'))" />
-    <Error Condition="!Exists('..\packages\Fody.6.8.0\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.6.8.0\build\Fody.targets'))" />
-  </Target>
-  <Import Project="..\packages\Fody.6.8.0\build\Fody.targets" Condition="Exists('..\packages\Fody.6.8.0\build\Fody.targets')" />
+
 </Project>
