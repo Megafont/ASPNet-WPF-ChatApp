@@ -44,7 +44,6 @@ namespace ASPNet_WPF_ChatApp.Core.Logging
 
         #endregion
 
-
         #region Events
 
         /// <summary>
@@ -58,16 +57,25 @@ namespace ASPNet_WPF_ChatApp.Core.Logging
 
         #endregion
 
-
         #region Constructors
 
         /// <summary>
         /// Default constructor
         /// </summary>
-        public BaseLogFactory()
+        /// <param name="loggers">The loggers to add to the factory, on top of the stock loggers already included</param>
+        public BaseLogFactory(ILogger[] loggers = null)
         {
             // Add the console logger by default
             AddLogger(new DebugLogger());
+
+            // Add any other passed in loggers
+            if (loggers != null)
+            {
+                foreach(ILogger logger in loggers)
+                {
+                    AddLogger(logger);
+                }
+            }
         }
 
         #endregion

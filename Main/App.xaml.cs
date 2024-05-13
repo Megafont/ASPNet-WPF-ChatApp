@@ -2,9 +2,11 @@
 using System.Data;
 using System.Windows;
 
+using ASPNet_WPF_ChatApp.Core.FileSystem;
 using ASPNet_WPF_ChatApp.Core.InversionOfControl.Base;
 using ASPNet_WPF_ChatApp.Core.InversionOfControl.Interfaces;
 using ASPNet_WPF_ChatApp.Core.Logging;
+using ASPNet_WPF_ChatApp.Core.Tasks;
 using ASPNet_WPF_ChatApp.InversionOfControl;
 
 
@@ -28,12 +30,8 @@ namespace ASPNet_WPF_ChatApp
             ApplicationSetup();
 
             // Log it
-            IoC.Logger.Log("This is Debug", LogLevel.Debug);
-            IoC.Logger.Log("This is Verbose", LogLevel.Verbose);
-            IoC.Logger.Log("This is Informative", LogLevel.Informative);
-            IoC.Logger.Log("This is Warning", LogLevel.Warning);
-            IoC.Logger.Log("This is Error", LogLevel.Error);
-            IoC.Logger.Log("This is Success", LogLevel.Success);
+            IoC.Logger.Log("Application starting...", LogLevel.Debug);
+
 
             // Show the main window
             Current.MainWindow = new MainWindow();
@@ -48,11 +46,23 @@ namespace ASPNet_WPF_ChatApp
             // Setup IoC container
             IoC.Setup();
 
+            // Bind a logger
+            IoC.Kernel.Bind<ILogFactory>().ToConstant(new BaseLogFactory(new[]
+            {
+                // TODO: Add ApplicationSettings so we can set/edit a log location.
+                //       For now, just log to the path where this application is running.
+                new FileLogger("log.txt"),
+            }));
+
+            // Bind a task manager
+            IoC.Kernel.Bind<ITaskManager>().ToConstant(new TaskManager());
+
+            // Bind a file manager
+            IoC.Kernel.Bind<IFileManager>().ToConstant(new FileManager());
+
             // Bind a UI manager
             IoC.Kernel.Bind<IUIManager>().ToConstant(new UIManager());
 
-            // Bind a logger
-            IoC.Kernel.Bind<ILogFactory>().ToConstant(new BaseLogFactory());
 
         }
     }

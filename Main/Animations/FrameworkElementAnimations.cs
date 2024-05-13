@@ -7,6 +7,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
 
+using ASPNet_WPF_ChatApp.Core.InversionOfControl.Base;
+
 namespace ASPNet_WPF_ChatApp.Animations
 {
     /// <summary>
@@ -203,7 +205,7 @@ namespace ASPNet_WPF_ChatApp.Animations
             element.Unloaded += (s, e) => unloaded = true;
 
             // Run a loop off the caller thread
-            Task.Run(async () =>
+            IoC.TaskManager.Run(async () =>
             {
                 // While the element is still available, recheck the size
                 // after every loop in case the container was resized

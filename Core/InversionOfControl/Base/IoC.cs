@@ -36,6 +36,15 @@ namespace ASPNet_WPF_ChatApp.Core.InversionOfControl.Base
         /// </summary>
         public static ILogFactory Logger => Get<ILogFactory>();
 
+        /// <summary>
+        /// A shortcut to access the <see cref="IFileManager"/>
+        /// </summary>
+        public static IFileManager FileManager => Get<IFileManager>();
+
+        /// <summary>
+        /// A shortcut to access the <see cref="ITaskManager"/>
+        /// </summary>
+        public static ITaskManager TaskManager => Get<ITaskManager>();
 
         /// <summary>
         /// A shortcut to access the <see cref="ApplicationViewModel"/>
