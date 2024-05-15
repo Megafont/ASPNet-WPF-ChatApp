@@ -32,22 +32,29 @@ namespace WebServer.Controllers
 
             if (!_Context.Settings.Any())
             {
-                Debug.WriteLine("HAS SETTINGS!");
                 _Context.Settings.Add(new SettingsDataModel
                 {
+                    Id = Guid.NewGuid().ToString("N"),
                     Name = "BackgroundColor",
                     Value = "Red",
                 });
 
-                var localSettings = _Context.Settings.Local.Count();
-                var remoteSettings = _Context.Settings.Count();
+                Debug.WriteLine($"LOCAL COUNT: {_Context.Settings.Local.Count()}", "informative");
+                Debug.WriteLine($"REMOTE COUNT: {_Context.Settings.Count()}", "informative");
 
-                var firstLocal = _Context.Settings.Local.FirstOrDefault();
-                var firstRemote = _Context.Settings.FirstOrDefault();
+                Debug.WriteLine($"LOCAL FIRST_OR_DEFAULT: {_Context.Settings.Local.FirstOrDefault()}", "informative");
+                Debug.WriteLine($"REMOTE FIRST_OR_DEFAULT: {_Context.Settings.FirstOrDefault()}", "informative"); 
 
                 _Context.SaveChanges();
+
+                Debug.WriteLine($"LOCAL COUNT: {_Context.Settings.Local.Count()}", "informative");
+                Debug.WriteLine($"REMOTE COUNT: {_Context.Settings.Count()}", "informative");
+
+                Debug.WriteLine($"LOCAL FIRST_OR_DEFAULT: {_Context.Settings.Local.FirstOrDefault()}", "informative");
+                Debug.WriteLine($"REMOTE FIRST_OR_DEFAULT: {_Context.Settings.FirstOrDefault()}", "informative");
+
             }
-            
+
 
             return View();
         }

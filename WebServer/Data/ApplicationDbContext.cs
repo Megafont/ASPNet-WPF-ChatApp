@@ -38,6 +38,9 @@ namespace WebServer.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            // Fluent API
+            modelBuilder.Entity<SettingsDataModel>().HasIndex(a => a.Name);
         }
 
         #endregion
