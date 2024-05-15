@@ -1,5 +1,16 @@
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
+
 using WebServer;
 
+
+WebHost.CreateDefaultBuilder()
+    .UseStartup<Startup>()
+    .Build()
+    .Run();
+
+
+/*
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -46,3 +57,4 @@ app.UseAuthorization();
 
 
 app.Run();
+*/
