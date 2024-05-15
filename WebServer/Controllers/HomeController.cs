@@ -21,39 +21,33 @@ namespace WebServer.Controllers
 
         public IActionResult Index()
         {
-            Debug.WriteLine("1111111111111111");
 
 
             // Make sure we have the database
             _Context.Database.EnsureDeleted();
             _Context.Database.EnsureCreated();
 
-            Debug.WriteLine("222222222222222");
-            /*
+
             Debug.WriteLine(_Context.Settings.Any());
 
             if (!_Context.Settings.Any())
             {
                 Debug.WriteLine("HAS SETTINGS!");
-                /*
                 _Context.Settings.Add(new SettingsDataModel
                 {
                     Name = "BackgroundColor",
                     Value = "Red",
                 });
-                */
-                /*
+
                 var localSettings = _Context.Settings.Local.Count();
                 var remoteSettings = _Context.Settings.Count();
 
                 var firstLocal = _Context.Settings.Local.FirstOrDefault();
                 var firstRemote = _Context.Settings.FirstOrDefault();
-                */
-                //_Context.SaveChanges();
-            //}
-            
 
-            Debug.WriteLine("!!!!!!!!!!!!!!");
+                _Context.SaveChanges();
+            }
+            
 
             return View();
         }
