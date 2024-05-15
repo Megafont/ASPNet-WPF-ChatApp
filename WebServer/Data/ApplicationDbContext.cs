@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebServer.Data
 {
     /// <summary>
     /// The database representational model for our application
     /// </summary>
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser> // Used to be DbContext
     {
         public string Id { get; set; } = Guid.NewGuid().ToString("N");
 

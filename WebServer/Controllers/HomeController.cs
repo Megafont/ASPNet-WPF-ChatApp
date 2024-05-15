@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using WebServer.Data;
@@ -9,14 +12,35 @@ namespace WebServer.Controllers
         /// <summary>
         /// The scoped <see cref="ApplicationDbContext"/>
         /// </summary>
-        protected ApplicationDbContext _Context { get; set; }
+        protected ApplicationDbContext _Context;
 
+        /// <summary>
+        /// The manager for handling user creation, deletion, searching, roles, etc.
+        /// </summary>
+        protected UserManager<ApplicationUser> _UserManager;
+
+        /// <summary>
+        /// The manager for handling signing in and out for our users
+        /// </summary>
+        protected SignInManager<ApplicationUser> _SignInManager;
+
+        /// <summary>
+        /// The built-in logger
+        /// </summary>
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
+
+
+        public HomeController(
+            ILogger<HomeController> logger, 
+            ApplicationDbContext context, 
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager)
         {
             _logger = logger;
             _Context = context;
+            _UserManager = userManager;
+            _SignInManager = signInManager;
         }
 
         public IActionResult Index()
@@ -24,7 +48,7 @@ namespace WebServer.Controllers
 
 
             // Make sure we have the database
-            _Context.Database.EnsureDeleted();
+            //_Context.Database.EnsureDeleted();
             _Context.Database.EnsureCreated();
 
 
@@ -64,5 +88,76 @@ namespace WebServer.Controllers
             return View();
         }
 
+        
+        /// <summary>
+        /// Creates our single user for now
+        /// </summary>
+        /// <returns></returns>
+        [Route("create")]
+        public async Task<IActionResult> CreateUserAsync()
+        {
+            var result = await _UserManager.CreateAsync(new ApplicationUser
+            {
+                UserName = "Megafont",
+                Email = "megafont@gmail.com",
+            }, "password");
+
+            if (result.Succeeded)
+                return Content("User was created.", "text/html");
+            else
+                return Content("User creation failed!", "text/html");
+
+        }
+
+        /// <summary>
+        /// Private area, must be logged in
+        /// </summary>
+        /// <returns></returns>
+        [Authorize]
+        [Route("private")]
+        public IActionResult Private()
+        {
+            return Content($"This is a private area. Welcome, {HttpContext.User.Identity.Name}.", "text/html");
+        }
+
+        /// <summary>
+        /// A a logout page for testing
+        /// </summary>
+        /// <returns></returns>
+        [Route("logout")]
+        public async Task<IActionResult> SignOutAsync()
+        {
+            await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
+            return Content("Logged out.", "text/html");
+        }
+
+        /// <summary>
+        /// An auto-login page for testing
+        /// </summary>
+        /// <param name="returnUrl">The Url to return to if successfully logged in</param>
+        /// <returns></returns>
+        [Route("login")]
+        public async Task<IActionResult> LoginAsync(string returnUrl)
+        {
+            // Sign out any previous sessions
+            await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
+
+            // Sign in with the valid credentials
+            var result = await _SignInManager.PasswordSignInAsync("Megafont", "password", true, false);
+
+            if (result.Succeeded)
+            {
+                // If we have no return URL...
+                if (string.IsNullOrWhiteSpace(returnUrl))
+                    // Go to home
+                    return RedirectToAction(nameof(Index));
+                
+                // Otherwise, go to the return URL
+                return Redirect(returnUrl);
+            }
+            
+
+            return Content("Login failed!", "text/html");
+        }
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,6 +31,47 @@ namespace WebServer
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+
+            // AddIdentity() adds cookie-based authentication
+            // It also adds scoped classes for things like UserManager, SignInManager, PasswordHasher, etc.
+            // NOTE: Automatically adds the validated user from a cookie to the HttpContext.User.
+            // https://github.com/aspnet/Identity/blob/85f8a49aef68bf9763cd9854ce1dd4a26a7c5d3c/src/Identity/IdentityServiceCollectionExtensions.cs
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                
+                // Adds UserStore and RoleStore from this database context
+                // that are consumed by the UserManager and RoleManager.
+                // https://github.com/aspnet/Identity/blob/dev/src/EF/IdentityEntityFrameworkBuilderExtensions.cs
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                
+                // Adds a provider that generates unique keys and hashes for things liek
+                // forgot password links, phone number verification codes, etc.
+                .AddDefaultTokenProviders();
+
+
+            // Change password policy
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Make really weak password possible (for now).
+                // NEVER do this in production code!!!
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 5;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+            });
+
+
+            // Alter application cookie info
+            services.ConfigureApplicationCookie(options =>
+            {
+                // Redirect to /login
+                options.LoginPath = "/login";
+
+                // Change cookie timeout
+                options.ExpireTimeSpan = TimeSpan.FromSeconds(15);
+            });
+
+
             services.AddMvc();
         }
 
@@ -39,6 +81,10 @@ namespace WebServer
             // Store instance of the dependeny injection service provider so our application can access it anywhere.
             IoC.Provider = serviceProvider;
 
+            // Setup Identity
+            app.UseAuthentication();
+
+
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
             else
@@ -47,6 +93,8 @@ namespace WebServer
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthorization();
 
             app.UseEndpoints(routes =>
             {
