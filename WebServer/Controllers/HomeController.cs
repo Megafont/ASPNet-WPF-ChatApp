@@ -7,6 +7,9 @@ using WebServer.Data;
 
 namespace WebServer.Controllers
 {
+    /// <summary>
+    /// Manages the standard web server pages
+    /// </summary>
     public class HomeController : Controller
     {
         /// <summary>

@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
+using Microsoft.IdentityModel.Tokens;
 using WebServer.Data;
 using WebServer.InversionOfControl;
 
@@ -19,17 +21,15 @@ namespace WebServer
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            IoC.Configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             // Add ApplicationDbContext to dependency injection
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(IoC.Configuration.GetConnectionString("DefaultConnection")));
 
 
             // AddIdentity() adds cookie-based authentication
@@ -46,6 +46,23 @@ namespace WebServer
                 // Adds a provider that generates unique keys and hashes for things liek
                 // forgot password links, phone number verification codes, etc.
                 .AddDefaultTokenProviders();
+
+
+            // Add JWT Authentication for API clients
+            services.AddAuthentication()
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = IoC.Configuration["Jwt:Issuer"],
+                        ValidAudience = IoC.Configuration["Jwt:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(IoC.Configuration["Jwt:SecretKey"])),
+                    };
+                });
 
 
             // Change password policy
@@ -68,7 +85,7 @@ namespace WebServer
                 options.LoginPath = "/login";
 
                 // Change cookie timeout
-                options.ExpireTimeSpan = TimeSpan.FromSeconds(15);
+                options.ExpireTimeSpan = TimeSpan.FromSeconds(1500);
             });
 
 
