@@ -12,6 +12,8 @@ namespace WebServer.Controllers
     /// </summary>
     public class HomeController : Controller
     {
+        #region Protected Members
+
         /// <summary>
         /// The scoped <see cref="ApplicationDbContext"/>
         /// </summary>
@@ -27,13 +29,24 @@ namespace WebServer.Controllers
         /// </summary>
         protected SignInManager<ApplicationUser> _SignInManager;
 
+        #endregion
+
+        #region Private Members
+
         /// <summary>
         /// The built-in logger
         /// </summary>
         private readonly ILogger<HomeController> _logger;
 
+        #endregion
 
-
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="logger">The built-in logger</param>
+        /// <param name="context">The injected context</param>
+        /// <param name="userManager">The Identity sign in manager</param>
+        /// <param name="signInManager">The Identity user manager</param>
         public HomeController(
             ILogger<HomeController> logger, 
             ApplicationDbContext context, 
@@ -103,6 +116,8 @@ namespace WebServer.Controllers
             {
                 UserName = "Megafont",
                 Email = "megafont@gmail.com",
+                FirstName = "Michael",
+                LastName = "Fontanini",
             }, "password");
 
             if (result.Succeeded)

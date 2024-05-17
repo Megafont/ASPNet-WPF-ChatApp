@@ -18,7 +18,7 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels.Application
         /// <summary>
         /// The current page of the application
         /// </summary>
-        public ApplicationPages CurrentPage { get; private set; } = ApplicationPages.Chat;
+        public ApplicationPages CurrentPage { get; private set; } = ApplicationPages.Login;
 
         /// <summary>
         /// The view model to use for the current page when the current page changes
@@ -31,7 +31,7 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels.Application
         /// <summary>
         /// True if the settings menu should be shown
         /// </summary>
-        public bool SideMenuVisible { get; set; } = true;
+        public bool SideMenuVisible { get; set; } = false;
 
         /// <summary>
         /// True if the settings menu should be shown

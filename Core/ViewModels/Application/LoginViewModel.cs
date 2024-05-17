@@ -6,11 +6,13 @@ using System.Windows;
 using System.Windows.Input;
 
 using ASPNet_WPF_ChatApp.Core;
+using ASPNet_WPF_ChatApp.Core.ApiModels;
 using ASPNet_WPF_ChatApp.Core.DataModels;
 using ASPNet_WPF_ChatApp.Core.InversionOfControl.Base;
 using ASPNet_WPF_ChatApp.Core.Security;
 using ASPNet_WPF_ChatApp.Core.ViewModels.Base;
 using ASPNet_WPF_ChatApp.Core.ViewModels.Input;
+using Dna;
 
 namespace ASPNet_WPF_ChatApp.Core.ViewModels.Application
 {
@@ -75,25 +77,70 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels.Application
 
             await RunCommandAsync(() => LoginIsRunning, async () =>
             {
-                // TODO: Fake a login...
-                await Task.Delay(1000);
+                // Call the server and attempt to login with credentials
+                // TODO: Move all URLs and API routes to static class in Core
+                var result = await WebRequests.PostAsync<ApiResponseModel<LoginResultApiModel>>(
+                    "http://localhost:5289/api/login",
+                    new LoginCredentialsApiModel
+                    {
+                        UsernameOrEmail = Email,
+                        Password = (parameter as IHavePassword).SecurePassword.Unsecure()
+                    });
+
+                // If there was no response, bad data, or a response with an error message...
+                if (result == null || result.ServerResponse == null || !result.ServerResponse.Successful)
+                {
+                    // Default error message
+                    // TODO: Localize strings
+                    var message = "Unknown error occurred.";
+
+                    // If we got a response from the server...
+                    if (result?.ServerResponse != null)
+                    {
+                        // Set message to the server's response
+                        message = result.ServerResponse.ErrorMessage;
+                    }
+                    
+                    // If we have a result, but deserialization failed...
+                    else if (!string.IsNullOrWhiteSpace(result?.RawServerResponse))
+                    {
+                        // Set message to the raw server response
+                        message = $"Unexpected response from server. \"{result.RawServerResponse}\"";
+                    }
+
+                    // If we have a result, but no server response details at all...
+                    else if (result != null)
+                    {
+                        // Set message to standard HTTP server response details
+                        message = $"Failed to communicate with server. Status code {result.StatusCode}. \"{result.StatusDescription}\"";
+                    }
+
+
+                    // Display error
+                    await IoC.UI.ShowMessage(new Dialogs.MessageBoxDialogViewModel
+                    {
+                        // TODO: Localize strings
+                        Title = "Login Failed",
+                        Message = message
+                    });
+
+                    // We are done
+                    return;
+                }
+
 
                 // Ok, successfully logged in... Now get the user's data
-                // TODO: Ask server for user's info
+                var userData = result.ServerResponse.Response;
 
-                // TODO: In the future, replace this with real information pulled from our database
-                IoC.SettingsViewModel.Name = new TextEntryViewModel { Label = "Name", OriginalText = $"Michael Fontanini {DateTime.Now.ToLocalTime()}" };
-                IoC.SettingsViewModel.Username = new TextEntryViewModel { Label = "Username", OriginalText = "Megafont" };
+                IoC.SettingsViewModel.Name = new TextEntryViewModel { Label = "Name", OriginalText = $"{userData.FirstName} {userData.LastName}" };
+                IoC.SettingsViewModel.Username = new TextEntryViewModel { Label = "Username", OriginalText = userData.UserName };
                 IoC.SettingsViewModel.Password = new PasswordEntryViewModel { Label = "Password", FakePassword = "********" };
-                IoC.SettingsViewModel.Email = new TextEntryViewModel { Label = "Email", OriginalText = "megafont@gmail.com" };
+                IoC.SettingsViewModel.Email = new TextEntryViewModel { Label = "Email", OriginalText = userData.Email };
 
 
                 // Go to chat page
                 IoC.ApplicationViewModel.GoToPage(ApplicationPages.Chat);
                 //var email = Email;
-
-                // IMPORTANT: Never store an unsecure password in a variable like this!!! This is just temporary debug code.
-                //var pass = (parameter as IHavePassword).SecurePassword.Unsecure();
             });
 
         }

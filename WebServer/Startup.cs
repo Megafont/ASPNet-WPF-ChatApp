@@ -89,7 +89,12 @@ namespace WebServer
             });
 
 
-            services.AddMvc();
+            services.AddMvc(options =>
+            {
+                // These two lines would cause the server to use XML serialization instead of JSON serialization.
+                //options.InputFormatters.Add(new XmlSerializerInputFormatter());
+                //options.OutputFormatters.Add(new XmlSerializerOutputFormatter());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

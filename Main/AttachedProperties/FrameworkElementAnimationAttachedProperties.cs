@@ -25,12 +25,12 @@ namespace ASPNet_WPF_ChatApp.AttachedProperties
         /// True if this is the very first time the value has been updated
         /// Used to make sure we run the logic at least once during first load
         /// </summary>
-        protected Dictionary<DependencyObject, bool> _AlreadyLoaded = new Dictionary<DependencyObject, bool>();
+        protected Dictionary<WeakReference, bool> _AlreadyLoaded = new Dictionary<WeakReference, bool>();
 
         /// <summary>
         /// The most recent value used if we get a value changed before we do the first load
         /// </summary>
-        protected Dictionary<DependencyObject, bool> _FirstLoadValue = new Dictionary<DependencyObject, bool>();
+        protected Dictionary<WeakReference, bool> _FirstLoadValue = new Dictionary<WeakReference, bool>();
 
         #endregion
 
@@ -40,21 +40,30 @@ namespace ASPNet_WPF_ChatApp.AttachedProperties
             if (!(sender is FrameworkElement element))
                 return;
 
+            // Try and get the already loaded reference
+            var alreadyLoadedReference = _AlreadyLoaded.FirstOrDefault(f => f.Key.Target == sender);
+
+            // Try and get the first load reference
+            var firstLoadReference = _FirstLoadValue.FirstOrDefault(f => f.Key.Target == sender);
+
             // Don't fire if the value didn't change
-            if ((bool) sender.GetValue(ValueProperty) == (bool) value && _AlreadyLoaded.ContainsKey(sender))
+            if ((bool) sender.GetValue(ValueProperty) == (bool) value && alreadyLoadedReference.Key != null)
                 return;
 
             // On first load...
-            if (!_AlreadyLoaded.ContainsKey(sender))
+            if (alreadyLoadedReference.Key == null)
             {
+                // Create weak reference
+                var weakReference = new WeakReference(sender);
+
                 // Flag that we are in first load, but have not finished it
-                _AlreadyLoaded[sender] = false;
+                _AlreadyLoaded[weakReference] = false;
 
                 // Start off hidden before we decide how to animate
                 element.Visibility = Visibility.Hidden;
 
                 // Create a single self-unhookable event
-                // for the eleemnt's Loaded event
+                // for the element's Loaded event
                 RoutedEventHandler onLoaded = null;
                 onLoaded = async (s, e) =>
                 {
@@ -65,13 +74,17 @@ namespace ASPNet_WPF_ChatApp.AttachedProperties
                     // and their width/heights correctly calculated
                     await Task.Delay(5);
 
+                    // Refresh the first load value in case it changed
+                    // since the 5ms delay
+                    firstLoadReference = _FirstLoadValue.FirstOrDefault(f => f.Key.Target == sender);
+
                     // Do desired animation
                     DoAnimation(element,
-                                     _FirstLoadValue.ContainsKey(sender) ? _FirstLoadValue[sender] : (bool)value,
-                                     true);
+                                firstLoadReference.Key != null ? firstLoadReference.Value : (bool)value,
+                                true);
 
                     // Flag that we have finished the first load
-                    _AlreadyLoaded[sender] = true;
+                    _AlreadyLoaded[weakReference] = true;
                 };
 
                 // Hook into the Loaded event of the element
@@ -79,9 +92,9 @@ namespace ASPNet_WPF_ChatApp.AttachedProperties
             }
 
             // If we have started the first load but not fired the animation yet, update the property
-            else if (_AlreadyLoaded[sender] == false)
+            else if (alreadyLoadedReference.Value == false)
             {
-                _FirstLoadValue[sender] = (bool)value;
+                _FirstLoadValue[new WeakReference(sender)] = (bool)value;
             }
             else
             { 
@@ -113,12 +126,15 @@ namespace ASPNet_WPF_ChatApp.AttachedProperties
         {
             // Make sure we have an image
             if (!(sender is Image image))
-                    return;
+                return;
 
             // If we want to animate in...
             if ((bool)value)
+                // Listen for target change
                 image.TargetUpdated += Image_TargetUpdatedAsync;
+            // Otherwise
             else
+                // Make sure we unhooked
                 image.TargetUpdated -= Image_TargetUpdatedAsync;
         }
 
@@ -234,6 +250,19 @@ namespace ASPNet_WPF_ChatApp.AttachedProperties
     }
 
     /// <summary>
+    /// Animates a framework element sliding up from the bottom on load
+    /// if the value is true
+    /// </summary>
+    public class AnimateSlideInFromBottomOnLoadProperty : AnimateBaseProperty<AnimateSlideInFromBottomOnLoadProperty>
+    {
+        protected override async void DoAnimation(FrameworkElement element, bool value, bool firstLoad)
+        {
+            // Animate in
+            await element.SlideAndFadeInAsync(AnimationSlideDirections.Bottom, !value, !value ? 0 : 0.3f, keepMargin: false);
+        }
+    }
+
+    /// <summary>
     /// Animates a framework element (WPF UI element) sliding up from the bottom on show
     /// and sliding out to the bottom on hide, while keeping the margin
     /// </summary>
@@ -283,22 +312,6 @@ namespace ASPNet_WPF_ChatApp.AttachedProperties
                                                    firstLoad ? 0 : 0.3f, 
                                                    keepMargin: false);
             }
-        }
-    }
-
-    /// <summary>
-    /// Animates a framework element (WPF UI element) sliding up from the bottom on load
-    /// if the value is true
-    /// </summary>
-    public class AnimateSlideInFromBottomOnLoadProperty : AnimateBaseProperty<AnimateSlideInFromBottomOnLoadProperty>
-    {
-        protected override async void DoAnimation(FrameworkElement element, bool value, bool firstLoad)
-        {
-            // Animate in
-            await element.SlideAndFadeInAsync(AnimationSlideDirections.Bottom,
-                                                !value,
-                                                !value ? 0 : 0.3f,
-                                                keepMargin: false);
         }
     }
 
