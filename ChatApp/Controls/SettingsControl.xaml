@@ -22,12 +22,12 @@
             </Grid.RowDefinitions>
 
             <!-- Settings Title -->
-            <Grid Height="50"
+            <Grid Height="40"
                   Margin="0 0 0 20">
 
                 <!-- Back button -->
                 <Button Style="{StaticResource IconGrowButton}"
-                    Height="50"
+                    Height="40"
                     Content="{StaticResource FontAwesomeArrowLeftIcon}"
                     FontFamily="{StaticResource FontAwesome}"
                     Foreground="{StaticResource ForegroundDarkBrush}"
@@ -36,6 +36,7 @@
                     Command="{Binding CloseCommand}"
                     />
 
+                <!-- Settings Header -->
                 <TextBlock FontSize="{StaticResource FontSizeLarge}"
                        Foreground="{StaticResource ForegroundVeryDarkBrush}"
                        HorizontalAlignment="Center"
@@ -66,7 +67,7 @@
                 <!-- Profile Picture -->
                 <Grid Margin="0 0 30 0"
                       VerticalAlignment="Top"
-                      Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
+                      Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"                      
                       >
 
                     <!-- Mask for rounded corners -->
@@ -88,7 +89,7 @@
                 
                 <!-- Profile Details -->
                 <StackPanel Grid.Column="1"
-                            attachedProperties:TextEntryWidthMatcherProperty.Value="True"
+                            attachedProperties:TextEntryWidthMatcherProperty.Value="True"                            
                             >
 
                     <inputControls:TextEntryControl DataContext="{Binding Name}" />

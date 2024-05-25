@@ -174,7 +174,7 @@ namespace ASPNet_WPF_ChatApp.Animations
             await Task.Delay((int)(seconds * 1000));
 
             // Set the element's visibility to hidden so it won't continue to block click events (Collapsed didn't work)
-            element.Visibility = Visibility.Hidden;
+            element.Visibility = Visibility.Collapsed;
         }
 
         #endregion

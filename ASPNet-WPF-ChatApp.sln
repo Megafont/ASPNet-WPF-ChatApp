@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Main", "Main\Main.csproj", "{CD3C9813-013D-4032-869E-99A5F2892036}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChatApp", "ChatApp\ChatApp.csproj", "{CD3C9813-013D-4032-869E-99A5F2892036}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{3A1780D0-CDAA-47BB-837C-ABD49C474765}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlConnector", "SqlConnector\SqlConnector.csproj", "{F0C75E02-E925-4E95-B9F0-7378518EAD20}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebServer", "WebServer\WebServer.csproj", "{D35C9E3C-747A-4983-91F0-99E3FD174799}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RelationalDB", "RelationalDB\RelationalDB.csproj", "{F4C29208-2561-4A6C-82FC-5E3BCE5A1D9E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{D35C9E3C-747A-4983-91F0-99E3FD174799}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D35C9E3C-747A-4983-91F0-99E3FD174799}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D35C9E3C-747A-4983-91F0-99E3FD174799}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4C29208-2561-4A6C-82FC-5E3BCE5A1D9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4C29208-2561-4A6C-82FC-5E3BCE5A1D9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4C29208-2561-4A6C-82FC-5E3BCE5A1D9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4C29208-2561-4A6C-82FC-5E3BCE5A1D9E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

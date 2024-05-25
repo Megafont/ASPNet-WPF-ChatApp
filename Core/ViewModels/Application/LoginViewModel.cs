@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Security;
 using System.Threading.Tasks;
 using System.Windows;
@@ -129,18 +130,26 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels.Application
                 }
 
 
-                // Ok, successfully logged in... Now get the user's data
+                // Ok, successfully logged in... Now get the user's dat              
                 var userData = result.ServerResponse.Response;
 
-                IoC.SettingsViewModel.Name = new TextEntryViewModel { Label = "Name", OriginalText = $"{userData.FirstName} {userData.LastName}" };
-                IoC.SettingsViewModel.Username = new TextEntryViewModel { Label = "Username", OriginalText = userData.UserName };
-                IoC.SettingsViewModel.Password = new PasswordEntryViewModel { Label = "Password", FakePassword = "********" };
-                IoC.SettingsViewModel.Email = new TextEntryViewModel { Label = "Email", OriginalText = userData.Email };
+                // Store it in the client data store
+                await IoC.ClientDataStore.SaveLoginCredentialsAsync(new LoginCredentialsDataModel
+                {
+                    Id = Guid.NewGuid().ToString("N"), // I had to add this line to stop it complaining that this field was null
+                    Email = userData.Email,
+                    FirstName = userData.FirstName,
+                    LastName = userData.LastName,
+                    UserName = userData.UserName,
+                    Token = userData.Token
+                });
 
 
+                // Load new settings
+                await IoC.SettingsViewModel.LoadSettingsAsync();
+                
                 // Go to chat page
                 IoC.ApplicationViewModel.GoToPage(ApplicationPages.Chat);
-                //var email = Email;
             });
 
         }

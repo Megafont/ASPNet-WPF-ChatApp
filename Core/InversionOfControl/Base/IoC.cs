@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using Dna;
 using Ninject;
 
 using ASPNet_WPF_ChatApp.Core.DataModels;
 using ASPNet_WPF_ChatApp.Core.ViewModels;
 using ASPNet_WPF_ChatApp.Core.ViewModels.Application;
 using ASPNet_WPF_ChatApp.Core.InversionOfControl.Interfaces;
+using System.Diagnostics;
 
 
 namespace ASPNet_WPF_ChatApp.Core.InversionOfControl.Base
@@ -56,6 +58,10 @@ namespace ASPNet_WPF_ChatApp.Core.InversionOfControl.Base
         /// </summary>
         public static SettingsViewModel SettingsViewModel => Get<SettingsViewModel>();
 
+        /// <summary>
+        /// A shortcut access to the <see cref="IClientDataStore"/>
+        /// </summary>
+        public static IClientDataStore ClientDataStore => (IClientDataStore) Framework.Provider.GetService(typeof(IClientDataStore));
 
         #endregion
 

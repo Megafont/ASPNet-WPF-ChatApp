@@ -68,6 +68,11 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels.Application
         /// </summary>
         public ICommand ClearCommand { get; set; }
 
+        /// <summary>
+        /// The command to load the settings data from the client data store
+        /// </summary>
+        public ICommand LoadCommand { get; set; }
+
         #endregion
 
         #region Constructors
@@ -82,6 +87,7 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels.Application
             OpenCommand = new RelayCommand(Open);
             LogoutCommand = new RelayCommand(Logout);
             ClearCommand = new RelayCommand(ClearUserData);
+            LoadCommand = new RelayCommand(async () => await LoadSettingsAsync());
 
             // TODO: Remove this once the real back-end is ready
             Name = new TextEntryViewModel { Label = "Name", OriginalText = $"Michael Fontanini {DateTime.Now.ToLocalTime()}" };
@@ -141,6 +147,20 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels.Application
             Username = null;
             Password = null;
             Email = null;
+        }
+
+        /// <summary>
+        /// Sets the settings view model properties based on the data in the client data store
+        /// </summary>
+        public async Task LoadSettingsAsync()
+        {
+            // Get the stored credentials
+            var storedCredentials = await IoC.ClientDataStore.GetLoginCredentialsAsync();
+
+            Name = new TextEntryViewModel { Label = "Name", OriginalText = $"{storedCredentials?.FirstName} {storedCredentials?.LastName}" };
+            Username = new TextEntryViewModel { Label = "Username", OriginalText = storedCredentials?.UserName };
+            Password = new PasswordEntryViewModel { Label = "Password", FakePassword = "********" };
+            Email = new TextEntryViewModel { Label = "Email", OriginalText = storedCredentials?.Email };
         }
     }
 }

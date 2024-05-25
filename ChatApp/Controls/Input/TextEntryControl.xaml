@@ -83,7 +83,7 @@
             <TextBlock Text="{Binding OriginalText}" 
                        Grid.Column="1"
                        attachedProperties:AnimateFadeInProperty.Value="{Binding Editing, Converter={valueConverters:BooleanInvertConverter}}"
-                       Margin="10 8"
+                       Margin="15 8"
                        VerticalAlignment="Center"
                        ToolTip="{Binding OriginalText}"
                        />
@@ -111,10 +111,12 @@
 
             </Grid>
 
+            <!-- Edit buttons container -->
             <StackPanel Grid.Column="2"
                         Orientation="Horizontal"
                         >
 
+                <!-- Save Button -->
                 <Button Content="{StaticResource FontAwesomeTickIcon}"
                         FontFamily="{StaticResource FontAwesome}"
                         attachedProperties:AnimateFadeInProperty.Value="{Binding Editing}"
@@ -128,6 +130,7 @@
                         FontSize="{StaticResource FontSizeSmall}"
                         />
 
+                <!-- Cancel Button -->
                 <Button Content="{StaticResource FontAwesomeCloseIcon}"
                         FontFamily="{StaticResource FontAwesome}"
                         attachedProperties:AnimateFadeInProperty.Value="{Binding Editing}"
