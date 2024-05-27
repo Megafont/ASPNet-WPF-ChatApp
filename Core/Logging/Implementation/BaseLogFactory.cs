@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-using ASPNet_WPF_ChatApp.Core.InversionOfControl.Interfaces;
+using ASPNet_WPF_ChatApp.Core.DependencyInjection.Interfaces;
 
 namespace ASPNet_WPF_ChatApp.Core.Logging
 {

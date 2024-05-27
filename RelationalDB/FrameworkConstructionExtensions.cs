@@ -11,7 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-using ASPNet_WPF_ChatApp.Core.InversionOfControl.Interfaces;
+using ASPNet_WPF_ChatApp.Core.DependencyInjection.Interfaces;
 using System.Reflection;
 
 
@@ -38,7 +38,7 @@ namespace APSNet_WPF_ChatApp.RelationalDB
             // Make it scoped so we can inject the scoped DbContext
             construction.Services.AddScoped<IClientDataStore>(provider =>
             {
-                return new ClientDataStore(provider.GetService<ClientDataStoreDbContext>());
+                return new BaseClientDataStore(provider.GetService<ClientDataStoreDbContext>());
             });
 
 

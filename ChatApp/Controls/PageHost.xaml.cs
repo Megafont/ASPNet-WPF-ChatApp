@@ -2,12 +2,16 @@
 using System.Windows;
 using System.Windows.Controls;
 
-using ASPNet_WPF_ChatApp.Core.InversionOfControl.Base;
+using ASPNet_WPF_ChatApp.Core.DependencyInjection;
 using ASPNet_WPF_ChatApp.Pages;
-using ASPNet_WPF_ChatApp.Core.ViewModels;
+using ASPNet_WPF_ChatApp.ViewModels;
+using ASPNet_WPF_ChatApp.ViewModels.Base;
 using ASPNet_WPF_ChatApp.ValueConverters;
-using ASPNet_WPF_ChatApp.Core.ViewModels.Base;
 using ASPNet_WPF_ChatApp.Core.DataModels;
+
+// This makes it so we can access members on this static class without needing to write "ChatAppDI." first.
+using static ASPNet_WPF_ChatApp.DependencyInjection.ChatAppDI;
+
 
 namespace ASPNet_WPF_ChatApp.Controls
 {
@@ -69,7 +73,7 @@ namespace ASPNet_WPF_ChatApp.Controls
             // as the dependency property does not fire
             if (DesignerProperties.GetIsInDesignMode(this))
             {
-                NewPage.Content = IoC.ApplicationViewModel.CurrentPage.ToBasePage();
+                NewPage.Content = ViewModel_Application.CurrentPage.ToBasePage();
             }
         }
 

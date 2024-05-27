@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using ASPNet_WPF_ChatApp.Core.ViewModels.Base;
-using ASPNet_WPF_ChatApp.Core.ViewModels.Dialogs;
+
+using ASPNet_WPF_ChatApp.ViewModels.Base;
+using ASPNet_WPF_ChatApp.ViewModels.Dialogs;
 using ASPNet_WPF_ChatApp.ViewModels;
+using ASPNet_WPF_ChatApp.WPFViewModels;
 
 namespace ASPNet_WPF_ChatApp.Dialogs
 {

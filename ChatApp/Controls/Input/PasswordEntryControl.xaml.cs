@@ -1,5 +1,4 @@
-﻿using ASPNet_WPF_ChatApp.Core.ViewModels.Input;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -14,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+
+using ASPNet_WPF_ChatApp.ViewModels.Input;
 
 namespace ASPNet_WPF_ChatApp.Controls.Input
 {

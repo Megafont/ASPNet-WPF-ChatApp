@@ -13,7 +13,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using ASPNet_WPF_ChatApp.Core.InversionOfControl.Base;
+using ASPNet_WPF_ChatApp.Core.DependencyInjection;
+
+// This makes it so we can access members on this static class without needing to write "ChatAppDI." first.
+using static ASPNet_WPF_ChatApp.DependencyInjection.ChatAppDI;
 
 namespace ASPNet_WPF_ChatApp.Controls
 {
@@ -27,7 +30,7 @@ namespace ASPNet_WPF_ChatApp.Controls
             InitializeComponent();
 
             // Set data context to settings view model
-            DataContext = IoC.SettingsViewModel;
+            DataContext = ViewModel_Settings;
         }
     }
 }

@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 using ASPNet_WPF_ChatApp.Pages;
 using ASPNet_WPF_ChatApp.Core.DataModels;
-using ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatMessage;
-using ASPNet_WPF_ChatApp.Core.ViewModels.Application;
+using ASPNet_WPF_ChatApp.ViewModels.Chat.ChatMessage;
+using ASPNet_WPF_ChatApp.ViewModels.Application;
 
 
 namespace ASPNet_WPF_ChatApp.ValueConverters

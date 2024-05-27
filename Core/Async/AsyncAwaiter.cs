@@ -1,10 +1,13 @@
-﻿using ASPNet_WPF_ChatApp.Core.InversionOfControl.Base;
-using ASPNet_WPF_ChatApp.Core.Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+
+using static Dna.FrameworkDI;
+using Dna;
+
+using ASPNet_WPF_ChatApp.Core.DependencyInjection;
 
 namespace ASPNet_WPF_ChatApp.Core.Async
 {
@@ -151,7 +154,7 @@ namespace ASPNet_WPF_ChatApp.Core.Async
 
                 // Log message to debug level 
                 // (may not be an issue but we don't want to miss anything in debug)
-                IoC.Logger.Log($"Crash in {nameof(AwaitAsync)}. {ex.Message}", LogLevel.Error);
+                Logger.LogErrorSource($"Crash in {nameof(AwaitAsync)}. {ex.Message}");
 
                 // Break debugger
                 Debugger.Break();

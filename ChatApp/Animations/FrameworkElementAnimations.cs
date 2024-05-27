@@ -7,7 +7,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
 
-using ASPNet_WPF_ChatApp.Core.InversionOfControl.Base;
+using ASPNet_WPF_ChatApp.Core.DependencyInjection;
+
+// This makes it so we can access members on this static class without needing to write "CoreDI." first.
+using static ASPNet_WPF_ChatApp.Core.DependencyInjection.CoreDI;
 
 namespace ASPNet_WPF_ChatApp.Animations
 {
@@ -208,7 +211,7 @@ namespace ASPNet_WPF_ChatApp.Animations
             element.Unloaded += (s, e) => unloaded = true;
 
             // Run a loop off the caller thread
-            IoC.TaskManager.Run(async () =>
+            TaskManager.Run(async () =>
             {
                 // While the element is still available, recheck the size
                 // after every loop in case the container was resized

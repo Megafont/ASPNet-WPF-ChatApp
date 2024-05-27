@@ -8,8 +8,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using ASPNet_WPF_ChatApp.Core.ViewModels;
 using ASPNet_WPF_ChatApp.ViewModels;
+using ASPNet_WPF_ChatApp.WPFViewModels;
 
 
 namespace ASPNet_WPF_ChatApp

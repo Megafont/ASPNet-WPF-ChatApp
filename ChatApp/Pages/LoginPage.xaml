@@ -1,7 +1,7 @@
 ﻿<pages:BasePage x:TypeArguments="viewModels:LoginViewModel" 
       x:Class="ASPNet_WPF_ChatApp.Pages.LoginPage"
       xmlns:pages="clr-namespace:ASPNet_WPF_ChatApp.Pages" 
-      xmlns:viewModels="clr-namespace:ASPNet_WPF_ChatApp.Core.ViewModels.Application;assembly=ASPNet_WPF_ChatApp.Core"
+      xmlns:viewModels="clr-namespace:ASPNet_WPF_ChatApp.ViewModels.Application"
       xmlns:attachedProperties="clr-namespace:ASPNet_WPF_ChatApp.AttachedProperties"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"

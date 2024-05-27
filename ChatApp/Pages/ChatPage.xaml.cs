@@ -5,9 +5,9 @@ using System.Windows.Input;
 using System.Windows.Media.Animation;
 
 using ASPNet_WPF_ChatApp.Animations;
-using ASPNet_WPF_ChatApp.Core.ViewModels;
-using ASPNet_WPF_ChatApp.Core.ViewModels.Base;
-using ASPNet_WPF_ChatApp.Core.ViewModels.Chat.ChatMessage;
+using ASPNet_WPF_ChatApp.ViewModels;
+using ASPNet_WPF_ChatApp.ViewModels.Base;
+using ASPNet_WPF_ChatApp.ViewModels.Chat.ChatMessage;
 
 
 namespace ASPNet_WPF_ChatApp.Pages

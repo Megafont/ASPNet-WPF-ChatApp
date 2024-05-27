@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Windows;
 
-using ASPNet_WPF_ChatApp.Core.ViewModels.PopupMenus;
+using ASPNet_WPF_ChatApp.ViewModels.PopupMenus;
 using ASPNet_WPF_ChatApp.Controls.Menus;
 
 namespace ASPNet_WPF_ChatApp.ValueConverters

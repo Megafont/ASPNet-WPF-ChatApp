@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ASPNet_WPF_ChatApp.Controls.Menus"
              xmlns:attachedProperties="clr-namespace:ASPNet_WPF_ChatApp.AttachedProperties"              
-             xmlns:menuDesignViewModels="clr-namespace:ASPNet_WPF_ChatApp.Core.ViewModels.Menus.Design;assembly=ASPNet_WPF_ChatApp.Core" 
+             xmlns:menuDesignViewModels="clr-namespace:ASPNet_WPF_ChatApp.ViewModels.Menus.Design;assembly=ASPNet_WPF_ChatApp.Core" 
              xmlns:valueConverters="clr-namespace:ASPNet_WPF_ChatApp.ValueConverters"
              mc:Ignorable="d" >
 

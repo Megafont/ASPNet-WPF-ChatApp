@@ -2,9 +2,11 @@
 using System.Windows;
 using System.Windows.Controls;
 
+using Dna;
+
 using ASPNet_WPF_ChatApp.Animations;
-using ASPNet_WPF_ChatApp.Core.InversionOfControl.Base;
-using ASPNet_WPF_ChatApp.Core.ViewModels.Base;
+using ASPNet_WPF_ChatApp.DependencyInjection;
+using ASPNet_WPF_ChatApp.ViewModels.Base;
 
 namespace ASPNet_WPF_ChatApp.Pages
 {
@@ -226,13 +228,22 @@ namespace ASPNet_WPF_ChatApp.Pages
         public BasePage() 
             : base()
         {
-            // Create a default view model
-            ViewModel = IoC.Get<VM>();
+            if (DesignerProperties.GetIsInDesignMode(this))
+            {
+                // Just use a new instance of VM
+                ViewModel = new VM();
+            }
+            else
+            {
+                // Create a default view model
+                ViewModel = (VM)Framework.Provider.GetService(typeof(VM)) ?? new VM();
+            }
         }
 
         public BasePage(VM specificViewModel = null)
             : base()
         {
+            // Set the specific view model
             if (specificViewModel != null)
             {
                 // Set the specific view model
@@ -240,8 +251,17 @@ namespace ASPNet_WPF_ChatApp.Pages
             }
             else
             {
-                // Create a default view model
-                ViewModel = IoC.Get<VM>();
+                // If in design mode...
+                if (DesignerProperties.GetIsInDesignMode(this))
+                {
+                    // Just use a new instance of VM
+                    ViewModel = new VM();
+                }
+                else
+                {
+                    // Create a default view model
+                    ViewModel = (VM)Framework.Provider.GetService(typeof(VM)) ?? new VM();
+                }
             }
         }
 

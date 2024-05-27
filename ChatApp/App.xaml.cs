@@ -7,14 +7,18 @@ using Dna;
 using APSNet_WPF_ChatApp.RelationalDB;
 using ASPNet_WPF_ChatApp.Core.DataModels;
 using ASPNet_WPF_ChatApp.Core.FileSystem;
-using ASPNet_WPF_ChatApp.Core.InversionOfControl.Base;
-using ASPNet_WPF_ChatApp.Core.InversionOfControl.Interfaces;
+using ASPNet_WPF_ChatApp.Core.DependencyInjection;
+using ASPNet_WPF_ChatApp.Core.DependencyInjection.Interfaces;
 using ASPNet_WPF_ChatApp.Core.Logging;
 using ASPNet_WPF_ChatApp.Core.Tasks;
-using ASPNet_WPF_ChatApp.InversionOfControl;
+using ASPNet_WPF_ChatApp.DependencyInjection;
 
 using FileLogger = ASPNet_WPF_ChatApp.Core.Logging.FileLogger;
 
+// This makes it so we can access members on this static class without needing to write "ChatAppDI." first.
+using static ASPNet_WPF_ChatApp.DependencyInjection.ChatAppDI;
+// This makes it so we can access members on this static class without needing to write "FrameworkDI." first.
+using static Dna.FrameworkDI;
 
 namespace ASPNet_WPF_ChatApp
 {
@@ -36,13 +40,13 @@ namespace ASPNet_WPF_ChatApp
             await ApplicationSetupAsync();
 
             // Log it
-            IoC.Logger.Log("Application starting...", LogLevel.Debug);
+            Logger.LogDebugSource("Application starting...");
 
             
             // Setup the application view model based on if we are logged in
-            IoC.ApplicationViewModel.GoToPage(
+            ViewModel_Application.GoToPage(
                 // If we are logged in...
-                await IoC.ClientDataStore.HasCredentialsAsync() 
+                await ClientDataStore.HasCredentialsAsync() 
                 // Go to chat page
                 ? ApplicationPages.Chat 
                 // Otherwise, go to login page
@@ -59,40 +63,21 @@ namespace ASPNet_WPF_ChatApp
         /// </summary>
         private async Task ApplicationSetupAsync()
         {
-            // Setup the Dna Framework
+            // Setup the Dna Framework (dependency injection)
             // I had to change the first line here from "new DefaultFrameworkConstruction()" to what it is now to fix a null reference exception.
             Framework.Construct<DefaultFrameworkConstruction>()
                 .AddFileLogger()
                 .UseClientDataStore()
+                .AddChatAppViewModels()
+                .AddChatAppClientServices()
                 .Build();
-
-            // Setup IoC container
-            IoC.Setup();
-            
-
-            // Bind a logger
-            IoC.Kernel.Bind<ILogFactory>().ToConstant(new BaseLogFactory(new[]
-            {
-                // TODO: Add ApplicationSettings so we can set/edit a log location.
-                //       For now, just log to the path where this application is running.
-                new FileLogger("log.txt"),
-            }));
-
-            // Bind a task manager
-            IoC.Kernel.Bind<ITaskManager>().ToConstant(new TaskManager());
-
-            // Bind a file manager
-            IoC.Kernel.Bind<IFileManager>().ToConstant(new FileManager());
-
-            // Bind a UI manager
-            IoC.Kernel.Bind<IUIManager>().ToConstant(new UIManager());
 
             
             // Ensure the client data store
-            await IoC.ClientDataStore.EnsureDataStoreAsync();
+            await ClientDataStore.EnsureDataStoreAsync();
 
-            // Load new settings
-            await IoC.SettingsViewModel.LoadSettingsAsync();
+            // Load new settings (this is actually CoreDI.SettingsViewModel, but the static using at the top of this file let's us write it without qualifying it with "CoreDI.").
+            await ViewModel_Settings.LoadSettingsAsync();
         }
     }
 

@@ -8,7 +8,7 @@
         xmlns:controls="clr-namespace:ASPNet_WPF_ChatApp.Controls"
         xmlns:chatListControls="clr-namespace:ASPNet_WPF_ChatApp.Controls.Chat.ChatList"
         xmlns:valueConverters="clr-namespace:ASPNet_WPF_ChatApp.ValueConverters"
-        xmlns:viewModels="clr-namespace:ASPNet_WPF_ChatApp.ViewModels"
+        xmlns:viewModels="clr-namespace:ASPNet_WPF_ChatApp.WPFViewModels"
         mc:Ignorable="d"
         WindowStyle="None"
         AllowsTransparency="True"

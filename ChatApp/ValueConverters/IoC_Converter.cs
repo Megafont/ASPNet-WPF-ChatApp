@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 
-using ASPNet_WPF_ChatApp.Core.InversionOfControl.Base;
-using ASPNet_WPF_ChatApp.Core.ViewModels;
-using ASPNet_WPF_ChatApp.Core.ViewModels.Application;
+using ASPNet_WPF_ChatApp.DependencyInjection;
+using ASPNet_WPF_ChatApp.ViewModels;
+using ASPNet_WPF_ChatApp.ViewModels.Application;
 using ASPNet_WPF_ChatApp.Pages;
+
+// This makes it so we can access members on this static class without needing to write "CoreDI." first.
+using static ASPNet_WPF_ChatApp.DependencyInjection.ChatAppDI;
 
 
 namespace ASPNet_WPF_ChatApp.ValueConverters
@@ -22,7 +25,7 @@ namespace ASPNet_WPF_ChatApp.ValueConverters
             switch ((string) parameter)
             {
                 case nameof(ApplicationViewModel):
-                    return IoC.ApplicationViewModel;
+                    return ViewModel_Application;
 
                 default:
                     Debugger.Break();

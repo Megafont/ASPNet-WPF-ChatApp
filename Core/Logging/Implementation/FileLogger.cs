@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using ASPNet_WPF_ChatApp.Core.InversionOfControl.Base;
-using Microsoft.VisualBasic;
+using ASPNet_WPF_ChatApp.Core.DependencyInjection;
+
+// This makes it so we can access members on this static class without needing to write "CoreDI." first.
+using static ASPNet_WPF_ChatApp.Core.DependencyInjection.CoreDI;
 
 namespace ASPNet_WPF_ChatApp.Core.Logging
 {
@@ -52,7 +54,7 @@ namespace ASPNet_WPF_ChatApp.Core.Logging
             var timeStamp = LogTime ? $"[{currentTime}] " : "";
 
             // Write the message to the log file
-            IoC.FileManager.WriteTextToFileAsync($"{timeStamp}{message}" + Environment.NewLine, FilePath, true);
+            FileManager.WriteTextToFileAsync($"{timeStamp}{message}" + Environment.NewLine, FilePath, true);
         } 
 
         #endregion

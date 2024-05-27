@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ASPNet_WPF_ChatApp"
              xmlns:dialogs="clr-namespace:ASPNet_WPF_ChatApp.Dialogs"
-             xmlns:dialogDesignViewModels="clr-namespace:ASPNet_WPF_ChatApp.Core.ViewModels.Dialogs.Design;assembly=ASPNet_WPF_ChatApp.Core"            
+             xmlns:dialogDesignViewModels="clr-namespace:ASPNet_WPF_ChatApp.ViewModels.Dialogs.Design;assembly=ASPNet_WPF_ChatApp.Core"            
              mc:Ignorable="d">
 
     <StackPanel d:DataContext="{x:Static dialogDesignViewModels:MessageBoxDialogDesignViewModel.Instance}"
