@@ -13,6 +13,7 @@ using ASPNet_WPF_ChatApp.Core.InversionOfControl.Base;
 using ASPNet_WPF_ChatApp.Core.Security;
 using ASPNet_WPF_ChatApp.Core.ViewModels.Base;
 using ASPNet_WPF_ChatApp.Core.ViewModels.Input;
+using ASPNet_WPF_ChatApp.Core.WebRequestUtils;
 using Dna;
 
 namespace ASPNet_WPF_ChatApp.Core.ViewModels.Application
@@ -75,7 +76,6 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels.Application
                 return;
 
 
-
             await RunCommandAsync(() => LoginIsRunning, async () =>
             {
                 // Call the server and attempt to login with credentials
@@ -88,68 +88,19 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels.Application
                         Password = (parameter as IHavePassword).SecurePassword.Unsecure()
                     });
 
-                // If there was no response, bad data, or a response with an error message...
-                if (result == null || result.ServerResponse == null || !result.ServerResponse.Successful)
+                // If the response has an error...
+                if (await result.DisplayErrorIfFailedAsync("Login Failed"))
                 {
-                    // Default error message
-                    // TODO: Localize strings
-                    var message = "Unknown error occurred.";
-
-                    // If we got a response from the server...
-                    if (result?.ServerResponse != null)
-                    {
-                        // Set message to the server's response
-                        message = result.ServerResponse.ErrorMessage;
-                    }
-                    
-                    // If we have a result, but deserialization failed...
-                    else if (!string.IsNullOrWhiteSpace(result?.RawServerResponse))
-                    {
-                        // Set message to the raw server response
-                        message = $"Unexpected response from server. \"{result.RawServerResponse}\"";
-                    }
-
-                    // If we have a result, but no server response details at all...
-                    else if (result != null)
-                    {
-                        // Set message to standard HTTP server response details
-                        message = $"Failed to communicate with server. Status code {result.StatusCode}. \"{result.StatusDescription}\"";
-                    }
-
-
-                    // Display error
-                    await IoC.UI.ShowMessage(new Dialogs.MessageBoxDialogViewModel
-                    {
-                        // TODO: Localize strings
-                        Title = "Login Failed",
-                        Message = message
-                    });
-
                     // We are done
                     return;
                 }
 
-
                 // Ok, successfully logged in... Now get the user's dat              
-                var userData = result.ServerResponse.Response;
+                var loginResult = result.ServerResponse.Response;
 
-                // Store it in the client data store
-                await IoC.ClientDataStore.SaveLoginCredentialsAsync(new LoginCredentialsDataModel
-                {
-                    Id = Guid.NewGuid().ToString("N"), // I had to add this line to stop it complaining that this field was null
-                    Email = userData.Email,
-                    FirstName = userData.FirstName,
-                    LastName = userData.LastName,
-                    UserName = userData.UserName,
-                    Token = userData.Token
-                });
-
-
-                // Load new settings
-                await IoC.SettingsViewModel.LoadSettingsAsync();
-                
-                // Go to chat page
-                IoC.ApplicationViewModel.GoToPage(ApplicationPages.Chat);
+                // Let the application view model handle what happens
+                // with the ssuccessful login
+                await IoC.ApplicationViewModel.HandleSuccessfulLoginAsync(loginResult);
             });
 
         }

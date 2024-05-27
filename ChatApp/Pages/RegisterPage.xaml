@@ -43,9 +43,13 @@
                                        Foreground="{StaticResource ForegroundDarkBrush}"
                                        Margin="0 0 0 20"/>
 
+                            <!-- Username -->
+                            <TextBox Text="{Binding UserName}" 
+                                     attachedProperties:IsFocusedProperty.Value="True"
+                                     Tag="Username"/>
+
                             <!-- Email -->
                             <TextBox Text="{Binding Email}" 
-                                     attachedProperties:IsFocusedProperty.Value="True"
                                      Tag="Email"/>
                             
                             <!-- Password -->

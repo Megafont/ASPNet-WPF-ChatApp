@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,6 +12,10 @@ namespace ASPNet_WPF_ChatApp.Core.DataModels
     /// </summary>
     public class LoginCredentialsDataModel
     {
+        // NOTE: I had to make some fields below nullable by adding the nullable operator (?).
+        //       Otherwise, these fields were causing errors because they wouldn't allow null values.
+
+
         /// <summary>
         /// The unique Id for this data model. This field is needed so this data is indexed in the database
         /// </summary>
@@ -23,13 +28,13 @@ namespace ASPNet_WPF_ChatApp.Core.DataModels
 
         /// <summary>
         /// The user's first name
-        /// </summary>
-        public string FirstName { get; set; }
+        /// </summary>        
+        public string? FirstName { get; set; }
 
         /// <summary>
         /// The user's last name
-        /// </summary>
-        public string LastName { get; set; }
+        /// </summary>       
+        public string? LastName { get; set; }
 
         /// <summary>
         /// The user's email

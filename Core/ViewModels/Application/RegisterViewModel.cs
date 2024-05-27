@@ -5,10 +5,15 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
+using Dna;
+
+using ASPNet_WPF_ChatApp.Core.ApiModels;
 using ASPNet_WPF_ChatApp.Core.DataModels;
 using ASPNet_WPF_ChatApp.Core.InversionOfControl.Base;
 using ASPNet_WPF_ChatApp.Core.Security;
 using ASPNet_WPF_ChatApp.Core.ViewModels.Base;
+using ASPNet_WPF_ChatApp.Core.WebRequestUtils;
+using System.Diagnostics;
 
 namespace ASPNet_WPF_ChatApp.Core.ViewModels.Application
 {
@@ -18,6 +23,11 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels.Application
     public class RegisterViewModel : BaseViewModel
     {
         #region Public Properties
+
+        /// <summary>
+        /// The user name of the user
+        /// </summary>
+        public string UserName { get; set; }
 
         /// <summary>
         /// The email of the user
@@ -70,11 +80,32 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels.Application
                 return;
 
 
-
             await RunCommandAsync(() => RegisterIsRunning, async () =>
             {
-                await Task.Delay(5000);
+                // Call the server and attempt to register an account with the provided credentials
+                // TODO: Move all URLs and API routes to static class in Core
+                var result = await WebRequests.PostAsync<ApiResponseModel<RegisterResultApiModel>>(
+                    "http://localhost:5289/api/register",
+                    new RegisterCredentialsApiModel
+                    {
+                        UserName = this.UserName,
+                        Email = this.Email,
+                        Password = (parameter as IHavePassword).SecurePassword.Unsecure()
+                    });
 
+                // If the response has an error...
+                if (await result.DisplayErrorIfFailedAsync("Registration Failed"))
+                {
+                    // We are done
+                    return;
+                }
+
+                // Ok, successfully registered (and logged in)... Now get the user's dat              
+                var registrationResult = result.ServerResponse.Response;
+
+                // Let the application view model handle what happens
+                // with the ssuccessful login
+                await IoC.ApplicationViewModel.HandleSuccessfulLoginAsync(registrationResult);
             });
 
         }
@@ -85,7 +116,7 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels.Application
         /// <returns></returns>
         public async Task LoginAsync()
         {
-            // Go to registration page
+            // Go to login page
             IoC.ApplicationViewModel.GoToPage(ApplicationPages.Login);
 
             await Task.Delay(1);

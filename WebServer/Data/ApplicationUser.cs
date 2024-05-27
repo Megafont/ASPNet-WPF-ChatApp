@@ -9,15 +9,18 @@ namespace WebServer.Data
     {
         #region Public Properties
 
+        // NOTE: I had to make some fields below nullable by adding the nullable operator (?).
+        //       Otherwise, these fields were causing errors because they wouldn't allow null values.
+
         /// <summary>
         /// The user's first name
-        /// </summary>
-        public string FirstName { get; set; }
+        /// </summary>        
+        public string? FirstName { get; set; }
 
         /// <summary>
         /// The user's last name
         /// </summary>
-        public string LastName { get; set; }
+        public string? LastName { get; set; }
 
         #endregion
     }

@@ -33,7 +33,7 @@ namespace WebServer.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            base.OnConfiguring(optionsBuilder);
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -41,7 +41,7 @@ namespace WebServer.Data
             base.OnModelCreating(modelBuilder);
 
             // Fluent API
-            modelBuilder.Entity<SettingsDataModel>().HasIndex(a => a.Name);
+            modelBuilder.Entity<SettingsDataModel>().HasIndex(a => a.Name);          
         }
 
         #endregion

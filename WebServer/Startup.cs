@@ -43,12 +43,12 @@ namespace WebServer
                 // https://github.com/aspnet/Identity/blob/dev/src/EF/IdentityEntityFrameworkBuilderExtensions.cs
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 
-                // Adds a provider that generates unique keys and hashes for things liek
+                // Adds a provider that generates unique keys and hashes for things like
                 // forgot password links, phone number verification codes, etc.
                 .AddDefaultTokenProviders();
 
 
-            // Add JWT Authentication for API clients
+            // Add JWT (JSON Web Token) Authentication for API clients
             services.AddAuthentication()
                 .AddJwtBearer(options =>
                 {
@@ -75,6 +75,9 @@ namespace WebServer
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
                 options.Password.RequireNonAlphanumeric = false;
+
+                // Make sure users have unique emails
+                options.User.RequireUniqueEmail = true;
             });
 
 

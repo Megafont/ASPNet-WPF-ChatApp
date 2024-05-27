@@ -4,8 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using ASPNet_WPF_ChatApp.Core.ApiModels;
 using ASPNet_WPF_ChatApp.Core.DataModels;
+using ASPNet_WPF_ChatApp.Core.InversionOfControl.Base;
 using ASPNet_WPF_ChatApp.Core.ViewModels.Base;
 
 namespace ASPNet_WPF_ChatApp.Core.ViewModels.Application
@@ -61,6 +62,32 @@ namespace ASPNet_WPF_ChatApp.Core.ViewModels.Application
 
             // Show side menu or not
             SideMenuVisible = page == ApplicationPages.Chat;
+        }
+
+        /// <summary>
+        /// Handles what happens when we have successfully logged in
+        /// </summary>
+        /// <param name="loginResult">The results from the successful login</param>
+        /// <returns></returns>     
+        public async Task HandleSuccessfulLoginAsync(LoginResultApiModel loginResult)
+        {
+            // Store it in the client data store
+            await IoC.ClientDataStore.SaveLoginCredentialsAsync(new LoginCredentialsDataModel
+            {
+                Id = Guid.NewGuid().ToString("N"), // I had to add this line to stop it complaining that this field was null
+                Email = loginResult.Email,
+                FirstName = loginResult.FirstName,
+                LastName = loginResult.LastName,
+                UserName = loginResult.UserName,
+                Token = loginResult.Token
+            });
+
+
+            // Load new settings
+            await IoC.SettingsViewModel.LoadSettingsAsync();
+
+            // Go to chat page
+            IoC.ApplicationViewModel.GoToPage(ApplicationPages.Chat);
         }
     }
 }

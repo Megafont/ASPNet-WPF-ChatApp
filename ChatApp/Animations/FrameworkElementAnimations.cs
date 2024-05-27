@@ -117,6 +117,9 @@ namespace ASPNet_WPF_ChatApp.Animations
 
             // Wait for it to finish
             await Task.Delay((int)(seconds * 1000));
+
+            // Make element invisible
+            element.Visibility = Visibility.Hidden;
         }
 
         #endregion

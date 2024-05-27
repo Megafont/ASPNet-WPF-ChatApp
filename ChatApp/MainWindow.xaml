@@ -20,7 +20,7 @@
         MinHeight="{Binding WindowMinimumHeight}"
         Deactivated="AppWindow_Deactivated"
         Activated="AppWindow_Activated"
-        Title="Welcome, Friend!" Height="600" Width="900">
+        Title="Welcome, Friend!" Height="700" Width="900">
 
     <Window.Resources>
         <Style TargetType="{x:Type local:MainWindow}">

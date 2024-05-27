@@ -11,6 +11,9 @@ using WebServer.InversionOfControl;
 using ASPNet_WPF_ChatApp.Core.ApiModels;
 using Microsoft.AspNetCore.Identity;
 using WebServer.Data;
+using Newtonsoft.Json.Linq;
+using WebServer.Authentication;
+using System.Diagnostics;
 
 namespace WebServer.Controllers
 {
@@ -66,9 +69,92 @@ namespace WebServer.Controllers
             _Context = context;
             _UserManager = userManager;
             _SignInManager = signInManager;
-        } 
+        }
 
         #endregion
+
+        /// <summary>
+        /// Tries to register for a new account on the server
+        /// </summary>
+        /// <param name="registerCredentials">The registration details</param>
+        /// <returns>the result of the register request</returns>
+        [Route("api/register")]
+        public async Task<ApiResponseModel<RegisterResultApiModel>> RegisterAsync([FromBody]RegisterCredentialsApiModel registerCredentials)
+        {
+            // TODO: Localize all strings
+
+            // The message when we fail to login
+            string invalidErrorMessage = "Please provide all required details to register for an account.";
+
+            // The error response for a failed login
+            var errorResponse = new ApiResponseModel<RegisterResultApiModel>
+            {
+                // Set error message
+                ErrorMessage = invalidErrorMessage
+            };
+
+            // If we have no credentials...
+            if (registerCredentials == null)
+                // Return the failed response
+                return errorResponse;
+
+
+            // Make sure we have a user name
+            if (string.IsNullOrWhiteSpace(registerCredentials.UserName))
+            {
+                // Return error message to user
+                return errorResponse;
+            }
+
+            // Create the desired user from the given details
+            var user = new ApplicationUser
+            {
+                UserName = registerCredentials.UserName,
+                FirstName = registerCredentials.FirstName,
+                LastName = registerCredentials.LastName,
+                Email = registerCredentials.Email,
+            };
+            Debug.WriteLine($"UserName: {user.UserName}    First: {user.FirstName}    Last: {user.LastName}    Email: {user.Email}", "Information");
+            // Try and create a user
+            var result = await _UserManager.CreateAsync(user, registerCredentials.Password);
+
+            // If the registration was successful...
+            if (result.Succeeded)
+            {
+                // Get the user details
+                var userIdentity = await _UserManager.FindByNameAsync(registerCredentials.UserName);
+
+                // Generate an email verification code
+                var emailVerificationCode = await _UserManager.GenerateEmailConfirmationTokenAsync(user);
+
+                // TODO: Email the user the verification code
+
+                // Return valid response containing all the user's details
+                return new ApiResponseModel<RegisterResultApiModel>
+                {
+                    Response = new RegisterResultApiModel
+                    {
+                        FirstName = userIdentity.FirstName,
+                        LastName = userIdentity.LastName,
+                        Email = userIdentity.Email,
+                        UserName = userIdentity.UserName,
+                        Token = userIdentity.GenerateJwtToken()
+                    }
+                };
+            }
+            // Otherwise it failed
+            else
+            {
+                // Return the failed response
+                return new ApiResponseModel<RegisterResultApiModel>
+                {
+                    // Aggregate all errors into a single error string
+                    ErrorMessage = result.Errors?.ToList()
+                        .Select(f => f.Description)
+                        .Aggregate((a, b) => $"{a}{Environment.NewLine}{b}")
+                };
+            }
+        }
 
         /// <summary>
         /// Logs in a user using token-based authentication
@@ -91,7 +177,7 @@ namespace WebServer.Controllers
             };
 
 
-            // Make sure we have a username
+            // Make sure we have a user name
             if (loginCredentials?.UsernameOrEmail == null || string.IsNullOrWhiteSpace(loginCredentials.UsernameOrEmail))
             {
                 // Return error message to user
@@ -133,33 +219,6 @@ namespace WebServer.Controllers
             // Get username
             var username = user.UserName;
 
-
-            // Set our token's claims
-            var claims = new[]
-            {
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
-                new Claim(ClaimsIdentity.DefaultNameClaimType, username),
-
-                //new Claim("my key", "my value"), // This one is just an example to show that these are just key/value pairs
-            };
-
-
-            // Create the credentials used to generate the token
-            var credentials = new SigningCredentials(
-                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(IoC.Configuration["Jwt:SecretKey"])),
-                SecurityAlgorithms.HmacSha256
-            );
-
-
-            // Generate the JWT Token
-            var token = new JwtSecurityToken(
-                issuer: IoC.Configuration["Jwt:Issuer"],
-                audience: IoC.Configuration["Jwt:Audience"],
-                claims: claims,
-                expires: DateTime.Now.AddMonths(3),
-                signingCredentials: credentials
-            );
-
             // Return token to user
             return new ApiResponseModel<LoginResultApiModel>
             {
@@ -170,7 +229,7 @@ namespace WebServer.Controllers
                     LastName = user.LastName,
                     Email = user.Email,
                     UserName = user.UserName,
-                    Token = new JwtSecurityTokenHandler().WriteToken(token)
+                    Token = user.GenerateJwtToken()
                 }
             };
         }
