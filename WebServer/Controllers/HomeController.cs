@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using WebServer.Data;
+using ASPNet_WPF_ChatApp.WebServer.Data;
 
-namespace WebServer.Controllers
+namespace ASPNet_WPF_ChatApp.WebServer.Controllers
 {
     /// <summary>
     /// Manages the standard web server pages

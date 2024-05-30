@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-using WebServer;
+using ASPNet_WPF_ChatApp.WebServer;
 
 
 WebHost.CreateDefaultBuilder()

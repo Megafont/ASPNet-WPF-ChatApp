@@ -1,21 +1,24 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
+﻿using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Web;
 
-using WebServer.InversionOfControl;
-
-using ASPNet_WPF_ChatApp.Core.ApiModels;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using WebServer.Data;
-using Newtonsoft.Json.Linq;
-using WebServer.Authentication;
-using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
-namespace WebServer.Controllers
+using Newtonsoft.Json.Linq;
+
+using ASPNet_WPF_ChatApp.WebServer.InversionOfControl;
+using ASPNet_WPF_ChatApp.Core.ApiModels;
+using ASPNet_WPF_ChatApp.WebServer.Data;
+using ASPNet_WPF_ChatApp.WebServer.Authentication;
+using ASPNet_WPF_ChatApp.WebServer.Email;
+
+namespace ASPNet_WPF_ChatApp.WebServer.Controllers
 {
     /// <summary>
     /// Manages the web API calls
@@ -95,9 +98,10 @@ namespace WebServer.Controllers
 
             // If we have no credentials...
             if (registerCredentials == null)
+            {
                 // Return the failed response
                 return errorResponse;
-
+            }
 
             // Make sure we have a user name
             if (string.IsNullOrWhiteSpace(registerCredentials.UserName))
@@ -114,7 +118,7 @@ namespace WebServer.Controllers
                 LastName = registerCredentials.LastName,
                 Email = registerCredentials.Email,
             };
-            Debug.WriteLine($"UserName: {user.UserName}    First: {user.FirstName}    Last: {user.LastName}    Email: {user.Email}", "Information");
+
             // Try and create a user
             var result = await _UserManager.CreateAsync(user, registerCredentials.Password);
 
@@ -127,7 +131,11 @@ namespace WebServer.Controllers
                 // Generate an email verification code
                 var emailVerificationCode = await _UserManager.GenerateEmailConfirmationTokenAsync(user);
 
-                // TODO: Email the user the verification code
+                // TODO: Replace with APIRoutes that will contain the static routes to use
+                var confirmationUrl = $"http://{Request.Host.Value}/api/verify/email/{HttpUtility.UrlEncode(userIdentity.Id)}/{HttpUtility.UrlEncode(emailVerificationCode)}";
+
+                // Send a verification code to the user's email
+                await WebServerEmailSender.SendUserVerificationEmailAsync(user.UserName, userIdentity.Email, confirmationUrl);
 
                 // Return valid response containing all the user's details
                 return new ApiResponseModel<RegisterResultApiModel>
@@ -232,6 +240,42 @@ namespace WebServer.Controllers
                     Token = user.GenerateJwtToken()
                 }
             };
+        }
+
+        [Route("api/verify/email/{userId}/{emailToken}")]
+        [HttpGet]
+        public async Task<ActionResult> VerifyEmailAsync(string userId, string emailToken)
+        {
+            // Get the user
+            var user = await _UserManager.FindByIdAsync(userId);
+
+            // NOTE: Issue at the minute with Url Decoding that contains /s does not replace them.
+            //       MY NOTES: This issue is still present in 2024 for some reason. :(
+            //       https://github.com/aspnet/Home/issues/2669
+            //
+            //       For now, manually fix that
+            emailToken = emailToken.Replace("%2f", "/").Replace("%2F", "/");
+
+
+            // If the user is null
+            if (user == null)
+            {
+                // TODO: Nice UI
+                return Content("User not found!");
+            }
+
+            // If we have the user...
+
+            // Verify the email token
+            var result = await _UserManager.ConfirmEmailAsync(user, emailToken);
+
+            // If succeeded...
+            if (result.Succeeded)
+            {
+                return Content("Email verified!");
+            }
+
+            return Content("Invalid Email Verification token! :(");
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]

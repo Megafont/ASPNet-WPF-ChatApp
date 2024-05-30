@@ -4,11 +4,11 @@ using System.Text;
 
 using Microsoft.IdentityModel.Tokens;
 
-using WebServer.Data;
-using WebServer.InversionOfControl;
+using ASPNet_WPF_ChatApp.WebServer.Data;
+using ASPNet_WPF_ChatApp.WebServer.InversionOfControl;
 
 
-namespace WebServer.Authentication
+namespace ASPNet_WPF_ChatApp.WebServer.Authentication
 {
     /// <summary>
     /// Extension methods for working with JWT (JSON Web Token) bearer tokens

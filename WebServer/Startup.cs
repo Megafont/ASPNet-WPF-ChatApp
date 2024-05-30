@@ -12,10 +12,19 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using WebServer.Data;
-using WebServer.InversionOfControl;
 
-namespace WebServer
+using ASPNet_WPF_ChatApp.Core.DependencyInjection.Interfaces;
+using ASPNet_WPF_ChatApp.Core.Email;
+using ASPNet_WPF_ChatApp.WebServer.Data;
+using ASPNet_WPF_ChatApp.WebServer.Email;
+using ASPNet_WPF_ChatApp.WebServer.Email.SendGrid;
+using ASPNet_WPF_ChatApp.WebServer.Email.Templates;
+using ASPNet_WPF_ChatApp.WebServer.InversionOfControl;
+
+// Prevent it trying to use Microsoft.AspNetCore.Identity.IEmailSender
+using IEmailSender = ASPNet_WPF_ChatApp.Core.DependencyInjection.Interfaces.IEmailSender;
+
+namespace ASPNet_WPF_ChatApp.WebServer
 {
     public class Startup
     {
@@ -27,6 +36,12 @@ namespace WebServer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Add SendGrid email sender
+            services.AddSendGridEmailSender();
+
+            // Add general Email template sender
+            services.AddEmailTemplateSender();
+
             // Add ApplicationDbContext to dependency injection
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(IoC.Configuration.GetConnectionString("DefaultConnection")));
@@ -104,7 +119,7 @@ namespace WebServer
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             // Store instance of the dependeny injection service provider so our application can access it anywhere.
-            IoC.Provider = serviceProvider;
+            IoC.Provider = app.ApplicationServices;//serviceProvider;
 
             // Setup Identity
             app.UseAuthentication();

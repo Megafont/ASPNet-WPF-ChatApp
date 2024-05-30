@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace WebServer.Controllers
+namespace ASPNet_WPF_ChatApp.WebServer.Controllers
 {
     public class AboutController : Controller
     {

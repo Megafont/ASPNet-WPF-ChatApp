@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace WebServer.Data
+namespace ASPNet_WPF_ChatApp.WebServer.Data
 {
     /// <summary>
     /// The database representational model for our application

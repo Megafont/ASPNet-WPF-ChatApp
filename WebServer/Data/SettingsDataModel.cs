@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebServer.Data
+namespace ASPNet_WPF_ChatApp.WebServer.Data
 {
     /// <summary>
     /// Our Settings database table representational model

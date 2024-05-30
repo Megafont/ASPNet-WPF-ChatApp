@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace WebServer.Data
+namespace ASPNet_WPF_ChatApp.WebServer.Data
 {
     /// <summary>
     /// The user data and profile for our application
