@@ -15,6 +15,7 @@
     
     <!-- Gray underline -->
     <Border BorderBrush="{StaticResource ForegroundDarkBrush}"
+            IsEnabled="{Binding Working, Converter={valueConverters:BooleanInvertConverter}}"
             BorderThickness="0 0 0 0.5"
             >
 
@@ -109,6 +110,20 @@
                         VerticalAlignment="Center"
                         />
 
+            </Grid>
+
+            <!-- Working spinner container -->
+            <Grid Grid.Column="2"
+                  HorizontalAlignment="Right"
+                  VerticalAlignment="Center"
+                  attachedProperties:AnimateFadeInProperty.Value="{Binding Working}"
+                  >
+
+                <Border Padding="0 0 5 0">
+                    <!-- Spinner animation that appears while anm update is in progress -->
+                    <TextBlock Style="{StaticResource SpinningText}" />
+                </Border>
+                
             </Grid>
 
             <!-- Edit buttons container -->

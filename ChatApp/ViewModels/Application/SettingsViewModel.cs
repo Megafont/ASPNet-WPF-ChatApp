@@ -77,6 +77,21 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application
         /// </summary>
         public ICommand LoadCommand { get; set; }
 
+        /// <summary>
+        /// Saves the current name to the server
+        /// </summary>
+        public ICommand SaveNameCommand { get; set; }
+
+        /// <summary>
+        /// Saves the current user name to the server
+        /// </summary>
+        public ICommand SaveUserNameCommand { get; set; }
+
+        /// <summary>
+        /// Saves the current email to the server
+        /// </summary>
+        public ICommand SaveEmailCommand { get; set; }
+
         #endregion
 
         #region Constructors
@@ -91,7 +106,11 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application
             OpenCommand = new RelayCommand(Open);
             LogoutCommand = new RelayCommand(Logout);
             ClearCommand = new RelayCommand(ClearUserData);
-            LoadCommand = new RelayCommand(async () => await LoadSettingsAsync());
+            LoadCommand = new RelayCommand(async () => await LoadSettingsAsync());            
+            SaveNameCommand = new RelayCommand(async () => await SaveNameAsync());
+            SaveUserNameCommand = new RelayCommand(async () => await SaveUserNameAsync());
+            SaveEmailCommand = new RelayCommand(async () => await SaveEmailAsync());
+
 
             // TODO: Remove this once the real back-end is ready
             Name = new TextEntryViewModel { Label = "Name", OriginalText = $"Michael Fontanini {DateTime.Now.ToLocalTime()}" };
@@ -161,10 +180,91 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application
             // Get the stored credentials
             var storedCredentials = await ClientDataStore.GetLoginCredentialsAsync();
 
-            Name = new TextEntryViewModel { Label = "Name", OriginalText = $"{storedCredentials?.FirstName} {storedCredentials?.LastName}" };
-            Username = new TextEntryViewModel { Label = "Username", OriginalText = storedCredentials?.UserName };
-            Password = new PasswordEntryViewModel { Label = "Password", FakePassword = "********" };
-            Email = new TextEntryViewModel { Label = "Email", OriginalText = storedCredentials?.Email };
+            Name = new TextEntryViewModel 
+            { 
+                Label = "Name", 
+                OriginalText = $"{storedCredentials?.FirstName} {storedCredentials?.LastName}",
+                CommitAction = SaveNameAsync
+            };
+
+            Username = new TextEntryViewModel
+            {
+                Label = "Username",
+                OriginalText = storedCredentials?.UserName,
+                CommitAction = SaveUserNameAsync
+            };
+
+            Password = new PasswordEntryViewModel 
+            { 
+                Label = "Password", 
+                FakePassword = "********",
+                CommitAction = SavePasswordAsync
+            };
+
+            Email = new TextEntryViewModel 
+            { 
+                Label = "Email", 
+                OriginalText = storedCredentials?.Email,
+                CommitAction = SaveEmailAsync
+            };
         }
+
+
+        /// <summary>
+        /// Saves the new name to the server
+        /// </summary>
+        /// <param name="self">The view model of the field where the name was edited</param>
+        /// <returns>True if successful, or false otherwise</returns>
+        public async Task<bool> SaveNameAsync()
+        {
+            // TODO: Update with server
+            await Task.Delay(3000);
+
+            // Return fail
+            return false;
+        }
+
+        /// <summary>
+        /// Saves the new user name to the server
+        /// </summary>
+        /// <param name="self">The view model of the field where the user name was edited</param>
+        /// <returns>True if successful, or false otherwise</returns>
+        public async Task<bool> SaveUserNameAsync()
+        {
+            // TODO: Update with server
+            await Task.Delay(3000);
+
+            // Return success
+            return true;
+        }
+
+        /// <summary>
+        /// Saves the new email to the server
+        /// </summary>
+        /// <param name="self">The view model of the field where the email was edited</param>
+        /// <returns>True if successful, or false otherwise</returns>
+        public async Task<bool> SaveEmailAsync()
+        {
+            // TODO: Update with server
+            await Task.Delay(3000);
+
+            // Return fail
+            return false;
+        }
+
+        /// <summary>
+        /// Saves the new password to the server
+        /// </summary>
+        /// <param name="self">The view model of the field where the password was edited</param>
+        /// <returns>True if successful, or false otherwise</returns>
+        public async Task<bool> SavePasswordAsync()
+        {
+            // TODO: Update with server
+            await Task.Delay(3000);
+
+            // Return fail
+            return false;
+        }
+
     }
 }

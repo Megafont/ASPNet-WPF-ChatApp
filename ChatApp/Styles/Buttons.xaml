@@ -116,7 +116,6 @@
                                 FontSize="{TemplateBinding FontSize}"
                                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                 Visibility="{TemplateBinding attachedProperties:IsBusyProperty.Value, Converter={valueConverters:BooleanToVisibilityConverter}, ConverterParameter=True}" />
-                                <!-- The weird Text value above is setting a specific character in the FontAwesome font (which is the spinner icon we use to show the user we are busy). -->
 
                         </Grid>
                     </Border>
