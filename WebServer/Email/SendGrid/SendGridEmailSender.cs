@@ -1,18 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
+using Dna;
+
+using Newtonsoft.Json;
+
 using SendGrid;
 using SendGrid.Helpers.Mail;
 
 using ASPNet_WPF_ChatApp.Core.Email;
-using ASPNet_WPF_ChatApp.WebServer.InversionOfControl;
+using ASPNet_WPF_ChatApp.WebServer.DependencyInjection;
 using ASPNet_WPF_ChatApp.Core.DependencyInjection.Interfaces;
-using System.Diagnostics;
-using Newtonsoft.Json;
 
 namespace ASPNet_WPF_ChatApp.WebServer.Email.SendGrid
 {
@@ -24,7 +27,7 @@ namespace ASPNet_WPF_ChatApp.WebServer.Email.SendGrid
         public async Task<SendEmailResponse> SendEmailAsync(SendEmailDetails details)
         {
             // Get the SendGrid key from our appsettings.json file
-            var apiKey = IoC.Configuration["SendGridKey"];
+            var apiKey = FrameworkDI.Configuration["SendGridKey"];
             if (string.IsNullOrWhiteSpace(apiKey))
                 throw new Exception("The SendGrid API Key string is null or empty. Fix this by entering it into appsettings.json!");
 

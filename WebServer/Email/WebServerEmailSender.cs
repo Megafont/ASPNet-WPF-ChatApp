@@ -1,7 +1,9 @@
 ﻿using System.Diagnostics;
 
+using Dna;
+
 using ASPNet_WPF_ChatApp.Core.Email;
-using ASPNet_WPF_ChatApp.WebServer.InversionOfControl;
+using ASPNet_WPF_ChatApp.WebServer.DependencyInjection;
 
 
 namespace ASPNet_WPF_ChatApp.WebServer.Email
@@ -20,11 +22,11 @@ namespace ASPNet_WPF_ChatApp.WebServer.Email
         /// <returns></returns>
         public static async Task<SendEmailResponse> SendUserVerificationEmailAsync(string displayName, string email, string verificationUrl)
         {
-            return await IoC.EmailTemplateSender.SendGeneralEmailAsync(new SendEmailDetails
+            return await WebServerDI.EmailTemplateSender.SendGeneralEmailAsync(new SendEmailDetails
             {
                 IsHTML = true,
-                FromEmail = IoC.Configuration["ChatAppServerSettings:SendEmailFromEmail"],
-                FromName = IoC.Configuration["ChatAppServerSettings:SendEmailFromName"],
+                FromEmail = FrameworkDI.Configuration["ChatAppServerSettings:SendEmailFromEmail"],
+                FromName = FrameworkDI.Configuration["ChatAppServerSettings:SendEmailFromName"],
                 ToEmail = email,
                 ToName = displayName,
                 Subject = "Verify Your Email - Chat App"

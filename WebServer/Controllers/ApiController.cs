@@ -12,7 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 
 using Newtonsoft.Json.Linq;
 
-using ASPNet_WPF_ChatApp.WebServer.InversionOfControl;
+using ASPNet_WPF_ChatApp.WebServer.DependencyInjection;
 using ASPNet_WPF_ChatApp.Core.ApiModels;
 using ASPNet_WPF_ChatApp.WebServer.Data;
 using ASPNet_WPF_ChatApp.WebServer.Authentication;

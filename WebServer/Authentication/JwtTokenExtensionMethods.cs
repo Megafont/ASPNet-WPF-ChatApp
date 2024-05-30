@@ -4,8 +4,10 @@ using System.Text;
 
 using Microsoft.IdentityModel.Tokens;
 
+using Dna;
+
 using ASPNet_WPF_ChatApp.WebServer.Data;
-using ASPNet_WPF_ChatApp.WebServer.InversionOfControl;
+using ASPNet_WPF_ChatApp.WebServer.DependencyInjection;
 
 
 namespace ASPNet_WPF_ChatApp.WebServer.Authentication
@@ -34,15 +36,15 @@ namespace ASPNet_WPF_ChatApp.WebServer.Authentication
 
             // Create the credentials used to generate the token
             var credentials = new SigningCredentials(
-                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(IoC.Configuration["Jwt:SecretKey"])),
+                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(FrameworkDI.Configuration["Jwt:SecretKey"])),
                 SecurityAlgorithms.HmacSha256
             );
 
 
             // Generate the JWT Token
             var token = new JwtSecurityToken(
-                issuer: IoC.Configuration["Jwt:Issuer"],
-                audience: IoC.Configuration["Jwt:Audience"],
+                issuer: FrameworkDI.Configuration["Jwt:Issuer"],
+                audience: FrameworkDI.Configuration["Jwt:Audience"],
                 claims: claims,
                 signingCredentials: credentials,
 

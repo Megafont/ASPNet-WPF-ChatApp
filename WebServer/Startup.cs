@@ -13,13 +13,16 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
+using Dna;
+using Dna.AspNet;
+
 using ASPNet_WPF_ChatApp.Core.DependencyInjection.Interfaces;
 using ASPNet_WPF_ChatApp.Core.Email;
 using ASPNet_WPF_ChatApp.WebServer.Data;
 using ASPNet_WPF_ChatApp.WebServer.Email;
 using ASPNet_WPF_ChatApp.WebServer.Email.SendGrid;
 using ASPNet_WPF_ChatApp.WebServer.Email.Templates;
-using ASPNet_WPF_ChatApp.WebServer.InversionOfControl;
+using ASPNet_WPF_ChatApp.WebServer.DependencyInjection;
 
 // Prevent it trying to use Microsoft.AspNetCore.Identity.IEmailSender
 using IEmailSender = ASPNet_WPF_ChatApp.Core.DependencyInjection.Interfaces.IEmailSender;
@@ -30,7 +33,7 @@ namespace ASPNet_WPF_ChatApp.WebServer
     {
         public Startup(IConfiguration configuration)
         {
-            IoC.Configuration = configuration;
+
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -44,7 +47,7 @@ namespace ASPNet_WPF_ChatApp.WebServer
 
             // Add ApplicationDbContext to dependency injection
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(IoC.Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Framework.Construction.Configuration.GetConnectionString("DefaultConnection")));
 
 
             // AddIdentity() adds cookie-based authentication
@@ -73,9 +76,9 @@ namespace ASPNet_WPF_ChatApp.WebServer
                         ValidateAudience = true,
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
-                        ValidIssuer = IoC.Configuration["Jwt:Issuer"],
-                        ValidAudience = IoC.Configuration["Jwt:Audience"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(IoC.Configuration["Jwt:SecretKey"])),
+                        ValidIssuer = Framework.Construction.Configuration["Jwt:Issuer"],
+                        ValidAudience = Framework.Construction.Configuration["Jwt:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Framework.Construction.Configuration["Jwt:SecretKey"])),
                     };
                 });
 
@@ -118,8 +121,8 @@ namespace ASPNet_WPF_ChatApp.WebServer
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
-            // Store instance of the dependeny injection service provider so our application can access it anywhere.
-            IoC.Provider = app.ApplicationServices;//serviceProvider;
+            // Use Dna Framework
+            app.UseDnaFramework();
 
             // Setup Identity
             app.UseAuthentication();

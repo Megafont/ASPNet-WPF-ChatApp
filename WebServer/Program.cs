@@ -1,10 +1,20 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-using ASPNet_WPF_ChatApp.WebServer;
+using Dna.AspNet;
 
+using ASPNet_WPF_ChatApp.WebServer;
+using Dna;
 
 WebHost.CreateDefaultBuilder()
+    // Add Dna Framework
+    .UseDnaFramework(construct =>
+    {
+        // Configure framework
+
+        // Add file logger
+        construct.AddFileLogger();
+    })
     .UseStartup<Startup>()
     .Build()
     .Run();

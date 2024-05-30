@@ -4,7 +4,7 @@ using System.Text;
 
 using ASPNet_WPF_ChatApp.Core.DependencyInjection.Interfaces;
 using ASPNet_WPF_ChatApp.Core.Email;
-using ASPNet_WPF_ChatApp.WebServer.InversionOfControl;
+using ASPNet_WPF_ChatApp.WebServer.DependencyInjection;
 
 namespace ASPNet_WPF_ChatApp.WebServer.Email.Templates
 {
@@ -37,7 +37,7 @@ namespace ASPNet_WPF_ChatApp.WebServer.Email.Templates
             details.Content = templateText;
 
             // Send the email
-            return await IoC.EmailSender.SendEmailAsync(details);
+            return await WebServerDI.EmailSender.SendEmailAsync(details);
         }
     }
 }
