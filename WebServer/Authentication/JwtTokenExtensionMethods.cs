@@ -27,8 +27,14 @@ namespace ASPNet_WPF_ChatApp.WebServer.Authentication
             // Set our token's claims
             var claims = new[]
             {
+                // Create a unique ID for this token
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
+
+                // The username using the Identity name so it fills out the HttpContext.User.Identity.Name value
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.UserName),
+
+                // Add user Id so that UserManager.GetUserAsync() can find the user based on Id
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
 
                 //new Claim("my key", "my value"), // This one is just an example to show that these are just key/value pairs
             };

@@ -84,7 +84,7 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application
             {
                 // Call the server and attempt to login with credentials
                 // TODO: Move all URLs and API routes to static class in Core
-                var result = await WebRequests.PostAsync<ApiResponseModel<LoginResultApiModel>>(
+                var result = await WebRequests.PostAsync<ApiResponseModel<UserProfileDetailsApiModel>>(
                     "http://localhost:5289/api/login",
                     new LoginCredentialsApiModel
                     {

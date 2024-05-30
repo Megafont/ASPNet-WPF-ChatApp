@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace ASPNet_WPF_ChatApp.Core.ApiModels
 {
     /// <summary>
-    /// The response for all web API calls made
+    /// The response for all Web API calls made
     /// </summary>
-    public class ApiResponseModel<T>
+    public class ApiResponseModel
     {
         #region Public Properties
 
@@ -26,7 +26,7 @@ namespace ASPNet_WPF_ChatApp.Core.ApiModels
         /// <summary>
         /// The API response object
         /// </summary>
-        public T Response { get; set; }
+        public object Response { get; set; }
 
         #endregion
 
@@ -42,5 +42,21 @@ namespace ASPNet_WPF_ChatApp.Core.ApiModels
 
         #endregion
 
+    }
+
+    /// <summary>
+    /// The response for all Web API calls made with a specific type of known response
+    /// </summary>
+    /// <typeparam name="T">The specific type of server response</typeparam>
+    public class ApiResponseModel<T> : ApiResponseModel
+    {
+        /// <summary>
+        /// The API response object as type T
+        /// </summary>
+        public new T Response 
+        {
+            get => (T) base.Response;
+            set => base.Response = value;
+        }
     }
 }

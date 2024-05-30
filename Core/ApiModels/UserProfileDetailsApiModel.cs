@@ -7,15 +7,16 @@ using System.Threading.Tasks;
 namespace ASPNet_WPF_ChatApp.Core.ApiModels
 {
     /// <summary>
-    /// The result of a successful login via the API
+    /// The result of a successful login or get user profile details request via the API
     /// </summary>
-    public class LoginResultApiModel
+    public class UserProfileDetailsApiModel
     {
         #region Public Properties
 
         /// <summary>
         /// The authentication token useed to stay authenticated through future requests
         /// </summary>
+        /// <remarks>The token is only provided when this class is returned from the Login methods</remarks>
         public string Token { get; set; }
 
         /// <summary>
@@ -42,7 +43,7 @@ namespace ASPNet_WPF_ChatApp.Core.ApiModels
 
         #region Constructors
 
-        public LoginResultApiModel()
+        public UserProfileDetailsApiModel()
         {
             
         }

@@ -9,7 +9,7 @@ namespace ASPNet_WPF_ChatApp.Core.ApiModels
     /// <summary>
     /// The result of a register request via the API
     /// </summary>
-    public class RegisterResultApiModel : LoginResultApiModel
+    public class RegisterResultApiModel : UserProfileDetailsApiModel
     {
 
 

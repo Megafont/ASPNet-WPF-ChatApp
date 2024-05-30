@@ -74,7 +74,7 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application
         /// </summary>
         /// <param name="loginResult">The results from the successful login</param>
         /// <returns></returns>     
-        public async Task HandleSuccessfulLoginAsync(LoginResultApiModel loginResult)
+        public async Task HandleSuccessfulLoginAsync(UserProfileDetailsApiModel loginResult)
         {
             // Store it in the client data store
             await ClientDataStore.SaveLoginCredentialsAsync(new LoginCredentialsDataModel
