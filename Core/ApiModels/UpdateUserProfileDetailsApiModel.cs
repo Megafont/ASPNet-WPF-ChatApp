@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace ASPNet_WPF_ChatApp.Core.ApiModels
 {
     /// <summary>
-    /// The details to change for a User Profile from an API client call
+    /// The details to change for a User Profile via an API client call
     /// </summary>
     public class UpdateUserProfileDetailsApiModel
     {

@@ -18,6 +18,7 @@ using ASPNet_WPF_ChatApp.WebServer.Authentication;
 using ASPNet_WPF_ChatApp.WebServer.Data;
 using ASPNet_WPF_ChatApp.WebServer.Email;
 using ASPNet_WPF_ChatApp.WebServer.Identity;
+using ASPNet_WPF_ChatApp.Core.Routes;
 
 namespace ASPNet_WPF_ChatApp.WebServer.Controllers
 {
@@ -88,7 +89,7 @@ namespace ASPNet_WPF_ChatApp.WebServer.Controllers
         /// <param name="registerCredentials">The registration details</param>
         /// <returns>the result of the register request</returns>
         [AllowAnonymous]
-        [Route("api/register")]
+        [Route(ApiRoutes.Register)]
         public async Task<ApiResponseModel<RegisterResultApiModel>> RegisterAsync([FromBody] RegisterCredentialsApiModel registerCredentials)
         {
             // TODO: Localize all strings
@@ -169,7 +170,7 @@ namespace ASPNet_WPF_ChatApp.WebServer.Controllers
         /// <param name=""></param>
         /// <returns></returns>
         [AllowAnonymous]
-        [Route("api/login")]
+        [Route(ApiRoutes.Login)]
         public async Task<ApiResponseModel<UserProfileDetailsApiModel>> LogInAsync([FromBody] LoginCredentialsApiModel loginCredentials)
         {
             // TODO: Localize all strings
@@ -243,7 +244,7 @@ namespace ASPNet_WPF_ChatApp.WebServer.Controllers
         }
 
         [AllowAnonymous]
-        [Route("api/verify/email/{userId}/{emailToken}")]
+        [Route(ApiRoutes.VerifyEmail)]")]
         [HttpGet]
         public async Task<ActionResult> VerifyEmailAsync(string userId, string emailToken)
         {
@@ -285,6 +286,7 @@ namespace ASPNet_WPF_ChatApp.WebServer.Controllers
         /// Returns the user's profile details based on the authenticated user
         /// </summary>
         /// <returns></returns>
+        [Route(ApiRoutes.GetUserProfile)]
         public async Task<ApiResponseModel<UserProfileDetailsApiModel>> GetUserProfileAsync()
         {
             // Get user claims
@@ -324,6 +326,7 @@ namespace ASPNet_WPF_ChatApp.WebServer.Controllers
         ///     A successful response if the update was successful,
         ///     otherwise, it returns the errors that occurred
         /// </returns>
+        [Route(ApiRoutes.UpdateUserProfile)]
         public async Task<ApiResponseModel> UpdateUserProfileAsync([FromBody]UpdateUserProfileDetailsApiModel model)
         {
             #region Declare Variables
@@ -401,7 +404,7 @@ namespace ASPNet_WPF_ChatApp.WebServer.Controllers
             var result = await _UserManager.UpdateAsync(user);
 
             // If successful, send out a new verification email
-            if (result.Succeeded)
+            if (result.Succeeded && emailChanged)
             {
                 // Send a new verification email to the user
                 await SendUserEmailVerificationAsync(user);
@@ -431,6 +434,71 @@ namespace ASPNet_WPF_ChatApp.WebServer.Controllers
         #endregion
     }
 
+        /// <summary>
+        /// Attempts to update the user's password
+        /// </summary>
+        /// <param name="model">The password details to update</param>
+        /// <returns>
+        ///     A successful response if the update was successful,
+        ///     otherwise, it returns the errors that occurred
+        /// </returns>
+        [Route(ApiRoutes.UpdatePassword)]
+        public async Task<ApiResponseModel> UpdateUserPasswordAsync([FromBody] UpdateUserPasswordDetailsApiModel model)
+        {
+            #region Declare Variables
+
+            // Make an empty errors list
+            var errors = new List<string>();
+
+            #endregion
+
+            #region Get User
+
+            // Get the current user
+            var user = await _UserManager.GetUserAsync(HttpContext.User);
+
+            // If we have no user...
+            if (user == null)
+            {
+                // TODO: Localization
+                // Return error to user
+                return new ApiResponseModel
+                {
+                    // Pass back the error
+                    ErrorMessage = "User not found"
+                };
+            }
+
+            #endregion
+
+            #region Update Password
+
+            // Attempt to commit changes to the data store
+            var result = await _UserManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+
+            #endregion
+
+            #region Respond
+
+            // If we were successful
+            if (result.Succeeded)
+            {
+                // Return a successful response
+                return new ApiResponseModel();
+            }
+            // Otherwise if it failed...
+            else
+            {
+                // Return the failed response
+                return new ApiResponseModel
+                {
+                    // Aggregate all errors into a single error string
+                    ErrorMessage = result.Errors.AggregateErrors()
+                };
+            }
+
+            #endregion
+        }
 
         #region Website Private Areas
 
@@ -439,7 +507,7 @@ namespace ASPNet_WPF_ChatApp.WebServer.Controllers
         /// </summary>
         /// <returns></returns>
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [Route("api/private")]
+        [Route(ApiRoutes.Private)]
         public IActionResult Private()
         {
             var user = HttpContext.User;

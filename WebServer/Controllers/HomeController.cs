@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using ASPNet_WPF_ChatApp.WebServer.Data;
+using ASPNet_WPF_ChatApp.Core.Routes;
 
 namespace ASPNet_WPF_ChatApp.WebServer.Controllers
 {
@@ -109,7 +110,7 @@ namespace ASPNet_WPF_ChatApp.WebServer.Controllers
         /// Creates our single user for now
         /// </summary>
         /// <returns></returns>
-        [Route("create")]
+        [Route(WebRoutes.CreateUser)]
         public async Task<IActionResult> CreateUserAsync()
         {
             var result = await _UserManager.CreateAsync(new ApplicationUser
@@ -132,7 +133,7 @@ namespace ASPNet_WPF_ChatApp.WebServer.Controllers
         /// </summary>
         /// <returns></returns>
         [Authorize]
-        [Route("private")]
+        [Route(WebRoutes.Private)]
         public IActionResult Private()
         {
             return Content($"This is a private area. Welcome, {HttpContext.User.Identity.Name}.", "text/html");
@@ -142,7 +143,7 @@ namespace ASPNet_WPF_ChatApp.WebServer.Controllers
         /// A a logout page for testing
         /// </summary>
         /// <returns></returns>
-        [Route("logout")]
+        [Route(WebRoutes.LogOut)]
         public async Task<IActionResult> SignOutAsync()
         {
             await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
@@ -154,7 +155,7 @@ namespace ASPNet_WPF_ChatApp.WebServer.Controllers
         /// </summary>
         /// <param name="returnUrl">The Url to return to if successfully logged in</param>
         /// <returns></returns>
-        [Route("login")]
+        [Route(WebRoutes.Login)]
         public async Task<IActionResult> LoginAsync(string returnUrl)
         {
             // Sign out any previous sessions
