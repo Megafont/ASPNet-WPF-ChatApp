@@ -15,9 +15,18 @@ WebHost.CreateDefaultBuilder()
         // Add file logger
         construct.AddFileLogger();
     })
+    .ConfigureLogging(logging =>
+    {
+        // Use LogLevel.Debug or LogLevel.Trace for more detailed output
+        logging.ClearProviders();
+        logging.AddConsole();
+        logging.AddDebug();
+        logging.SetMinimumLevel(LogLevel.Information); // Trace is the lowest log level, and Nothing is the highest (least verbose) mode.
+    })
     .UseStartup<Startup>()
     .Build()
     .Run();
+    
 
 
 /*

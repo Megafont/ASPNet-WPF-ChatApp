@@ -144,7 +144,7 @@ namespace ASPNet_WPF_ChatApp.WebServer.Controllers
         /// </summary>
         /// <returns></returns>
         [Route(WebRoutes.LogOut)]
-        public async Task<IActionResult> SignOutAsync()
+        public async Task<IActionResult> LogOutAsync()
         {
             await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
             return Content("Logged out.", "text/html");
@@ -158,6 +158,8 @@ namespace ASPNet_WPF_ChatApp.WebServer.Controllers
         [Route(WebRoutes.Login)]
         public async Task<IActionResult> LoginAsync(string returnUrl)
         {
+            Debug.WriteLine("LOGIN CALLED", "Warning");
+
             // Sign out any previous sessions
             await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
 

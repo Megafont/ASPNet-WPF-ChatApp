@@ -31,12 +31,13 @@ namespace APSNet_WPF_ChatApp.RelationalDB
                 // Setup connection string
                 // This one line determines which database backend we use. In the video, he says this is the beauty of EntityFramework Core, as it is doing most of the work for us.
                 options.UseSqlite(construction.Configuration.GetConnectionString("ClientDataStoreConnection"));
-            });
+            }, contextLifetime: ServiceLifetime.Transient); // Transient means it returns a new instance every time this service is requested. Otherwise changes made to the database would not be visible to the app until it is restarted.
 
 
             // Add client data store for easy access/use of the backing data store
             // Make it scoped so we can inject the scoped DbContext
-            construction.Services.AddScoped<IClientDataStore>(provider =>
+            // Transient means it returns a new instance every time this service is requested.
+            construction.Services.AddTransient<IClientDataStore>(provider =>
             {
                 return new BaseClientDataStore(provider.GetService<ClientDataStoreDbContext>());
             });

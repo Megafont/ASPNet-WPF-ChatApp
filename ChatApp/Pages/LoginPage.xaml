@@ -46,7 +46,7 @@
 
                             <!-- Email -->
                             <TextBox Text="{Binding Email}" 
-                                     Tag="Email"
+                                     Tag="Username or Email"
                                      attachedProperties:IsFocusedProperty.Value="True"
                                      />
                             

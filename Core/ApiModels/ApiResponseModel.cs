@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace ASPNet_WPF_ChatApp.Core.ApiModels
@@ -26,6 +27,7 @@ namespace ASPNet_WPF_ChatApp.Core.ApiModels
         /// <summary>
         /// The API response object
         /// </summary>
+        [JsonPropertyName("response")] // <<<<<<<<<<<<<<<<<< Change this string to proper response property name in the JSON as per the mouse over description of this attribute
         public object Response { get; set; }
 
         #endregion
@@ -53,6 +55,7 @@ namespace ASPNet_WPF_ChatApp.Core.ApiModels
         /// <summary>
         /// The API response object as type T
         /// </summary>
+        [JsonPropertyName("Response")]
         public new T Response 
         {
             get => (T) base.Response;

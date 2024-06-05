@@ -1,17 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
+using Dna;
+
+using ASPNet_WPF_ChatApp.Core.ApiModels;
 using ASPNet_WPF_ChatApp.Core.DataModels;
 using ASPNet_WPF_ChatApp.Core.DependencyInjection;
+using ASPNet_WPF_ChatApp.Core.Routes;
+using ASPNet_WPF_ChatApp.DependencyInjection;
 using ASPNet_WPF_ChatApp.ViewModels.Base;
 using ASPNet_WPF_ChatApp.ViewModels.Input;
 
 // This makes it so we can access members on this static class without needing to write "ChatAppDI." first.
 using static ASPNet_WPF_ChatApp.DependencyInjection.ChatAppDI;
+using ASPNet_WPF_ChatApp.WebRequestUtils;
 
 
 namespace ASPNet_WPF_ChatApp.ViewModels.Application
@@ -21,6 +29,15 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application
     /// </summary>
     public class SettingsViewModel : BaseViewModel
     {
+        #region Private Members
+        
+        /// <summary>
+        /// The text to show while loading
+        /// </summary>
+        private string _LoadingText = "...";
+
+        #endregion
+
         #region Public Properties
 
         /// <summary>
@@ -31,7 +48,7 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application
         /// <summary>
         /// The current user's username
         /// </summary>
-        public TextEntryViewModel Username { get; set; }
+        public TextEntryViewModel UserName { get; set; }
 
         /// <summary>
         /// The current user's password
@@ -101,38 +118,56 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application
         /// </summary>
         public SettingsViewModel()
         {
+            // Create Name
+            Name = new TextEntryViewModel
+            {
+                Label = "Name",
+                OriginalText = _LoadingText,
+                CommitAction = SaveNameAsync
+            };
+
+            // Create UserName
+            UserName = new TextEntryViewModel
+            {
+                Label = "Username",
+                OriginalText = _LoadingText,
+                CommitAction = SaveUserNameAsync
+            };
+
+            // Create Password
+            Password = new PasswordEntryViewModel
+            {
+                Label = "Password",
+                FakePassword = "********",
+                CommitAction = SavePasswordAsync
+            };
+
+            // Create Email
+            Email = new TextEntryViewModel
+            {
+                Label = "Email",
+                OriginalText = _LoadingText,
+                CommitAction = SaveEmailAsync
+            };
+
+
             // Create commands
             CloseCommand = new RelayCommand(Close);
             OpenCommand = new RelayCommand(Open);
-            LogoutCommand = new RelayCommand(Logout);
+            LogoutCommand = new RelayCommand(async () => await LogoutAsync());
             ClearCommand = new RelayCommand(ClearUserData);
             LoadCommand = new RelayCommand(async () => await LoadSettingsAsync());            
             SaveNameCommand = new RelayCommand(async () => await SaveNameAsync());
             SaveUserNameCommand = new RelayCommand(async () => await SaveUserNameAsync());
             SaveEmailCommand = new RelayCommand(async () => await SaveEmailAsync());
 
-
-            // TODO: Remove this once the real back-end is ready
-            Name = new TextEntryViewModel { Label = "Name", OriginalText = $"Michael Fontanini {DateTime.Now.ToLocalTime()}" };
-            Username = new TextEntryViewModel { Label = "Username", OriginalText = "Megafont" };
-            Password = new PasswordEntryViewModel { Label = "Password", FakePassword = "********" };
-            Email = new TextEntryViewModel { Label = "Email", OriginalText = "megafont@gmail.com" };
-
-
-            // TODO: Get from localization
+            // TODO: Get string from localization
             LogoutButtonText = "Logout";
         }
 
         #endregion
 
-        /// <summary>
-        /// Closes the settings menu
-        /// </summary>
-        public void Close()
-        {
-            // Close the settings menu
-            ViewModel_Application.SettingsMenuVisible = false;
-        }
+        #region Command Methods
 
         /// <summary>
         /// Opens the settings menu
@@ -144,13 +179,23 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application
         }
 
         /// <summary>
+        /// Closes the settings menu
+        /// </summary>
+        public void Close()
+        {
+            // Close the settings menu
+            ViewModel_Application.SettingsMenuVisible = false;
+        }
+
+        /// <summary>
         /// Logs the user out of the application
         /// </summary>
-        public void Logout()
+        public async Task LogoutAsync()
         {
             // TODO: Confirm the user wants to logout
 
-            // TODO: Clear any user data/cache
+            // Clear any user data/cache
+            await ClientDataStore.ClearAllLoginCredentialsAsync();
 
             // Clean all application level view models that contain
             // any information about the current user
@@ -166,10 +211,9 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application
         public void ClearUserData()
         {
             // Clear all view models containing the user's info
-            Name = null;
-            Username = null;
-            Password = null;
-            Email = null;
+            Name.OriginalText = _LoadingText;
+            UserName.OriginalText = _LoadingText;
+            Email.OriginalText = _LoadingText;
         }
 
         /// <summary>
@@ -177,38 +221,78 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application
         /// </summary>
         public async Task LoadSettingsAsync()
         {
-            // Get the stored credentials
-            var storedCredentials = await ClientDataStore.GetLoginCredentialsAsync();
+            // Update values from the local cache
+            await UpdateValuesFromLocalDataStoreAsync();
 
-            Name = new TextEntryViewModel 
-            { 
-                Label = "Name", 
-                OriginalText = $"{storedCredentials?.FirstName} {storedCredentials?.LastName}",
-                CommitAction = SaveNameAsync
-            };
+            // Get the user token
+            LoginCredentialsDataModel loginDataModel = (await ClientDataStore.GetLoginCredentialsAsync());
+            string token = loginDataModel != null ? loginDataModel.Token
+                                                  : null;
 
-            Username = new TextEntryViewModel
+            // If we don't have a token (we are not logged in...)
+            if (token == null || string.IsNullOrWhiteSpace(token))
             {
-                Label = "Username",
-                OriginalText = storedCredentials?.UserName,
-                CommitAction = SaveUserNameAsync
-            };
+                // Then simply return.
+                return;
+            }
 
-            Password = new PasswordEntryViewModel 
-            { 
-                Label = "Password", 
-                FakePassword = "********",
-                CommitAction = SavePasswordAsync
-            };
 
-            Email = new TextEntryViewModel 
-            { 
-                Label = "Email", 
-                OriginalText = storedCredentials?.Email,
-                CommitAction = SaveEmailAsync
-            };
+            // Load user profile details from server
+            var result = await WebRequests.PostAsync<ApiResponseModel<UserProfileDetailsApiModel>>(
+                WebRoutes.ServerAddress + ApiRoutes.GetUserProfile,
+                //bearerToken: token
+                // The following line was the original way we did the above "bearerToken:" line
+                configureRequest: (request) => request.Headers.Add("Authorization", "Bearer " + token)
+                );
+
+
+            //Debug.WriteLine($"SERVER RESPONSE: \"{result.RawServerResponse}\"", "Warning");
+
+            // If the response has an error...
+            if (!string.IsNullOrWhiteSpace(result.ErrorMessage))
+            {
+                System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                {
+                    UI.ShowMessage(new Dialogs.MessageBoxDialogViewModel
+                    {
+                        Title = "Error",
+                        Message = result.ErrorMessage
+                    });
+                });
+                // We are done
+                return;
+            }
+
+            // If it was successful...
+            if (result.Successful)
+            {
+                // TODO: Check if values are different before saving.
+
+                // Create data model from the response
+                var dataModel = result.ServerResponse.Response.ToLoginCredentialsDataModel();
+
+                // Re-add our known token
+                dataModel.Token = token;
+
+                // Save the new information into the local data store
+                await ClientDataStore.SaveLoginCredentialsAsync(dataModel);
+
+                // Update values from the local cache
+                await UpdateValuesFromLocalDataStoreAsync();
+            }
+            else
+            {
+                // Run the ShowMessage() call on the UI thread. Otherwise it would throw an exception
+                System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                {
+                    UI.ShowMessage(new Dialogs.MessageBoxDialogViewModel
+                    {
+                        Title = "Error",
+                        Message = result.ErrorMessage
+                    });
+                });
+            }
         }
-
 
         /// <summary>
         /// Saves the new name to the server
@@ -266,5 +350,30 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application
             return false;
         }
 
+        #endregion
+
+        #region Private Helper Methods
+
+        /// <summary>
+        /// Loads the settings from the local data store and binds them
+        /// to this view model
+        /// </summary>
+        /// <returns></returns>
+        private async Task UpdateValuesFromLocalDataStoreAsync()
+        {
+            // Get the stored credentials
+            var storedCredentials = await ClientDataStore.GetLoginCredentialsAsync();
+
+            // Set name
+            Name.OriginalText = $"{storedCredentials?.FirstName} {storedCredentials?.LastName}";
+
+            // Set user name
+            UserName.OriginalText = storedCredentials?.UserName;
+
+            // Set email
+            Email.OriginalText = storedCredentials?.Email;
+        }
+
+        #endregion
     }
 }

@@ -19,6 +19,7 @@ using ASPNet_WPF_ChatApp.WebRequestUtils;
 
 // This makes it so we can access members on this static class without needing to write "ChatAppDI." first.
 using static ASPNet_WPF_ChatApp.DependencyInjection.ChatAppDI;
+using ASPNet_WPF_ChatApp.Core.Routes;
 
 namespace ASPNet_WPF_ChatApp.ViewModels.Application
 {
@@ -76,16 +77,12 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application
         /// <returns></returns>
         public async Task LoginAsync(object parameter)
         {
-            if (LoginIsRunning)
-                return;
-
-
             await RunCommandAsync(() => LoginIsRunning, async () =>
             {
                 // Call the server and attempt to login with credentials
                 // TODO: Move all URLs and API routes to static class in Core
                 var result = await WebRequests.PostAsync<ApiResponseModel<UserProfileDetailsApiModel>>(
-                    "http://localhost:5289/api/login",
+                    WebRoutes.ServerAddress + ApiRoutes.Login,
                     new LoginCredentialsApiModel
                     {
                         UsernameOrEmail = Email,
@@ -103,7 +100,7 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application
                 var loginResult = result.ServerResponse.Response;
 
                 // Let the application view model handle what happens
-                // with the ssuccessful login
+                // with the successful login
                 await ViewModel_Application.HandleSuccessfulLoginAsync(loginResult);
             });
 

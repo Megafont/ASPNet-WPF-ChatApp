@@ -29,7 +29,7 @@ namespace ASPNet_WPF_ChatApp.Core.Routes
         /// <summary>
         /// The route to the GetUserProfile() API method
         /// </summary>
-        public const string GetUserProfile = "api/user/profile";
+        public const string GetUserProfile = "api/user/profile/get";
 
         /// <summary>
         /// The route to the UpdateUserProfile() API method

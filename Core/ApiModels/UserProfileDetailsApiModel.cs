@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ASPNet_WPF_ChatApp.Core.DataModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -49,5 +50,27 @@ namespace ASPNet_WPF_ChatApp.Core.ApiModels
         }
 
         #endregion
+
+        #region Public Helper Methods
+
+        /// <summary>
+        /// Creates a new <see cref="LoginCredentialsApiModel"/> 
+        /// from this <see cref="UserProfileDetailsApiModel"/>
+        /// </summary>
+        /// <returns></returns>
+        public LoginCredentialsDataModel ToLoginCredentialsDataModel()
+        {
+            return new LoginCredentialsDataModel
+            {
+                Email = Email,
+                FirstName = FirstName,
+                LastName = LastName,
+                UserName = UserName,
+                Token = Token
+            };
+        }
+
+        #endregion
+
     }
 }

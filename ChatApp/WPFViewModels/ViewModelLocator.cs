@@ -28,12 +28,12 @@ namespace ASPNet_WPF_ChatApp.WPFViewModels
         /// <summary>
         /// The application view model
         /// </summary>
-        public static ApplicationViewModel ApplicationViewModel => ViewModel_Application;
+        public ApplicationViewModel ApplicationViewModel => ViewModel_Application;
 
         /// <summary>
         /// The settings view model
         /// </summary>
-        public static SettingsViewModel SettingsViewModel => ViewModel_Settings;
+        public SettingsViewModel SettingsViewModel => ViewModel_Settings;
 
         #endregion
 

@@ -77,7 +77,7 @@ namespace ASPNet_WPF_ChatApp
             await ClientDataStore.EnsureDataStoreAsync();
 
             // Load new settings (this is actually CoreDI.SettingsViewModel, but the static using at the top of this file let's us write it without qualifying it with "CoreDI.").
-            await ViewModel_Settings.LoadSettingsAsync();
+            CoreDI.TaskManager.RunAndForget(ViewModel_Settings.LoadSettingsAsync);
         }
     }
 

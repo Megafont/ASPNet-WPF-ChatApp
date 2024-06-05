@@ -40,6 +40,11 @@ namespace ASPNet_WPF_ChatApp.Core.Tasks
             }
         }
 
+        public async void RunAndForget(Func<Task> function, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
+        {
+            await Run(function, origin, filePath, lineNumber);
+        }
+
         public async Task<TResult> Run<TResult>(Func<Task<TResult>> function, CancellationToken cancellationToken, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
         {
             try
@@ -125,6 +130,12 @@ namespace ASPNet_WPF_ChatApp.Core.Tasks
             }
         }
 
+        public async void RunAndForget(Func<Task> function, CancellationToken cancellationToken, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
+        {
+            await Run(function, cancellationToken, origin, filePath, lineNumber);
+        }
+
+
         public async Task Run(Action action, CancellationToken cancellationToken, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
         {
             try
@@ -142,6 +153,11 @@ namespace ASPNet_WPF_ChatApp.Core.Tasks
             }
         }
 
+        public async void RunAndForget(Action action, CancellationToken cancellationToken, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
+        {
+            await Run(action, cancellationToken, origin, filePath, lineNumber);
+        }
+
         public async Task Run(Action action, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
         {
             try
@@ -157,6 +173,11 @@ namespace ASPNet_WPF_ChatApp.Core.Tasks
                 // Throw it as normal
                 throw;
             }
+        }
+
+        public async void RunAndForget(Action action, [CallerMemberName] string origin = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0)
+        {
+            await Run(action, origin, filePath, lineNumber);
         }
 
         #endregion

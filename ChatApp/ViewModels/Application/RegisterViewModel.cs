@@ -17,6 +17,7 @@ using ASPNet_WPF_ChatApp.WebRequestUtils;
 
 // This makes it so we can access members on this static class without needing to write "ChatAppDI." first.
 using static ASPNet_WPF_ChatApp.DependencyInjection.ChatAppDI;
+using ASPNet_WPF_ChatApp.Core.Routes;
 
 
 namespace ASPNet_WPF_ChatApp.ViewModels.Application
@@ -89,7 +90,7 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application
                 // Call the server and attempt to register an account with the provided credentials
                 // TODO: Move all URLs and API routes to static class in Core
                 var result = await WebRequests.PostAsync<ApiResponseModel<RegisterResultApiModel>>(
-                    "http://localhost:5289/api/register",
+                    WebRoutes.ServerAddress + ApiRoutes.Register,
                     new RegisterCredentialsApiModel
                     {
                         UserName = this.UserName,

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using ASPNet_WPF_ChatApp.Core.ApiModels;
 using ASPNet_WPF_ChatApp.Core.DataModels;
 using ASPNet_WPF_ChatApp.Core.DependencyInjection;
+using ASPNet_WPF_ChatApp.Core.Tasks;
 using ASPNet_WPF_ChatApp.ViewModels.Base;
 
 // This makes it so we can access members on this static class without needing to write "ChatAppDI." first.
@@ -21,6 +22,14 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application
     /// </summary>
     public class ApplicationViewModel : BaseViewModel
     {
+        #region Private Members
+
+        private bool _SettingsMenuVisible;
+
+        #endregion
+
+        #region Public Properties
+
         /// <summary>
         /// The current page of the application
         /// </summary>
@@ -42,9 +51,29 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application
         /// <summary>
         /// True if the settings menu should be shown
         /// </summary>
-        public bool SettingsMenuVisible { get; set; }
+        public bool SettingsMenuVisible 
+        { 
+            get => _SettingsMenuVisible; 
+            set
+            {
+                // If property has not changed, then do nothing.
+                if (_SettingsMenuVisible == value)
+                    return;
 
+                // Set the backing field
+                _SettingsMenuVisible = value;
 
+                // If the settings menu is now visible...
+                if (value)
+                {
+                    // Reload settings values
+                    CoreDI.TaskManager.RunAndForget(ViewModel_Settings.LoadSettingsAsync);
+                }
+
+            }
+        }
+
+        #endregion
 
         /// <summary>
         /// Navigates to the specified page
@@ -76,17 +105,11 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application
         /// <returns></returns>     
         public async Task HandleSuccessfulLoginAsync(UserProfileDetailsApiModel loginResult)
         {
-            // Store it in the client data store
-            await ClientDataStore.SaveLoginCredentialsAsync(new LoginCredentialsDataModel
-            {
-                Id = Guid.NewGuid().ToString("N"), // I had to add this line to stop it complaining that this field was null
-                Email = loginResult.Email,
-                FirstName = loginResult.FirstName,
-                LastName = loginResult.LastName,
-                UserName = loginResult.UserName,
-                Token = loginResult.Token
-            });
+            // Convert the login result to a LoginCredentialsDataModel
+            LoginCredentialsDataModel dataModel = loginResult.ToLoginCredentialsDataModel();
 
+            // Store this in the client data store
+            await ClientDataStore.SaveLoginCredentialsAsync(dataModel);
 
             // Load new settings
             await ViewModel_Settings.LoadSettingsAsync();

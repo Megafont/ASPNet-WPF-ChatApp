@@ -93,7 +93,7 @@
                             >
 
                     <inputControls:TextEntryControl DataContext="{Binding Name}" />
-                    <inputControls:TextEntryControl DataContext="{Binding Username}" />
+                    <inputControls:TextEntryControl DataContext="{Binding UserName}" />
                     <inputControls:PasswordEntryControl DataContext="{Binding Password}" />
                     <inputControls:TextEntryControl DataContext="{Binding Email}" />
 

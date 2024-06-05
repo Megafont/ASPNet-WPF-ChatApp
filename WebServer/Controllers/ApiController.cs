@@ -55,6 +55,11 @@ namespace ASPNet_WPF_ChatApp.WebServer.Controllers
         /// </summary>
         private readonly ILogger<HomeController> _logger;
 
+        /// <summary>
+        /// Whether or not to write a long entry each time a route is accessed.
+        /// </summary>
+        private bool _LogRouteAccesses = true;
+
         #endregion
 
         #region Constructors
@@ -92,6 +97,9 @@ namespace ASPNet_WPF_ChatApp.WebServer.Controllers
         [Route(ApiRoutes.Register)]
         public async Task<ApiResponseModel<RegisterResultApiModel>> RegisterAsync([FromBody] RegisterCredentialsApiModel registerCredentials)
         {
+            if (_LogRouteAccesses)
+                Debug.WriteLine("ROUTE CALLED: Register", "Warning");
+
             // TODO: Localize all strings
 
             // The message when we fail to login
@@ -173,6 +181,9 @@ namespace ASPNet_WPF_ChatApp.WebServer.Controllers
         [Route(ApiRoutes.Login)]
         public async Task<ApiResponseModel<UserProfileDetailsApiModel>> LogInAsync([FromBody] LoginCredentialsApiModel loginCredentials)
         {
+            if (_LogRouteAccesses)
+                Debug.WriteLine("ROUTE CALLED: LogIn", "Warning");
+
             // TODO: Localize all strings
 
             // The message when we fail to login
@@ -185,6 +196,8 @@ namespace ASPNet_WPF_ChatApp.WebServer.Controllers
                 ErrorMessage = invalidErrorMessage
             };
 
+
+            Debug.WriteLine($"LOGIN CREDS: \"{loginCredentials.UsernameOrEmail}\"    Pass: \"{loginCredentials.Password}\"", "Warning");
 
             // Make sure we have a user name
             if (loginCredentials?.UsernameOrEmail == null || string.IsNullOrWhiteSpace(loginCredentials.UsernameOrEmail))
@@ -233,7 +246,7 @@ namespace ASPNet_WPF_ChatApp.WebServer.Controllers
             {
                 // Pass back the user details and the token
                 Response = new UserProfileDetailsApiModel
-                {
+                {                                                        
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                     Email = user.Email,
@@ -244,10 +257,13 @@ namespace ASPNet_WPF_ChatApp.WebServer.Controllers
         }
 
         [AllowAnonymous]
-        [Route(ApiRoutes.VerifyEmail)]")]
+        [Route(ApiRoutes.VerifyEmail)]
         [HttpGet]
         public async Task<ActionResult> VerifyEmailAsync(string userId, string emailToken)
         {
+            if (_LogRouteAccesses)
+                Debug.WriteLine("ROUTE CALLED: VerifyEmail", "Warning");
+
             // Get the user
             var user = await _UserManager.FindByIdAsync(userId);
 
@@ -286,11 +302,18 @@ namespace ASPNet_WPF_ChatApp.WebServer.Controllers
         /// Returns the user's profile details based on the authenticated user
         /// </summary>
         /// <returns></returns>
+        //[AllowAnonymous]
         [Route(ApiRoutes.GetUserProfile)]
         public async Task<ApiResponseModel<UserProfileDetailsApiModel>> GetUserProfileAsync()
         {
+            if (_LogRouteAccesses)
+                Debug.WriteLine("ROUTE CALLED: GetUserProfile", "Warning");
+
+            
             // Get user claims
             var user = await _UserManager.GetUserAsync(HttpContext.User);
+
+            var request = HttpContext.Request;
 
             // If we have no user...
             if (user == null)
@@ -329,6 +352,9 @@ namespace ASPNet_WPF_ChatApp.WebServer.Controllers
         [Route(ApiRoutes.UpdateUserProfile)]
         public async Task<ApiResponseModel> UpdateUserProfileAsync([FromBody]UpdateUserProfileDetailsApiModel model)
         {
+            if (_LogRouteAccesses)
+                Debug.WriteLine("ROUTE CALLED: UpdateUserProfile", "Warning");
+
             #region Declare Variables
 
             // Make an empty errors list
@@ -445,6 +471,9 @@ namespace ASPNet_WPF_ChatApp.WebServer.Controllers
         [Route(ApiRoutes.UpdatePassword)]
         public async Task<ApiResponseModel> UpdateUserPasswordAsync([FromBody] UpdateUserPasswordDetailsApiModel model)
         {
+            if (_LogRouteAccesses)
+                Debug.WriteLine("ROUTE CALLED: UpdateUserPassword", "Warning");
+
             #region Declare Variables
 
             // Make an empty errors list
@@ -510,6 +539,9 @@ namespace ASPNet_WPF_ChatApp.WebServer.Controllers
         [Route(ApiRoutes.Private)]
         public IActionResult Private()
         {
+            if (_LogRouteAccesses)
+                Debug.WriteLine("ROUTE CALLED: Private");
+
             var user = HttpContext.User;
 
             if (user != null)

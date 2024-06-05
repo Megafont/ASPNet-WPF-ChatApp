@@ -1,5 +1,6 @@
 ﻿using ASPNet_WPF_ChatApp.Core.DataModels;
 using ASPNet_WPF_ChatApp.Core.DependencyInjection.Interfaces;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System.Diagnostics;
 
 namespace APSNet_WPF_ChatApp.RelationalDB
@@ -10,6 +11,10 @@ namespace APSNet_WPF_ChatApp.RelationalDB
     /// </summary>
     public class BaseClientDataStore : IClientDataStore
     {
+
+        // TODO: The functions in this class should all use locks later to make this class thread safe
+
+
         #region Protected Members
 
         /// <summary>
@@ -62,7 +67,7 @@ namespace APSNet_WPF_ChatApp.RelationalDB
         /// <returns>The login credentials if they exist, or null if none exist</returns>
         public Task<LoginCredentialsDataModel> GetLoginCredentialsAsync()
         {
-            // Get the first column in the login credentials table, or null if none exist
+            // Get the first row in the login credentials table, or null if none exist
             return Task.FromResult(_DbContext.LoginCredentials.FirstOrDefault());
         }
 
@@ -73,11 +78,30 @@ namespace APSNet_WPF_ChatApp.RelationalDB
         /// <returns>A task that will finish once the save is complete</returns>
         public async Task SaveLoginCredentialsAsync(LoginCredentialsDataModel loginCredentials)
         {
-            // Clear all entries from the database table
+            // Remove all entries from the Login Credentials table
             _DbContext.LoginCredentials.RemoveRange(_DbContext.LoginCredentials);
+
+            // Give it an Id.
+            // NOTE: I had to add this line to stop it complaining that this field was null.
+            //       It is needed since Id is set as the primary key in the login credentials table in the client data store.
+            loginCredentials.Id = Guid.NewGuid().ToString("N");
 
             // Add the new one
             _DbContext.LoginCredentials.Add(loginCredentials);
+
+            // Save changes
+            await _DbContext.SaveChangesAsync();
+        }
+
+        /// <summary>
+        /// Removes all login credentials store in the data store
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task ClearAllLoginCredentialsAsync()
+        {
+            // Remove all entries from the Login Credentials table
+            _DbContext.LoginCredentials.RemoveRange(_DbContext.LoginCredentials);
 
             // Save changes
             await _DbContext.SaveChangesAsync();

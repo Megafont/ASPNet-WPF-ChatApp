@@ -11,6 +11,10 @@ namespace ASPNet_WPF_ChatApp.Core.Routes
     /// </summary>
     public static class WebRoutes
     {
+        /// <summary>
+        /// The address of the webserver
+        /// </summary>
+        public const string ServerAddress = "http://localhost:5289/";
 
         /// <summary>
         /// The route to the CreateUser() method

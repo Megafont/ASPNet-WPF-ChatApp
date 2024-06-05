@@ -26,6 +26,8 @@ using ASPNet_WPF_ChatApp.WebServer.DependencyInjection;
 
 // Prevent it trying to use Microsoft.AspNetCore.Identity.IEmailSender
 using IEmailSender = ASPNet_WPF_ChatApp.Core.DependencyInjection.Interfaces.IEmailSender;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Options;
 
 namespace ASPNet_WPF_ChatApp.WebServer
 {
@@ -38,7 +40,7 @@ namespace ASPNet_WPF_ChatApp.WebServer
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
+        {                        
             // Add SendGrid email sender
             services.AddSendGridEmailSender();
 
@@ -67,20 +69,37 @@ namespace ASPNet_WPF_ChatApp.WebServer
 
 
             // Add JWT (JSON Web Token) Authentication for API clients
-            services.AddAuthentication()
+            services.AddAuthentication(options =>
+                { // NOTE: I had to add these three lines to fix the JWT (JSON web token) authentication not working when the Settings_ViewModel.LoadSettingsAsync() method asks the server for info using the JWT token of the user.
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
                 .AddJwtBearer(options =>
                 {
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
+                        // Validate issuer
                         ValidateIssuer = true,
+                        // Validate audience
                         ValidateAudience = true,
+                        // Validate expiration
                         ValidateLifetime = true,
+                        // Validate signature
                         ValidateIssuerSigningKey = true,
+
+                        // Set issuer
                         ValidIssuer = Framework.Construction.Configuration["Jwt:Issuer"],
+                        // Set audience
                         ValidAudience = Framework.Construction.Configuration["Jwt:Audience"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Framework.Construction.Configuration["Jwt:SecretKey"])),
+
+                        // Set signing key
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                            // Get our secret key from configuration
+                            Encoding.UTF8.GetBytes(Framework.Construction.Configuration["Jwt:SecretKey"])),
                     };
                 });
+                
 
 
             // Change password policy
@@ -90,7 +109,7 @@ namespace ASPNet_WPF_ChatApp.WebServer
                 // NEVER do this in production code!!!
                 options.Password.RequireDigit = false;
                 options.Password.RequiredLength = 5;
-                options.Password.RequireLowercase = false;
+                options.Password.RequireLowercase = true;
                 options.Password.RequireUppercase = false;
                 options.Password.RequireNonAlphanumeric = false;
 
@@ -124,21 +143,25 @@ namespace ASPNet_WPF_ChatApp.WebServer
             // Use Dna Framework
             app.UseDnaFramework();
 
-            // Setup Identity
             app.UseAuthentication();
 
-
+            // If in development...
             if (env.IsDevelopment())
+                // Show any exceptions in browser when they crash
                 app.UseDeveloperExceptionPage();
+            // Otherwise...
             else
+                // Just show generic error page
                 app.UseExceptionHandler("/Home/Error");
 
+            // Serve static files
             app.UseStaticFiles();
 
             app.UseRouting();
 
             app.UseAuthorization();
 
+            // Setup MVC routes
             app.UseEndpoints(routes =>
             {
                 routes.MapControllerRoute(
@@ -150,7 +173,6 @@ namespace ASPNet_WPF_ChatApp.WebServer
                     name: "aboutPage",
                     pattern: "more",
                     defaults: new { controller = "About", action = "TellMeMore" });
-
             });
 
         }
