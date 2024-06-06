@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,9 +10,11 @@ using System.Windows.Input;
 
 using Dna;
 
+using ASPNet_WPF_ChatApp.WebRequestUtils;
 using ASPNet_WPF_ChatApp.Core.ApiModels;
 using ASPNet_WPF_ChatApp.Core.DataModels;
 using ASPNet_WPF_ChatApp.Core.DependencyInjection;
+using ASPNet_WPF_ChatApp.Core.Expressions;
 using ASPNet_WPF_ChatApp.Core.Routes;
 using ASPNet_WPF_ChatApp.DependencyInjection;
 using ASPNet_WPF_ChatApp.ViewModels.Base;
@@ -19,7 +22,6 @@ using ASPNet_WPF_ChatApp.ViewModels.Input;
 
 // This makes it so we can access members on this static class without needing to write "ChatAppDI." first.
 using static ASPNet_WPF_ChatApp.DependencyInjection.ChatAppDI;
-using ASPNet_WPF_ChatApp.WebRequestUtils;
 
 
 namespace ASPNet_WPF_ChatApp.ViewModels.Application
@@ -41,9 +43,14 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application
         #region Public Properties
 
         /// <summary>
-        /// The current user's name
+        /// The current user's first name
         /// </summary>
-        public TextEntryViewModel Name { get; set; }
+        public TextEntryViewModel FirstName { get; set; }
+
+        /// <summary>
+        /// The current user's last name
+        /// </summary>
+        public TextEntryViewModel LastName { get; set; }
 
         /// <summary>
         /// The current user's username
@@ -64,6 +71,36 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application
         /// The text for the logout button
         /// </summary>
         public string LogoutButtonText { get; set; }
+
+
+        #region TransactionalProperties
+
+        /// <summary>
+        /// Indicates if the first name is currently being saved
+        /// </summary>
+        public bool FirstNameIsSaving { get; set; }
+
+        /// <summary>
+        /// Indicates if the last name is currently being saved
+        /// </summary>
+        public bool LastNameIsSaving { get; set; }
+
+        /// <summary>
+        /// Indicates if the username is currently being saved
+        /// </summary>
+        public bool UserNameIsSaving { get; set; }
+
+        /// <summary>
+        /// Indicates if the email is currently being saved
+        /// </summary>
+        public bool EmailIsSaving { get; set; }
+        
+        /// <summary>
+        /// Indicates if the password is currently being changed
+        /// </summary>
+        public bool PasswordIsChanging { get; set; }
+
+        #endregion
 
         #endregion
 
@@ -95,9 +132,14 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application
         public ICommand LoadCommand { get; set; }
 
         /// <summary>
-        /// Saves the current name to the server
+        /// Saves the current first name to the server
         /// </summary>
-        public ICommand SaveNameCommand { get; set; }
+        public ICommand SaveFirstNameCommand { get; set; }
+
+        /// <summary>
+        /// Saves the current last name to the server
+        /// </summary>
+        public ICommand SaveLastNameCommand { get; set; }
 
         /// <summary>
         /// Saves the current user name to the server
@@ -118,12 +160,20 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application
         /// </summary>
         public SettingsViewModel()
         {
-            // Create Name
-            Name = new TextEntryViewModel
+            // Create First Name
+            FirstName = new TextEntryViewModel
             {
-                Label = "Name",
+                Label = "First Name",
                 OriginalText = _LoadingText,
-                CommitAction = SaveNameAsync
+                CommitAction = SaveFirstNameAsync
+            };
+
+            // Create Last Name
+            LastName = new TextEntryViewModel
+            {
+                Label = "Last Name",
+                OriginalText = _LoadingText,
+                CommitAction = SaveLastNameAsync
             };
 
             // Create UserName
@@ -157,7 +207,8 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application
             LogoutCommand = new RelayCommand(async () => await LogoutAsync());
             ClearCommand = new RelayCommand(ClearUserData);
             LoadCommand = new RelayCommand(async () => await LoadSettingsAsync());            
-            SaveNameCommand = new RelayCommand(async () => await SaveNameAsync());
+            SaveFirstNameCommand = new RelayCommand(async () => await SaveFirstNameAsync());
+            SaveLastNameCommand = new RelayCommand(async () => await SaveLastNameAsync());
             SaveUserNameCommand = new RelayCommand(async () => await SaveUserNameAsync());
             SaveEmailCommand = new RelayCommand(async () => await SaveEmailAsync());
 
@@ -211,7 +262,8 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application
         public void ClearUserData()
         {
             // Clear all view models containing the user's info
-            Name.OriginalText = _LoadingText;
+            FirstName.OriginalText = _LoadingText;
+            LastName.OriginalText = _LoadingText;
             UserName.OriginalText = _LoadingText;
             Email.OriginalText = _LoadingText;
         }
@@ -295,17 +347,51 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application
         }
 
         /// <summary>
-        /// Saves the new name to the server
+        /// Saves the new first name to the server
         /// </summary>
-        /// <param name="self">The view model of the field where the name was edited</param>
+        /// <param name="self">The view model of the field where the first name was edited</param>
         /// <returns>True if successful, or false otherwise</returns>
-        public async Task<bool> SaveNameAsync()
+        public async Task<bool> SaveFirstNameAsync()
         {
-            // TODO: Update with server
-            await Task.Delay(3000);
+            // Lock this command to ignore any other requests while processing. The lock block is inside the 2nd version of RunCommandAsync().
+            return await RunCommandAsync(() => FirstNameIsSaving, async () =>
+            {
+                // Update the First Name value on the server...
+                return await UpdateUserCredentialsValueAsync(
+                    // Display name
+                    "First Name",
+                    // Update the First Name
+                    (credentials) => credentials.FirstName,
+                    // To new value
+                    FirstName.OriginalText,
+                    // Set Api model value
+                    (apiModel, value) => apiModel.FirstName = value
+                    );                    
+            });
+        }
 
-            // Return fail
-            return false;
+        /// <summary>
+        /// Saves the new last name to the server
+        /// </summary>
+        /// <param name="self">The view model of the field where the last name was edited</param>
+        /// <returns>True if successful, or false otherwise</returns>
+        public async Task<bool> SaveLastNameAsync()
+        {
+            // Lock this command to ignore any other requests while processing. The lock block is inside the 2nd version of RunCommandAsync().
+            return await RunCommandAsync(() => LastNameIsSaving, async () =>
+            {
+                // Update the Last Name value on the server...
+                return await UpdateUserCredentialsValueAsync(
+                    // Display name
+                    "Last Name",
+                    // Update the Last Name
+                    (credentials) => credentials.LastName,
+                    // To new value
+                    LastName.OriginalText,
+                    // Set Api model value
+                    (apiModel, value) => apiModel.LastName = value
+                    );
+            });
         }
 
         /// <summary>
@@ -315,11 +401,21 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application
         /// <returns>True if successful, or false otherwise</returns>
         public async Task<bool> SaveUserNameAsync()
         {
-            // TODO: Update with server
-            await Task.Delay(3000);
-
-            // Return success
-            return true;
+            // Lock this command to ignore any other requests while processing. The lock block is inside the 2nd version of RunCommandAsync().
+            return await RunCommandAsync(() => UserNameIsSaving, async () =>
+            {
+                // Update the User Name value on the server...
+                return await UpdateUserCredentialsValueAsync(
+                    // Display name
+                    "Username",
+                    // Update the UserName
+                    (credentials) => credentials.UserName,
+                    // To new value
+                    UserName.OriginalText,
+                    // Set Api model value
+                    (apiModel, value) => apiModel.UserName = value
+                    );
+            });
         }
 
         /// <summary>
@@ -329,11 +425,21 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application
         /// <returns>True if successful, or false otherwise</returns>
         public async Task<bool> SaveEmailAsync()
         {
-            // TODO: Update with server
-            await Task.Delay(3000);
-
-            // Return fail
-            return false;
+            // Lock this command to ignore any other requests while processing. The lock block is inside the 2nd version of RunCommandAsync().
+            return await RunCommandAsync(() => EmailIsSaving, async () =>
+            {
+                // Update the Email value on the server...
+                return await UpdateUserCredentialsValueAsync(
+                    // Display name
+                    "Email",
+                    // Update the Email
+                    (credentials) => credentials.Email,
+                    // To new value
+                    Email.OriginalText,
+                    // Set Api model value
+                    (apiModel, value) => apiModel.Email = value
+                    );
+            });
         }
 
         /// <summary>
@@ -364,14 +470,88 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application
             // Get the stored credentials
             var storedCredentials = await ClientDataStore.GetLoginCredentialsAsync();
 
-            // Set name
-            Name.OriginalText = $"{storedCredentials?.FirstName} {storedCredentials?.LastName}";
+            // Set first name
+            FirstName.OriginalText = storedCredentials?.FirstName;
+
+            // Set last name
+            LastName.OriginalText = storedCredentials?.LastName;
 
             // Set user name
             UserName.OriginalText = storedCredentials?.UserName;
 
             // Set email
             Email.OriginalText = storedCredentials?.Email;
+        }
+
+        /// <summary>
+        /// Updates a specific value from the client data store for the user profile details
+        /// and attempts to update the server to match those details.
+        /// For example, updating the first name of the user.
+        /// </summary>
+        /// <param name="displayName">The display name for logging and display purposes of the property we are updating</param>
+        /// <param name="propertyToUpdate">The property from the <see cref="LoginCredentialsDataModel"/> to be updated</param>
+        /// <param name="newValue">The new value to update it to</param>
+        /// <param name="setApiModel">Sets the correct property in the <see cref="UpdateUserProfileDetailsApiModel"/> model that this property maps to</param>
+        /// <returns></returns>
+        private async Task<bool> UpdateUserCredentialsValueAsync(string displayName, Expression<Func<LoginCredentialsDataModel, string>> propertyToUpdate, string newValue, Action<UpdateUserProfileDetailsApiModel, string> setApiModel)
+        {
+            // Log it
+            FrameworkDI.Logger.LogDebugSource($"Saving {displayName}...");
+
+            // Get the current known credentials
+            var credentials = await ClientDataStore.GetLoginCredentialsAsync();
+
+            // Get the property to update from the credentials
+            var toUpdate = propertyToUpdate.GetPropertyValue(credentials);
+
+            // Check if the value is the same, and if so return true
+            if (toUpdate == newValue)
+            {
+                // Log it
+                FrameworkDI.Logger.LogDebugSource($"{displayName} is unchanged, no need to save...");
+
+                return true;
+            }
+
+
+            // Log it
+            FrameworkDI.Logger.LogDebugSource($"{displayName} currently updating from \"{toUpdate}\" to \"{newValue}\".");
+
+            // Set the new first name
+            propertyToUpdate.SetPropertyValue(newValue, credentials);
+
+            // Create update details
+            var updateApiModel = new UpdateUserProfileDetailsApiModel();
+
+            // Ask the caller to set the appropriate value
+            setApiModel(updateApiModel, newValue);
+
+
+            // Update the server with the new details
+            var result = await WebRequests.PostAsync<ApiResponseModel>(
+                WebRoutes.ServerAddress + ApiRoutes.UpdateUserProfile,
+                // Pass in the Api model
+                updateApiModel,
+                // Pass in the JWT (JSON web token) token
+                bearerToken: credentials.Token);
+
+            // If the response has an error...
+            if (await result.DisplayErrorIfFailedAsync($"Update {displayName}"))
+            {
+                // Log it
+                FrameworkDI.Logger.LogDebugSource($"Failed to update {displayName}: \"{result.ErrorMessage}\"");
+
+                return false;
+            }
+
+            // Log it
+            FrameworkDI.Logger.LogDebugSource($"Successfully updated {displayName}. Saving to local data store...");
+
+            // Store the new user credentials in the client data store
+            await ClientDataStore.SaveLoginCredentialsAsync(credentials);
+
+            // Return successful
+            return true;
         }
 
         #endregion

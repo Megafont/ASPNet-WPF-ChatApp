@@ -11,10 +11,7 @@ using System.Windows.Shell;
 
 using ASPNet_WPF_ChatApp.Core.DataModels;
 using ASPNet_WPF_ChatApp.ViewModels.Base;
-using ASPNet_WPF_ChatApp.Window;
-
-using static ASPNet_WPF_ChatApp.Window.WindowResizer; // This is static because the last name here (WindowResizer) is a type, not a namespace.
-
+using ASPNet_WPF_ChatApp.WindowUtils;
 
 
 namespace ASPNet_WPF_ChatApp.WPFViewModels
@@ -40,7 +37,7 @@ namespace ASPNet_WPF_ChatApp.WPFViewModels
 
         #region Constructors
 
-        public DialogWindowViewModel(System.Windows.Window window)
+        public DialogWindowViewModel(Window window)
             : base(window)
         {
             // Make minimum size smaller than WindowViewModel's default

@@ -32,7 +32,8 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application.Design
         /// </summary>
         public SettingsDesignViewModel()
         {
-            Name = new TextEntryViewModel { Label = "Name", OriginalText = "Michael Fontanini" };
+            FirstName = new TextEntryViewModel { Label = "First Name", OriginalText = "Michael" };
+            LastName = new TextEntryViewModel { Label = "Last Name", OriginalText = "Fontanini" };
             UserName = new TextEntryViewModel { Label = "Username", OriginalText = "Megafont" };
             Password = new PasswordEntryViewModel { Label = "Password", FakePassword = "********" };
             Email = new TextEntryViewModel { Label = "Email", OriginalText = "megafont@gmail.com" };

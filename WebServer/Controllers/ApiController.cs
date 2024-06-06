@@ -302,7 +302,6 @@ namespace ASPNet_WPF_ChatApp.WebServer.Controllers
         /// Returns the user's profile details based on the authenticated user
         /// </summary>
         /// <returns></returns>
-        //[AllowAnonymous]
         [Route(ApiRoutes.GetUserProfile)]
         public async Task<ApiResponseModel<UserProfileDetailsApiModel>> GetUserProfileAsync()
         {

@@ -27,20 +27,20 @@ namespace ASPNet_WPF_ChatApp.WebRequestUtils
         /// <param name="response">The resposne to check</param>
         /// <param name="title">The title of the error dialog if there is an error</param>
         /// <returns>True if there were errors, or false if all was ok</returns>
-        public static async Task<bool> DisplayErrorIfFailedAsync<T>(this WebRequestResult<ApiResponseModel<T>> response, string title)
+        public static async Task<bool> DisplayErrorIfFailedAsync(this WebRequestResult response, string title)
         {
             // If there was no response, bad data, or a response with an error message...
-            if (response == null || response.ServerResponse == null || !response.ServerResponse.Successful)
+            if (response == null || response.ServerResponse == null || (response.ServerResponse as ApiResponseModel)?.Successful == false)
             {
                 // Default error message
                 // TODO: Localize strings
                 var message = "Unknown error from server call.";
 
                 // If we got a response from the server...
-                if (response?.ServerResponse != null)
+                if (response?.ServerResponse is ApiResponseModel apiResponse)
                 {
                     // Set message to the server's response
-                    message = response.ServerResponse.ErrorMessage;
+                    message = apiResponse.ErrorMessage;
                 }
 
                 // If we have a response, but deserialization failed...
@@ -54,7 +54,7 @@ namespace ASPNet_WPF_ChatApp.WebRequestUtils
                 else if (response != null)
                 {
                     // Set message to standard HTTP server response details
-                    message = $"Failed to communicate with server. Status code {response.StatusCode}. \"{response.StatusDescription}\"";
+                    message = response.ErrorMessage ?? $"{response.StatusDescription} - Status code: {response.StatusCode}";
                 }
 
 

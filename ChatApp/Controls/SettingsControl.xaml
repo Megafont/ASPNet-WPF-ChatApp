@@ -92,7 +92,8 @@
                             attachedProperties:TextEntryWidthMatcherProperty.Value="True"                            
                             >
 
-                    <inputControls:TextEntryControl DataContext="{Binding Name}" />
+                    <inputControls:TextEntryControl DataContext="{Binding FirstName}" />
+                    <inputControls:TextEntryControl DataContext="{Binding LastName}" />
                     <inputControls:TextEntryControl DataContext="{Binding UserName}" />
                     <inputControls:PasswordEntryControl DataContext="{Binding Password}" />
                     <inputControls:TextEntryControl DataContext="{Binding Email}" />
