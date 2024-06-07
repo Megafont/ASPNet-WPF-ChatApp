@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ASPNet_WPF_ChatApp"
-             xmlns:viewModels="clr-namespace:ASPNet_WPF_ChatApp.WPFViewModels"        
+             xmlns:viewModelsWPF="clr-namespace:ASPNet_WPF_ChatApp.WPFViewModels"        
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
@@ -31,15 +31,23 @@
 
                         <!-- Main Buttons -->
                         <StackPanel Orientation="Horizontal">
-                            <Button Content="{StaticResource FontAwesomeChatIcon}" Style="{StaticResource IconButton}" />
-                            <Button Content="{StaticResource FontAwesomeUserIcon}" Style="{StaticResource IconButton}" />
-                            <Button Content="{StaticResource FontAwesomePictureIcon}" Style="{StaticResource IconButton}" />
+                            <Button Style="{StaticResource IconButton}"
+                                    Content="{StaticResource FontAwesomeChatIcon}" 
+                                    Command="{Binding OpenChatCommand}" />
+                            
+                            <Button Style="{StaticResource IconButton}"
+                                    Content="{StaticResource FontAwesomeUserIcon}" 
+                                    Command="{Binding OpenContactsCommand}"/>
+                            
+                            <Button Style="{StaticResource IconButton}"
+                                    Content="{StaticResource FontAwesomePictureIcon}" 
+                                    Command="{Binding OpenMediaCommand}"/>
                         </StackPanel>
 
                         <!-- Settings Button -->
                         <Button Grid.Column="2" 
                                 Foreground="{StaticResource WordDarkBlueBrush}"
-                                Command="{Binding SettingsViewModel.OpenCommand, Source={x:Static viewModels:ViewModelLocator.Instance}}"
+                                Command="{Binding SettingsViewModel.OpenCommand, Source={x:Static viewModelsWPF:ViewModelLocator.Instance}}"
                                 Content="{StaticResource FontAwesomeCogIcon}" 
                                 Style="{StaticResource IconButton}" />
 

@@ -23,6 +23,7 @@ using ASPNet_WPF_ChatApp.ViewModels.Input;
 // This makes it so we can access members on this static class without needing to write "ChatAppDI." first.
 using static ASPNet_WPF_ChatApp.DependencyInjection.ChatAppDI;
 using ASPNet_WPF_ChatApp.Core.Security;
+using ASPNet_WPF_ChatApp.Core.DependencyInjection.Interfaces;
 
 
 namespace ASPNet_WPF_ChatApp.ViewModels.Application
@@ -100,6 +101,16 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application
         /// Indicates if the password is currently being changed
         /// </summary>
         public bool PasswordIsChanging { get; set; }
+
+        /// <summary>
+        /// Indicates if the settings details are currently being loaded
+        /// </summary>
+        public bool SettingsAreLoading { get; set; }
+
+        /// <summary>
+        /// Indicates if the user is currently logging out
+        /// </summary>
+        public bool LoggingOut { get; set; }
 
         #endregion
 
@@ -244,17 +255,22 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application
         /// </summary>
         public async Task LogoutAsync()
         {
-            // TODO: Confirm the user wants to logout
+            // Lock this command to ignore any other requests while processing. The lock block is inside the 2nd version of RunCommandAsync().
+            await RunCommandAsync(() => LoggingOut, async () =>
+            {
 
-            // Clear any user data/cache
-            await ClientDataStore.ClearAllLoginCredentialsAsync();
+                // TODO: Confirm the user wants to logout
 
-            // Clean all application level view models that contain
-            // any information about the current user
-            ClearUserData();
+                // Clear any user data/cache
+                await ClientDataStore.ClearAllLoginCredentialsAsync();
 
-            // Go to login page
-            ViewModel_Application.GoToPage(ApplicationPages.Login);
+                // Clean all application level view models that contain
+                // any information about the current user
+                ClearUserData();
+
+                // Go to login page
+                ViewModel_Application.GoToPage(ApplicationPages.Login);
+            });
         }
 
         /// <summary>
@@ -274,79 +290,86 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application
         /// </summary>
         public async Task LoadSettingsAsync()
         {
-            // Update values from the local cache
-            await UpdateValuesFromLocalDataStoreAsync();
-
-            // Get the user token
-            LoginCredentialsDataModel loginDataModel = (await ClientDataStore.GetLoginCredentialsAsync());
-            string token = loginDataModel != null ? loginDataModel.Token
-                                                  : null;
-
-            // If we don't have a token (we are not logged in...)
-            if (token == null || string.IsNullOrWhiteSpace(token))
+            // Lock this command to ignore any other requests while processing. The lock block is inside the 2nd version of RunCommandAsync().
+            await RunCommandAsync(() => SettingsAreLoading, async () =>
             {
-                // Then simply return.
-                return;
-            }
-
-
-            // Load user profile details from server
-            var result = await WebRequests.PostAsync<ApiResponseModel<UserProfileDetailsApiModel>>(
-                // Get URL
-                RouteHelpers.GetAbsoluteRoute(ApiRoutes.GetUserProfile),
-                // Pass in the JWT (JSON web token) user Token
-                bearerToken: token
-                // The following line was the original way we did the above "bearerToken:" line
-                //configureRequest: (request) => request.Headers.Add("Authorization", "Bearer " + token)
-                );
-
-
-            //Debug.WriteLine($"SERVER RESPONSE: \"{result.RawServerResponse}\"", "Warning");
-
-            // If the response has an error...
-            if (!string.IsNullOrWhiteSpace(result.ErrorMessage))
-            {
-                System.Windows.Application.Current.Dispatcher.Invoke(() =>
-                {
-                    UI.ShowMessage(new Dialogs.MessageBoxDialogViewModel
-                    {
-                        Title = "Error",
-                        Message = result.ErrorMessage
-                    });
-                });
-                // We are done
-                return;
-            }
-
-            // If it was successful...
-            if (result.Successful)
-            {
-                // TODO: Check if values are different before saving.
-
-                // Create data model from the response
-                var dataModel = result.ServerResponse.Response.ToLoginCredentialsDataModel();
-
-                // Re-add our known token
-                dataModel.Token = token;
-
-                // Save the new information into the local data store
-                await ClientDataStore.SaveLoginCredentialsAsync(dataModel);
+                // Store a single transient instance of the client data store
+                var scopedClientDataStore = ClientDataStore;
 
                 // Update values from the local cache
-                await UpdateValuesFromLocalDataStoreAsync();
-            }
-            else
-            {
-                // Run the ShowMessage() call on the UI thread. Otherwise it would throw an exception
-                System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                await UpdateValuesFromLocalDataStoreAsync(scopedClientDataStore);
+
+                // Get the user token
+                LoginCredentialsDataModel loginDataModel = (await scopedClientDataStore.GetLoginCredentialsAsync());
+                string token = loginDataModel != null ? loginDataModel.Token
+                                                      : null;
+
+                // If we don't have a token (we are not logged in...)
+                if (token == null || string.IsNullOrWhiteSpace(token))
                 {
-                    UI.ShowMessage(new Dialogs.MessageBoxDialogViewModel
+                    // Then simply return.
+                    return;
+                }
+
+
+                // Load user profile details from server
+                var result = await WebRequests.PostAsync<ApiResponseModel<UserProfileDetailsApiModel>>(
+                    // Get URL
+                    RouteHelpers.GetAbsoluteRoute(ApiRoutes.GetUserProfile),
+                    // Pass in the JWT (JSON web token) user Token
+                    bearerToken: token
+                    // The following line was the original way we did the above "bearerToken:" line
+                    //configureRequest: (request) => request.Headers.Add("Authorization", "Bearer " + token)
+                    );
+
+
+                //Debug.WriteLine($"SERVER RESPONSE: \"{result.RawServerResponse}\"", "Warning");
+
+                // If the response has an error...
+                if (!string.IsNullOrWhiteSpace(result.ErrorMessage))
+                {
+                    System.Windows.Application.Current.Dispatcher.Invoke(() =>
                     {
-                        Title = "Error",
-                        Message = result.ErrorMessage
+                        UI.ShowMessage(new Dialogs.MessageBoxDialogViewModel
+                        {
+                            Title = "Error",
+                            Message = result.ErrorMessage
+                        });
                     });
-                });
-            }
+                    // We are done
+                    return;
+                }
+
+                // If it was successful...
+                if (result.Successful)
+                {
+                    // TODO: Check if values are different before saving.
+
+                    // Create data model from the response
+                    var dataModel = result.ServerResponse.Response.ToLoginCredentialsDataModel();
+
+                    // Re-add our known token
+                    dataModel.Token = token;
+
+                    // Save the new information into the local data store
+                    await scopedClientDataStore.SaveLoginCredentialsAsync(dataModel);
+
+                    // Update values from the local cache
+                    await UpdateValuesFromLocalDataStoreAsync(scopedClientDataStore);
+                }
+                else
+                {
+                    // Run the ShowMessage() call on the UI thread. Otherwise it would throw an exception
+                    System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        UI.ShowMessage(new Dialogs.MessageBoxDialogViewModel
+                        {
+                            Title = "Error",
+                            Message = result.ErrorMessage
+                        });
+                    });
+                }
+            });
         }
 
         /// <summary>
@@ -516,10 +539,10 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application
         /// to this view model
         /// </summary>
         /// <returns></returns>
-        private async Task UpdateValuesFromLocalDataStoreAsync()
+        private async Task UpdateValuesFromLocalDataStoreAsync(IClientDataStore clientDataStore)
         {
             // Get the stored credentials
-            var storedCredentials = await ClientDataStore.GetLoginCredentialsAsync();
+            var storedCredentials = await clientDataStore.GetLoginCredentialsAsync();
 
             // Set first name
             FirstName.OriginalText = storedCredentials?.FirstName;

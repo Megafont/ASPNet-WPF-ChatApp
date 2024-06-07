@@ -8,7 +8,7 @@
         xmlns:controls="clr-namespace:ASPNet_WPF_ChatApp.Controls"
         xmlns:chatListControls="clr-namespace:ASPNet_WPF_ChatApp.Controls.Chat.ChatList"
         xmlns:valueConverters="clr-namespace:ASPNet_WPF_ChatApp.ValueConverters"
-        xmlns:viewModels="clr-namespace:ASPNet_WPF_ChatApp.WPFViewModels"
+        xmlns:viewModelsWPF="clr-namespace:ASPNet_WPF_ChatApp.WPFViewModels"
         mc:Ignorable="d"
         WindowStyle="None"
         AllowsTransparency="True"
@@ -145,7 +145,7 @@
             <!-- Settings page -->
             <controls:SettingsControl Grid.ColumnSpan="2"
                                       Panel.ZIndex="9"
-                                      attachedProperties:AnimateSlideInFromBottom_KeepMargin_Property.Value="{Binding ApplicationViewModel.SettingsMenuVisible, Source={x:Static viewModels:ViewModelLocator.Instance}}"
+                                      attachedProperties:AnimateSlideInFromBottom_KeepMargin_Property.Value="{Binding ApplicationViewModel.SettingsMenuVisible, Source={x:Static viewModelsWPF:ViewModelLocator.Instance}}"
                                       />
 
             <!-- Dimmed overlay -->
@@ -163,19 +163,17 @@
             
             <controls:PageHost Grid.Column="1" 
                    CurrentPage="{Binding ApplicationViewModel.CurrentPage,
-                                         Source={x:Static viewModels:ViewModelLocator.Instance}}"
+                                         Source={x:Static viewModelsWPF:ViewModelLocator.Instance}}"
                    CurrentPageViewModel="{Binding ApplicationViewModel.CurrentPageViewModel,
-                                                  Source={x:Static viewModels:ViewModelLocator.Instance}}" />
+                                                  Source={x:Static viewModelsWPF:ViewModelLocator.Instance}}" />
 
             <!-- Side Menu -->
             <controls:SideMenuControl 
+                DataContext="{Binding ApplicationViewModel, Source={x:Static viewModelsWPF:ViewModelLocator.Instance}}"
                 Width="300" 
-                attachedProperties:AnimateSlideInFromLeftProperty.Value="{Binding ApplicationViewModel.SideMenuVisible, 
-                    Source={x:Static viewModels:ViewModelLocator.Instance}}">
-
-                <chatListControls:ChatListControl />
-
-            </controls:SideMenuControl>
+                attachedProperties:AnimateSlideInFromLeftProperty.Value="{Binding ApplicationViewModel.SideMenuVisible, Source={x:Static viewModelsWPF:ViewModelLocator.Instance}}"
+                Content="{Binding CurrentSideMenuContent, Converter={valueConverters:SideMenuContentConverter}}"
+            />
 
         </Grid>
     </Border>

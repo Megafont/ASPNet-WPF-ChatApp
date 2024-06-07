@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Windows.Input;
 using ASPNet_WPF_ChatApp.Core.ApiModels;
 using ASPNet_WPF_ChatApp.Core.DataModels;
 using ASPNet_WPF_ChatApp.Core.DependencyInjection;
@@ -73,7 +73,79 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application
             }
         }
 
+        /// <summary>
+        /// Determines the currently visible side menu content
+        /// </summary>
+        public SideMenuContent CurrentSideMenuContent { get; set; } = SideMenuContent.Chat;
+
         #endregion
+
+        #region Public Commands
+
+        /// <summary>
+        /// The command to change the side menu to Chat
+        /// </summary>
+        public ICommand OpenChatCommand { get; set; }
+
+        /// <summary>
+        /// The command to change the side menu to Contacts
+        /// </summary>
+        public ICommand OpenContactsCommand { get; set; }
+
+        /// <summary>
+        /// The command to change the side menu to Media
+        /// </summary>
+        public ICommand OpenMediaCommand { get; set; }
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// The default constructor
+        /// </summary>
+        public ApplicationViewModel()
+        {
+            // Create the commands
+            OpenChatCommand = new RelayCommand(OpenChat);
+            OpenContactsCommand = new RelayCommand(OpenContacts);
+            OpenMediaCommand = new RelayCommand(OpenMedia);
+        }
+
+        #endregion
+
+        #region Command Methods
+
+        /// <summary>
+        /// Changes the current side menu content to Chat
+        /// </summary>
+        public void OpenChat()
+        {
+            // Set the current side menu content to Chat
+            CurrentSideMenuContent = SideMenuContent.Chat;
+        }
+
+        /// <summary>
+        /// Changes the current side menu content to Contacts
+        /// </summary>
+        public void OpenContacts()
+        {
+            // Set the current side menu content to Contacts
+            CurrentSideMenuContent = SideMenuContent.Contacts;
+        }
+
+        /// <summary>
+        /// Changes the current side menu content to Media
+        /// </summary>
+        public void OpenMedia()
+        {
+            // Set the current side menu content to Media
+            CurrentSideMenuContent = SideMenuContent.Media;
+        }
+
+        #endregion
+
+        #region Public Helper Methods
 
         /// <summary>
         /// Navigates to the specified page
@@ -117,5 +189,7 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application
             // Go to chat page
             ViewModel_Application.GoToPage(ApplicationPages.Chat);
         }
+
+        #endregion
     }
 }

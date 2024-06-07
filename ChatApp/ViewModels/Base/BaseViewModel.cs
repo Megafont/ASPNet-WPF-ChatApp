@@ -21,6 +21,16 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Base
     //[AddINotifyPropertyChangedInterface]
     public class BaseViewModel : INotifyPropertyChanged
     {
+        #region Proected Members
+
+        /// <summary>
+        /// A global lock for property checks to prevent locking on different instances of epxressions.
+        /// Considering how fat this check will always be, it isn't an issue to globally lock all callers.
+        /// </summary>
+        protected object _PropertyValueCheckLock = new object();
+
+        #endregion
+
         /// <summary>
         /// The event that is fired when any child property changes its value
         /// </summary>
@@ -49,8 +59,8 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Base
         /// <returns></returns>
         protected async Task RunCommandAsync(Expression<Func<bool>> updatingFlag, Func<Task> action)
         {
-            // Lock to ensure single access to check
-            lock (updatingFlag)
+            // Lock to ensure a single access to property check for thread safety
+            lock (_PropertyValueCheckLock)
             {
                 // Check if the flag property is true (meaning the function is already running)
                 if (updatingFlag.GetPropertyValue())
@@ -85,8 +95,9 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Base
         /// <returns></returns>
         protected async Task<T> RunCommandAsync<T>(Expression<Func<bool>> updatingFlag, Func<Task<T>> action, T defaultValue = default(T))
         {
-            // Lock to ensure single access to check
-            lock (updatingFlag)
+
+            // Lock to ensure a single access to property check for thread safety
+            lock (_PropertyValueCheckLock)
             {
                 // Check if the flag property is true (meaning the function is already running)
                 if (updatingFlag.GetPropertyValue())
