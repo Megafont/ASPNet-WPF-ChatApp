@@ -78,6 +78,11 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application
         /// </summary>
         public SideMenuContent CurrentSideMenuContent { get; set; } = SideMenuContent.Chat;
 
+        /// <summary>
+        /// Indicates whether the application is able to communicate with the Chat App web server.
+        /// </summary>
+        public bool ServerIsReachable { get; set; } = false;
+
         #endregion
 
         #region Public Commands

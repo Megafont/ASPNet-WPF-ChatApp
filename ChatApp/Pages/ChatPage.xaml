@@ -91,7 +91,7 @@
 
             <!-- Search Overlay -->
             <Grid Grid.ColumnSpan="2"
-                  attachedProperties:AnimateSlideInFromRightMarginProperty.Value="{Binding SearchIsOpen}">
+                  attachedProperties:AnimateSlideInFromRight_KeepMargin_Property.Value="{Binding SearchIsOpen}">
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />

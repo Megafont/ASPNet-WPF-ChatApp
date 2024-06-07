@@ -1,6 +1,8 @@
-﻿using System.Configuration;
-using System.Data;
+﻿using System.Data;
 using System.Windows;
+
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
 
 using Dna;
 
@@ -9,7 +11,6 @@ using ASPNet_WPF_ChatApp.Core.DataModels;
 using ASPNet_WPF_ChatApp.Core.FileSystem;
 using ASPNet_WPF_ChatApp.Core.DependencyInjection;
 using ASPNet_WPF_ChatApp.Core.DependencyInjection.Interfaces;
-using ASPNet_WPF_ChatApp.Core.Logging;
 using ASPNet_WPF_ChatApp.Core.Tasks;
 using ASPNet_WPF_ChatApp.DependencyInjection;
 
@@ -19,6 +20,7 @@ using FileLogger = ASPNet_WPF_ChatApp.Core.Logging.FileLogger;
 using static ASPNet_WPF_ChatApp.DependencyInjection.ChatAppDI;
 // This makes it so we can access members on this static class without needing to write "FrameworkDI." first.
 using static Dna.FrameworkDI;
+
 
 namespace ASPNet_WPF_ChatApp
 {
@@ -67,7 +69,7 @@ namespace ASPNet_WPF_ChatApp
             // I had to change the first line here from "new DefaultFrameworkConstruction()" to what it is now to fix a null reference exception.
             Framework.Construct<DefaultFrameworkConstruction>()
                 .AddFileLogger()
-                .UseClientDataStore()
+                .AddClientDataStore()
                 .AddChatAppViewModels()
                 .AddChatAppClientServices()
                 .Build();
@@ -76,8 +78,33 @@ namespace ASPNet_WPF_ChatApp
             // Ensure the client data store
             await ClientDataStore.EnsureDataStoreAsync();
 
+            // Monitor for server connection status
+            MonitorServerStatus();
+
             // Load new settings (this is actually CoreDI.SettingsViewModel, but the static using at the top of this file let's us write it without qualifying it with "CoreDI.").
             CoreDI.TaskManager.RunAndForget(ViewModel_Settings.LoadSettingsAsync);
+        }
+
+        /// <summary>
+        /// Monitors the connection status between this application and the Chat App web server
+        /// by periodically hitting it up.
+        /// </summary>
+        private void MonitorServerStatus()
+        {
+            // Create a new endpoint watcher
+            var httpWatcher = new HttpEndpointChecker(
+                // Get the server URL
+                Configuration["ChatAppServer:HostURL"],
+                // Every 20 seconds
+                interval: 20000,
+                // Pass in the logger from dependency injection.
+                logger: Framework.Provider.GetService<ILogger>(),
+                // Whenever the connection status between this application and the server changes...
+                stateChangedCallback: (result) =>
+                {
+                    // Update the view model property with the new result
+                    ChatAppDI.ViewModel_Application.ServerIsReachable = result;
+                });
         }
     }
 

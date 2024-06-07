@@ -172,6 +172,32 @@ namespace ASPNet_WPF_ChatApp.AttachedProperties
     }
 
     /// <summary>
+    /// Animates a framework element (WPF UI element) sliding it in from the left on show
+    /// and sliding out to the left on hide
+    /// </summary>
+    public class AnimateSlideInFromLeft_KeepMargin_Property : AnimateBaseProperty<AnimateSlideInFromLeft_KeepMargin_Property>
+    {
+        protected override async void DoAnimation(FrameworkElement element, bool value, bool firstLoad)
+        {
+            if (value)
+            {
+                // Animate in
+                await element.SlideAndFadeInAsync(AnimationSlideDirections.Left,
+                                                  firstLoad,
+                                                  firstLoad ? 0 : 0.3f,
+                                                  keepMargin: true);
+            }
+            else
+            {
+                // Animate out
+                await element.SlideAndFadeOutAsync(AnimationSlideDirections.Left,
+                                                   firstLoad ? 0 : 0.3f,
+                                                   keepMargin: true);
+            }
+        }
+    }
+
+    /// <summary>
     /// Animates a framework element (WPF UI element) sliding it in from the right on show
     /// and sliding out to the right on hide
     /// </summary>
@@ -201,7 +227,7 @@ namespace ASPNet_WPF_ChatApp.AttachedProperties
     /// Animates a framework element (WPF UI element) sliding it in from the right on show
     /// and sliding out to the right on hide
     /// </summary>
-    public class AnimateSlideInFromRightMarginProperty : AnimateBaseProperty<AnimateSlideInFromRightMarginProperty>
+    public class AnimateSlideInFromRight_KeepMargin_Property : AnimateBaseProperty<AnimateSlideInFromRight_KeepMargin_Property>
     {
         protected override async void DoAnimation(FrameworkElement element, bool value, bool firstLoad)
         {
@@ -250,19 +276,6 @@ namespace ASPNet_WPF_ChatApp.AttachedProperties
     }
 
     /// <summary>
-    /// Animates a framework element sliding up from the bottom on load
-    /// if the value is true
-    /// </summary>
-    public class AnimateSlideInFromBottomOnLoadProperty : AnimateBaseProperty<AnimateSlideInFromBottomOnLoadProperty>
-    {
-        protected override async void DoAnimation(FrameworkElement element, bool value, bool firstLoad)
-        {
-            // Animate in
-            await element.SlideAndFadeInAsync(AnimationSlideDirections.Bottom, !value, !value ? 0 : 0.3f, keepMargin: false);
-        }
-    }
-
-    /// <summary>
     /// Animates a framework element (WPF UI element) sliding up from the bottom on show
     /// and sliding out to the bottom on hide, while keeping the margin
     /// </summary>
@@ -290,6 +303,19 @@ namespace ASPNet_WPF_ChatApp.AttachedProperties
     }
 
     /// <summary>
+    /// Animates a framework element sliding up from the bottom on load
+    /// if the value is true
+    /// </summary>
+    public class AnimateSlideInFromBottomOnLoadProperty : AnimateBaseProperty<AnimateSlideInFromBottomOnLoadProperty>
+    {
+        protected override async void DoAnimation(FrameworkElement element, bool value, bool firstLoad)
+        {
+            // Animate in
+            await element.SlideAndFadeInAsync(AnimationSlideDirections.Bottom, !value, !value ? 0 : 0.3f, keepMargin: false);
+        }
+    }
+
+    /// <summary>
     /// Animates a framework element (WPF UI element) sliding down from the top on show
     /// and sliding out to the top on hide
     /// </summary>
@@ -311,6 +337,32 @@ namespace ASPNet_WPF_ChatApp.AttachedProperties
                 await element.SlideAndFadeOutAsync(AnimationSlideDirections.Top, 
                                                    firstLoad ? 0 : 0.3f, 
                                                    keepMargin: false);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Animates a framework element (WPF UI element) sliding down from the top on show
+    /// and sliding out to the top on hide
+    /// </summary>
+    public class AnimateSlideInFromTop_KeepMargin_Property : AnimateBaseProperty<AnimateSlideInFromTop_KeepMargin_Property>
+    {
+        protected override async void DoAnimation(FrameworkElement element, bool value, bool firstLoad)
+        {
+            if (value)
+            {
+                // Animate in
+                await element.SlideAndFadeInAsync(AnimationSlideDirections.Top,
+                                                  firstLoad,
+                                                  firstLoad ? 0 : 0.3f,
+                                                  keepMargin: true);
+            }
+            else
+            {
+                // Animate out
+                await element.SlideAndFadeOutAsync(AnimationSlideDirections.Top,
+                                                   firstLoad ? 0 : 0.3f,
+                                                   keepMargin: true);
             }
         }
     }

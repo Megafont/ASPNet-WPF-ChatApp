@@ -23,7 +23,7 @@ namespace APSNet_WPF_ChatApp.RelationalDB
     public static class FrameworkConstructionExtensions
     {
 
-        public static FrameworkConstruction UseClientDataStore(this FrameworkConstruction construction)
+        public static FrameworkConstruction AddClientDataStore(this FrameworkConstruction construction)
         {
             // Inject our SQLite EntityFramework data store
             construction.Services.AddDbContext<ClientDataStoreDbContext>(options =>
