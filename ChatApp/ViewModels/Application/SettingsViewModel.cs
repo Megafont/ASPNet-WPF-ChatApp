@@ -22,6 +22,7 @@ using ASPNet_WPF_ChatApp.ViewModels.Input;
 
 // This makes it so we can access members on this static class without needing to write "ChatAppDI." first.
 using static ASPNet_WPF_ChatApp.DependencyInjection.ChatAppDI;
+using ASPNet_WPF_ChatApp.Core.Security;
 
 
 namespace ASPNet_WPF_ChatApp.ViewModels.Application
@@ -291,10 +292,12 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application
 
             // Load user profile details from server
             var result = await WebRequests.PostAsync<ApiResponseModel<UserProfileDetailsApiModel>>(
-                WebRoutes.ServerAddress + ApiRoutes.GetUserProfile,
-                //bearerToken: token
+                // Get URL
+                RouteHelpers.GetAbsoluteRoute(ApiRoutes.GetUserProfile),
+                // Pass in the JWT (JSON web token) user Token
+                bearerToken: token
                 // The following line was the original way we did the above "bearerToken:" line
-                configureRequest: (request) => request.Headers.Add("Authorization", "Bearer " + token)
+                //configureRequest: (request) => request.Headers.Add("Authorization", "Bearer " + token)
                 );
 
 
@@ -449,11 +452,59 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application
         /// <returns>True if successful, or false otherwise</returns>
         public async Task<bool> SavePasswordAsync()
         {
-            // TODO: Update with server
-            await Task.Delay(3000);
+            // Lock this command to ignore any other requests while processing. The lock block is inside the 2nd version of RunCommandAsync().
+            return await RunCommandAsync(() => PasswordIsChanging, async () =>
+            {
+                // Log it
+                FrameworkDI.Logger.LogDebugSource("Chaning password...");
 
-            // Return fail
-            return false;
+                // Get the current known credentials
+                var credentials = await ClientDataStore.GetLoginCredentialsAsync();
+
+                // Make sure the user has entered the same password
+                if (Password.NewPassword.Unsecure() != Password.ConfirmPassword.Unsecure())
+                {
+                    // Display error
+                    await UI.ShowMessage(new Dialogs.MessageBoxDialogViewModel
+                    {
+                        Title = "Password Mismatch",
+                        Message = "New password and confirm password must match!"
+                    });
+
+                    // Return fail
+                    return false;
+                }
+
+                // Update the server with the new password
+                var result = await WebRequests.PostAsync<ApiResponseModel>(
+                    // Set URL
+                    RouteHelpers.GetAbsoluteRoute(ApiRoutes.UpdateUserPassword),
+                    // Create our API model
+                    new UpdateUserPasswordApiModel
+                    {
+                        CurrentPassword = Password.CurrentPassword.Unsecure(),
+                        NewPassword = Password.NewPassword.Unsecure()
+                    },
+                    // Pass in the JWT (JSON web token) user Token
+                    bearerToken: credentials.Token);
+
+                // If the response has an error...
+                if (await result.DisplayErrorIfFailedAsync($"Change Password"))
+                {
+                    // Log it
+                    FrameworkDI.Logger.LogDebugSource($"Failed to change password: \"{result.ErrorMessage}\"");
+
+                    return false;
+                }
+
+                // Otherwise, we succeeded.
+
+                // Log it
+                FrameworkDI.Logger.LogDebugSource($"Successfully updated password.");
+
+                // Return successful
+                return true;
+            });
         }
 
         #endregion
@@ -529,10 +580,11 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application
 
             // Update the server with the new details
             var result = await WebRequests.PostAsync<ApiResponseModel>(
-                WebRoutes.ServerAddress + ApiRoutes.UpdateUserProfile,
+                // Set URL
+                RouteHelpers.GetAbsoluteRoute(ApiRoutes.UpdateUserProfile),
                 // Pass in the Api model
                 updateApiModel,
-                // Pass in the JWT (JSON web token) token
+                // Pass in the JWT (JSON web token) user token
                 bearerToken: credentials.Token);
 
             // If the response has an error...

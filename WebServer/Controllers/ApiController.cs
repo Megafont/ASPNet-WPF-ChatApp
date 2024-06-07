@@ -19,6 +19,7 @@ using ASPNet_WPF_ChatApp.WebServer.Data;
 using ASPNet_WPF_ChatApp.WebServer.Email;
 using ASPNet_WPF_ChatApp.WebServer.Identity;
 using ASPNet_WPF_ChatApp.Core.Routes;
+using ASPNet_WPF_ChatApp.Core.Security;
 
 namespace ASPNet_WPF_ChatApp.WebServer.Controllers
 {
@@ -467,8 +468,8 @@ namespace ASPNet_WPF_ChatApp.WebServer.Controllers
         ///     A successful response if the update was successful,
         ///     otherwise, it returns the errors that occurred
         /// </returns>
-        [Route(ApiRoutes.UpdatePassword)]
-        public async Task<ApiResponseModel> UpdateUserPasswordAsync([FromBody] UpdateUserPasswordDetailsApiModel model)
+        [Route(ApiRoutes.UpdateUserPassword)]
+        public async Task<ApiResponseModel> UpdateUserPasswordAsync([FromBody] UpdateUserPasswordApiModel model)
         {
             if (_LogRouteAccesses)
                 Debug.WriteLine("ROUTE CALLED: UpdateUserPassword", "Warning");

@@ -39,7 +39,7 @@ namespace ASPNet_WPF_ChatApp.Core.Routes
         /// <summary>
         /// The route to the UpdatePassword() API method
         /// </summary>
-        public const string UpdatePassword = "api/user/password/update";
+        public const string UpdateUserPassword = "api/user/password/update";
 
         /// <summary>
         /// The route to the Private() API method

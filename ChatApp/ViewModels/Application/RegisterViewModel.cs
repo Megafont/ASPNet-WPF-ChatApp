@@ -90,7 +90,9 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application
                 // Call the server and attempt to register an account with the provided credentials
                 // TODO: Move all URLs and API routes to static class in Core
                 var result = await WebRequests.PostAsync<ApiResponseModel<RegisterResultApiModel>>(
-                    WebRoutes.ServerAddress + ApiRoutes.Register,
+                    // Set URL
+                    RouteHelpers.GetAbsoluteRoute(ApiRoutes.Register),
+                    // Create our API model
                     new RegisterCredentialsApiModel
                     {
                         UserName = this.UserName,
