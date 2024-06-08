@@ -65,7 +65,12 @@ namespace ASPNet_WPF_ChatApp.Controls.Input
                 // Set the column definition width to the new value
                 (d as TextEntryControl).LabelColumnDefinition.Width = (GridLength) e.NewValue;
             }
+
+            // We are making ex (the exception) available for the developer to look at when the code breaks here,
+            // hence why we are disabling the warning message it generates.
+#pragma warning disable CS0168 // The variable 'ex' is declared but never used
             catch (Exception ex)
+#pragma warning restore CS0168 // The variable 'ex' is declared but never used
             {
                 // Make developer aware of potential issue
                 Debugger.Break();

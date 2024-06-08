@@ -101,7 +101,7 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application
                     });
 
                 // If the response has an error...
-                if (await result.DisplayErrorIfFailedAsync("Registration Failed"))
+                if (await result.HandleErrorIfFailedAsync("Registration Failed"))
                 {
                     // We are done
                     return;

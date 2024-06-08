@@ -512,7 +512,7 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application
                     bearerToken: credentials.Token);
 
                 // If the response has an error...
-                if (await result.DisplayErrorIfFailedAsync($"Change Password"))
+                if (await result.HandleErrorIfFailedAsync($"Change Password"))
                 {
                     // Log it
                     FrameworkDI.Logger.LogDebugSource($"Failed to change password: \"{result.ErrorMessage}\"");
@@ -611,7 +611,7 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Application
                 bearerToken: credentials.Token);
 
             // If the response has an error...
-            if (await result.DisplayErrorIfFailedAsync($"Update {displayName}"))
+            if (await result.HandleErrorIfFailedAsync($"Update {displayName}"))
             {
                 // Log it
                 FrameworkDI.Logger.LogDebugSource($"Failed to update {displayName}: \"{result.ErrorMessage}\"");

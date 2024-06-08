@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,13 +22,14 @@ namespace ASPNet_WPF_ChatApp.WebRequestUtils
     public static class WebRequestResultExtensions
     {
         /// <summary>
-        /// Checks the web request result for any errors, displaying themif there are any.
+        /// Checks the web request result for any errors, displaying themif there are any,
+        /// or if we are unauthorized it automatically logs the user out.
         /// </summary>
         /// <typeparam name="T">The type of the API response</typeparam>
         /// <param name="response">The resposne to check</param>
         /// <param name="title">The title of the error dialog if there is an error</param>
         /// <returns>True if there were errors, or false if all was ok</returns>
-        public static async Task<bool> DisplayErrorIfFailedAsync(this WebRequestResult response, string title)
+        public static async Task<bool> HandleErrorIfFailedAsync(this WebRequestResult response, string title)
         {
             // If there was no response, bad data, or a response with an error message...
             if (response == null || response.ServerResponse == null || (response.ServerResponse as ApiResponseModel)?.Successful == false)
@@ -58,13 +60,28 @@ namespace ASPNet_WPF_ChatApp.WebRequestUtils
                 }
 
 
-                // Display error
-                await UI.ShowMessage(new MessageBoxDialogViewModel
+                // If this is an unauthorized response...
+                if (response?.StatusCode == HttpStatusCode.Unauthorized)
                 {
-                    // TODO: Localize strings
-                    Title = title,
-                    Message = message
-                });
+                    // Log it
+                    FrameworkDI.Logger.LogInformationSource("Logging the user out due to an \"Unauthorized\" response from the server. Their session most likely expired so logging back in will fix it.");
+
+                    // Automatically log the user out
+                    await ViewModel_Settings.LogoutAsync();
+                }
+                else
+                {
+                    // Display error
+                    await UI.ShowMessage(new MessageBoxDialogViewModel
+                    {
+                        // TODO: Localize strings
+                        Title = title,
+                        Message = message
+                    });
+
+                    // Log it
+                    FrameworkDI.Logger.LogErrorSource(title + " - " + message);
+                }
 
                 // Return that we had an error
                 return true;
