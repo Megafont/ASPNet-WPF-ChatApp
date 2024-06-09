@@ -6,8 +6,8 @@
              xmlns:local="clr-namespace:ASPNet_WPF_ChatApp"
              xmlns:attachedProperties="clr-namespace:ASPNet_WPF_ChatApp.AttachedProperties"      
              xmlns:chatMessageListControls="clr-namespace:ASPNet_WPF_ChatApp.Controls.Chat.ChatMessage"      
-             xmlns:chatMessageViewModels="clr-namespace:ASPNet_WPF_ChatApp.ViewModels.Chat.ChatMessage;assembly=ASPNet_WPF_ChatApp.Core"
-             xmlns:chatMessageViewModels_DesignTime="clr-namespace:ASPNet_WPF_ChatApp.ViewModels.Chat.ChatMessage.Design;assembly=ASPNet_WPF_ChatApp.Core"             
+             xmlns:chatMessageViewModels="clr-namespace:ASPNet_WPF_ChatApp.ViewModels.Chat.ChatMessage"
+             xmlns:chatMessageViewModels_DesignTime="clr-namespace:ASPNet_WPF_ChatApp.ViewModels.Chat.ChatMessage.Design"             
              xmlns:valueConverters="clr-namespace:ASPNet_WPF_ChatApp.ValueConverters"
              mc:Ignorable="d" 
              d:DesignWidth="300">

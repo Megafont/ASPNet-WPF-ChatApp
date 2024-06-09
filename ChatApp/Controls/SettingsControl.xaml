@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ASPNet_WPF_ChatApp.Controls"
-             xmlns:applicationDesignViewModels="clr-namespace:ASPNet_WPF_ChatApp.ViewModels.Application.Design;assembly=ASPNet_WPF_ChatApp.Core"                          
+             xmlns:applicationDesignViewModels="clr-namespace:ASPNet_WPF_ChatApp.ViewModels.Application.Design"                          
              xmlns:attachedProperties="clr-namespace:ASPNet_WPF_ChatApp.AttachedProperties"              
              xmlns:inputControls="clr-namespace:ASPNet_WPF_ChatApp.Controls.Input"
              d:DataContext="{x:Static applicationDesignViewModels:SettingsDesignViewModel.Instance}"

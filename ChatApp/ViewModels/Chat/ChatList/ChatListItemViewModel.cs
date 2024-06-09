@@ -82,7 +82,7 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Chat.ChatList
         {
             ViewModel_Application.GoToPage(ApplicationPages.Chat, new ChatMessageListViewModel
             {
-                DisplayTitle = "Parnell, Me",
+                DisplayTitle = "Pangolin35, Me",
 
                 Items = new ObservableCollection<ChatMessageListItemViewModel>
                 {
@@ -101,7 +101,7 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Chat.ChatList
                         Initials = Initials,
                         MessageSentTime = DateTime.UtcNow,
                         ProfilePictureRGB = "FF0000",
-                        SenderName = "Parnell",
+                        SenderName = "Pangolin35",
                         SentByMe = false,
                     },
                     new ChatMessageListItemViewModel
@@ -110,7 +110,7 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Chat.ChatList
                         Initials = Initials,
                         MessageSentTime = DateTime.UtcNow,
                         ProfilePictureRGB = "FF0000",
-                        SenderName = "Parnell",
+                        SenderName = "Pangolin35",
                         SentByMe = false,
                     },
                     new ChatMessageListItemViewModel
@@ -128,7 +128,7 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Chat.ChatList
                         Initials = Initials,
                         MessageSentTime = DateTime.UtcNow,
                         ProfilePictureRGB = "FF0000",
-                        SenderName = "Parnell",
+                        SenderName = "Pangolin35",
                         SentByMe = false,
                     },
                     new ChatMessageListItemViewModel
@@ -141,7 +141,7 @@ namespace ASPNet_WPF_ChatApp.ViewModels.Chat.ChatList
                         Initials = Initials,
                         MessageSentTime = DateTime.UtcNow,
                         ProfilePictureRGB = "FF0000",
-                        SenderName = "Parnell",
+                        SenderName = "Pangolin35",
                         SentByMe = false,
                     },
                 }
